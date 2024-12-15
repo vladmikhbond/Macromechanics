@@ -1,0 +1,17 @@
+{
+  "name": "macromechanics",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start:build": "tsc -w",
+    "start:run": "live-server",
+    "start": "concurrently npm:start:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+
+  "type": "module"
+
+}

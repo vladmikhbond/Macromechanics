@@ -1,0 +1,70 @@
+#canvas {
+    cursor: none;
+    border: thin solid;
+}
+
+input {
+    height: 18px;    
+}
+
+input[type="color"] {
+    width: 30px;
+    height:22px;
+}
+
+.panel {
+    border: thin gray solid;
+    display: inline;
+    position: relative;
+    margin-right: 5px;
+    top: 4px;
+    padding-top: 5px;
+}
+
+#deepText {
+    height: 16px;
+    width: 40px;
+    text-align: right;
+    padding-right: 3px;
+}
+
+#deepSpan{
+    color: gray;
+    font-size: small;
+    width: 50px;
+    display: inline-block;
+    text-align: left;
+}
+
+#scaleSpan {
+    font-size: small;
+}
+#exportText {
+    /* display: none; */
+    width: 600px;
+    font-size: small;
+}
+
+h3 {
+     color: darkred;
+}
+
+#power, #delta {
+    cursor: pointer;
+    color: red;
+}
+
+#helpButton {
+    background-color: transparent;
+    color: blue;
+    border: none;
+    font-size: small;
+    margin-left: 150px;
+}
+
+#helpDiv {
+    width: 600px;
+    font-size: small;
+    display: none;
+}
+
