@@ -25,4 +25,19 @@ export class Line
 
     get p1() { return { x: this.x1, y: this.y1 } }
     get p2() { return { x: this.x2, y: this.y2 } }
+
+
+    toString() {
+        let l = this;
+        return JSON.stringify({
+            x1: +(l.x1.toFixed(2)), y1: +(l.y1.toFixed(2)),
+            x2: +(l.x2.toFixed(2)), y2: +(l.y2.toFixed(2)) });
+    }
+
+    static fromString(s: string) {
+        let o = JSON.parse(s);
+        return new Line(o.x1, o.y1,o.x2, o.y2);
+    }
+
+
 }

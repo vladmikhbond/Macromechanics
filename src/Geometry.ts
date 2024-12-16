@@ -10,12 +10,6 @@ export class Point {
 }
 
 export class Geometry {
-    static W = 0.8;   // Conservation energу when two balls strikes 
-    static K = 1000;  // modulus of elasticity
-    
-    static g = 0.5;  // 0.05;
-    static INTERVAL = 30;
-
     // Distance between two points
     //
     static distance (a: Point, b: Point) {

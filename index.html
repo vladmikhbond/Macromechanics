@@ -5,8 +5,18 @@
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
-    <h3> Ex3. Упругие соударения</h3>
-    <canvas id="canvas" width="800" height="600" ></canvas>
+  <h3> Ex5. Построение сцен</h3>
+  <div>
+    <button id="modeButton">Play</button>
+    <button id="createButton">Ball</button>
+    <input type="text" id="ballDefinition" style="width: 500px">
+    <button id="updateButton">Update</button>
+    <button id="saveSceneButton">Scene</button>
+  </div>
+  <canvas id="canvas" width="800" height="600" style="border: thin solid blue"></canvas>
+  <div id="scenesDiv">
+
+  </div>
 
     <script type="module" src="./build/app.js"></script>
 </body>
