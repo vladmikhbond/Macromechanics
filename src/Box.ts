@@ -36,20 +36,6 @@ export class Box {
 
     intervalId = 0;
 
-    // 0-stop, 1-play
-    set mode(v: number) {
-        if (v) {
-            this.intervalId = setInterval(this.step, glo.INTERVAL, this);
-        } else {
-            clearInterval(this.intervalId);
-            this.intervalId = 0;
-        }
-    }
-
-    get mode() {
-        return this.intervalId ? Mode.Play : Mode.Stop;
-    }
-
     get sumEnergy() {
         let e = 0;
         this.balls.forEach( b => e += b.Energy);

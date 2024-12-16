@@ -20,15 +20,24 @@ export class Controller {
         this.ballHandlers()
     }
 
+    private intervalId = 0;
+
+    get mode() {
+        return this.intervalId ? Mode.Play : Mode.Stop;
+    }
+
 
     buttonListeners() 
     {
         // mode toggle
         glo.modeButton.addEventListener("click", () => {
-            const names = ["Stop", "Play"];
-            glo.modeButton.innerHTML = names[this.box.mode];
-            this.box.mode = (this.box.mode + 1) % names.length;
-            this.view.drawAll();
+            if (this.mode === Mode.Stop) {
+                this.start();
+                glo.modeButton.innerHTML = "Stop";
+            } else {
+                this.stop();
+                glo.modeButton.innerHTML = "Play";
+            }
         });
 
         // createMode toggle
@@ -53,21 +62,22 @@ export class Controller {
             this.view.drawAll();
         });
     }
+
     
     keyBoardListeners() 
     {
         document.addEventListener("keydown", (e) => {
             const box = this.box;
             switch(e.key) {
-                case 'ArrowDown':
-                case 'ArrowRight':
-                    if (box.mode === Mode.Play) {
-                        box.step();
-                    } else {
-                        // to toggle mode
-                        glo.modeButton.dispatchEvent(new Event("click"));
-                    }
-                    break;
+                // case 'ArrowDown':
+                // case 'ArrowRight':
+                //     if (box.mode === Mode.Play) {
+                //         box.step();
+                //     } else {
+                //         // to toggle mode
+                //         glo.modeButton.dispatchEvent(new Event("click"));
+                //     }
+                //     break;
                 case 'Delete':
                     if (box.createMode === CreateMode.Ball) {
                         box.deleteSelectedBall();
@@ -190,9 +200,20 @@ export class Controller {
 
 
     start() {
-        setInterval( () => {
+        if (this.intervalId) 
+            return;
+        this.intervalId = setInterval( () => {
             this.view.drawAll();
             this.box.step();
         }, glo.INTERVAL);
     }
+
+
+    stop() {
+        if (!this.intervalId) 
+            return;        
+        clearInterval(this.intervalId);
+        this.intervalId = 0; 
+    }
+
 }
