@@ -10,7 +10,7 @@ export const glo =
     intervalId: null,
     chronos: 0,  // in ticks (1 sec = 1000/INTERVAL ticks)
 
-    REPEATER: 10,
+    REPEATER: 1,
     PRETTY: 0,  // false
 
     // for velocity drawing
@@ -33,6 +33,11 @@ export const glo =
     rigidValue: <HTMLLabelElement>document.getElementById("rigidValue"),
     ballDefinition: <HTMLInputElement>document.getElementById("ballDefinition"),
     scenesDiv: <HTMLDivElement>document.getElementById("scenesDiv"),
+    infoSpan: <HTMLSpanElement>document.getElementById("infoSpan"),
+    mousePosSpan: <HTMLSpanElement>document.getElementById("mousePosSpan"),
+    modeGlif: <HTMLSpanElement>document.getElementById("modeGlif"),
+
+    restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
 
     // redBallImg: document.getElementById("redBallImg"),
     // blueBallImg: document.getElementById("blueBallImg"),

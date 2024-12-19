@@ -49,24 +49,25 @@ export class Ball
     }
 
     // вызывается, когда собраны точки касания
-    move() {
+    move(ax: number, ay: number) {
         let b = this;
-
-        // вычисляем равнодействующее ускорение
-        let ax = 0;
-        let ay = glo.g;    // тяготение
+        if (b.color === "blue")
+            return;
 
         // суммируем ускорения от реакций точек касания
         for (let p of b.dots) {
             let d = G.distance(b, p);
             let r = b.radius - d;
-            // единичный вектор в направлении от точки p к центру шара b
+            // единичный вектор
             let u = G.unit(p, b, d);
-            
+            //{x: (b.x - p.x) / d, y: (b.y - p.y) / d };
 
             // модуль упругости зависит от фазы - сжатие или расжатие шара
-            let scalar = G.scalar({x: b.vx, y: b.vy}, u);
-            let k = scalar > 0 ? glo.K * glo.W : glo.K;
+            let scalar = G.scalar(new Point(b.vx, b.vy), u);
+
+            let w = p.w ? glo.Wl : glo.W;   //
+
+            let k = scalar > 0 ? glo.K * w : glo.K;
 
             ax += k * r * u.x;
             ay += k * r * u.y;
