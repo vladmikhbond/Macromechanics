@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -20,4 +20,87 @@
 
     <script type="module" src="./build/app.js"></script>
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="site.css" />
+
+</head>
+<body>
+<div class="container">
+    <h3 id="header"> Ex7. Presentation</h3>
+
+    <div class="panel panel-default">
+        <input type="range" id="graviRange" step="0.0005" min="0" max="0.02" value="0.001" title="гравитация"/>
+        <label id="graviValue">G = 0</label>
+        <input type="range" id="waistRange" step="0.001" min="0" max="1" value="0.5" title="потери (1-нет потерь)"/>
+        <label id="waistValue">W = 0.5</label>
+        <input type="range" id="rigidRange" step="0.1" min="0" max="1" value="0.1" title="упругость"/>
+        <label id="rigidValue">K = 0.1</label>
+
+        <button id="modeButton" class="btn btn-sm btn-success" title="Start / Stop"><span id="modeGlif" class="glyphicon glyphicon-pause"> </span></button>
+        <button id="restartButton" class="btn btn-sm" title="Return to the last stop"><span class="glyphicon glyphicon-triangle-left"> </span></button>
+    </div>
+
+    <div class="panel panel-default">
+        <input type="text" id="ballDefinition">
+        <button id="prettyButton" class="btn btn-sm" title="Debug / Exec"><span class="glyphicon glyphicon-adjust"/></button>
+        <button id="eraseButton" class="btn btn-sm" title="Clear screen"><span class="glyphicon glyphicon-erase"> </span></button>
+        <span id="infoSpan"></span>
+        <span id="mousePosSpan"></span>
+    </div>
+
+
+      <canvas id="canvas" width="1150" height="600" ></canvas>
+
+
+    <div class="panel panel-default">
+        <button id="saveSceneButton" class="btn btn-sm" title="Save the scene"><span class="glyphicon glyphicon-save"> </span></button>
+        <input type="text" id="scenesExportText">
+        <button id="importScenesButton" class="btn btn-sm" title="Import scenes" scenes><span class="glyphicon glyphicon-import"> </span></button>
+        <button id="exportScenesButton" class="btn btn-sm" title="Export all scenes"><span class="glyphicon glyphicon-export"> </span></button>
+    </div>
+
+
+    <div id="scenesDiv"> </div>
+
+  <div class="container" id="sceneAttrs" >
+    <div class="panel panel-default">
+      <div class="panel-heading">Scene</div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label for="sceneTitle">Title</label>
+          <input type="text" class="form-control" id="sceneTitle" >
+        </div>
+
+        <div class="form-group">
+          <label for="sceneScript">Script</label>
+          <textarea class="form-control" id="sceneScript" rows="20"></textarea>
+        </div>
+
+        <button class="btn btn-primary" id="saveSceneScriptButton">Save</button>
+      </div>
+    </div>
+  </div>
+
+
+    <img src="pic/redBall.png" id="redBallImg" width="523" height="520" />
+    <img src="pic/blueBall.png" id="blueBallImg" width="523" height="520" />
+    <img src="pic/greenBall.png" id="greenBallImg" width="146" height="145" />
+
+    <script type="module" src="./build/app.js"></script>
+</div>
+</body>
 </html>
+
+

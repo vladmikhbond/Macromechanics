@@ -4,7 +4,7 @@ import { Line } from "./Line.js";
 import { glo } from "./globals.js"; 
 
 export enum Mode {Stop, Play};
-export enum CreateMode {Ball, Line};
+export enum CreateMode {Ball, Line, Link};
 
 export class Box {
     x: number;
@@ -102,20 +102,20 @@ export class Box {
 
     // собирает на шары точки касания с отрезками (в т.ч. с границами)
     dotsFromLines() {
-        for (let b of this.balls) {
-            b.dots = [];
-            for (let l of this.lines.concat(this.border) ) {
-                if (G.distToInfiniteLine(b, l) < b.radius) {
-                    let p = G.cross(b, l);
+        for (let ball of this.balls) {
+            ball.dots = [];
+            for (let line of this.lines.concat(this.border) ) {
+                if (G.distToInfiniteLine(ball, line) < ball.radius) {
+                    let p = G.cross(ball, line);
                     if (p) {
                         // точка пересечения перпендикуляра в пределах отрезка
-                        b.dots.push(p);
+                        ball.dots.push(p);
                     } else {
                         // точка пересечения за пределами отрезка
-                        if (G.distance(b, l.p1) < b.radius)
-                            b.dots.push(l.p1);
-                        if (G.distance(b, l.p2) < b.radius)
-                            b.dots.push(l.p2);
+                        if (G.distance(ball, line.p1) < ball.radius)
+                            ball.dots.push(line.p1);
+                        if (G.distance(ball, line.p2) < ball.radius)
+                            ball.dots.push(line.p2);
                     }
                 }
              }
