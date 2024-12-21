@@ -10,45 +10,160 @@ export class View
         this.box = box;
     }
 
-    drawAll() {
-        const box = this.box;
-        const ctx = <CanvasRenderingContext2D>glo.canvas.getContext("2d");
-        ctx.lineWidth = 0.5;
-
+    drawAll(lineWidth=0.5)
+    {
+        if (glo.PRETTY)
+            return this.drawPretty();
+    
+        const ctx = glo.canvas.getContext("2d")!;
         ctx.clearRect(0, 0, glo.canvas.width, glo.canvas.height);
-        let k = 20;
+        ctx.lineWidth = lineWidth;
     
         // draw box
         ctx.strokeStyle = "black";
-        ctx.strokeRect(box.x, box.y, box.width, box.height);
+        ctx.strokeRect(this.box.x, this.box.y, this.box.width, this.box.height);
+    
+        // draw scale
+        for (let y = this.box.height, n = 0; y >= 0; y -= glo.pixInMeter, n++) {
+            ctx.fillText(n.toString(), 0, y + this.box.y );
+        }
+        //ctx.stroke();
     
         // draw balls
-        for (let ball of box.balls) {
-            ctx.lineWidth = ball === box.selectedBall ? 1 : 0.5;
+        for (let b of this.box.balls) {
+            ctx.lineWidth = this.box.selected === b ? 3 * lineWidth : lineWidth;
+            ctx.strokeStyle = b.color;
             ctx.beginPath();
-            ctx.strokeStyle = ball.color;
-            let x = box.x + ball.x, y = box.y + ball.y;
-            ctx.arc(x, y, ball.radius, 0, Math.PI * 2);
-            ctx.arc(x, y, ball.radius + 1, 0, Math.PI * 2);
+            let x = this.box.x + b.x, y = this.box.y + b.y;
+            if (b.dots && b.dots.length > 0) {
+                let dot = b.dots[0];
+                // показываем деформацию
+                let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
+                let kr = G.distance(dot, b) / b.radius;
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(alpha);
+                ctx.scale(kr, 1/kr);
+                ctx.rotate(-alpha);
+                ctx.arc(0, 0, b.radius, 0, Math.PI * 2);
+                ctx.restore();        }
+            else
+            {
+                ctx.arc(x, y, b.radius, 0, Math.PI * 2);
+            }
+            // draw velocity
+            ctx.strokeRect(x + b.vx * glo.Kvelo - 0.5, y + b.vy * glo.Kvelo - 0.5, 1, 1);
             ctx.moveTo(x, y);
-            ctx.lineTo(x + ball.vx * k, y + ball.vy * k );
+            ctx.lineTo(x + b.vx * glo.Kvelo, y + b.vy * glo.Kvelo );
             ctx.stroke();
+        }
+    
+        // draw dots (for debug)
+        for (let b of this.box.balls) {
+            if (!b.dots) continue;
+            for (let d of b.dots) {
+                if (!d) continue;
+                ctx.strokeStyle = 'black';
+                let x = this.box.x + d.x, y = this.box.y + d.y;
+                ctx.strokeRect(x-0.5, y-0.5, 1, 1);
+            }
         }
     
         // draw lines
         ctx.strokeStyle = "blue";
-        for (let l of box.lines) {
-            ctx.lineWidth = l === box.selectedLine ? 1.5 : 0.5;
+        for (let l of this.box.lines) {
+            ctx.lineWidth = this.box.selected === l ? 3 * lineWidth : lineWidth;
             ctx.beginPath();
-            ctx.moveTo(box.x + l.x1, box.y + l.y1);
-            ctx.lineTo(box.x + l.x2, box.y + l.y2);
+            ctx.moveTo(this.box.x + l.x1, this.box.y + l.y1);
+            ctx.lineTo(this.box.x + l.x2, this.box.y + l.y2);
             ctx.stroke();
         }
-        
     
-        // print sum energy
-        ctx.fillText("E = " + box.sumEnergy, 20, 20 );
+        // draw links
+        for (let l of this.box.links) {
+            ctx.lineWidth = this.box.selected === l ? 3 * lineWidth : lineWidth;
+            ctx.strokeStyle = l.transparent ? "lightgray" : "gray";
+            ctx.beginPath();
+            ctx.moveTo(this.box.x + l.x1, this.box.y + l.y1);
+            ctx.lineTo(this.box.x + l.x2, this.box.y + l.y2);
+            ctx.stroke();
+        }
+    
+        // print info
+        let sec = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(2);
+        ctx.fillText("T = " + sec, 20, 20 );
+        ctx.fillText("E = " + this.box.sumEnergy, 120, 20 );
     }
+
+    drawPretty() {
+
+        const ctx = glo.canvas.getContext("2d")!;
+        ctx.clearRect(0, 0, glo.canvas.width, glo.canvas.height);
+
+        // draw box
+        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(this.box.x, this.box.y, this.box.width, this.box.height);
+
+        // draw links
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "gray";
+        ctx.beginPath();
+        for (let link of this.box.links) {
+            if (link.transparent)
+                continue;
+            ctx.moveTo(this.box.x + link.x1, this.box.y + link.y1);
+            ctx.lineTo(this.box.x + link.x2, this.box.y + link.y2);
+        }
+        ctx.stroke();
+
+
+        // draw balls
+        for (let b of this.box.balls) {
+            ctx.save();
+            let img = b.color === "red" ? glo.redBallImg : b.color === "blue" ? glo.blueBallImg : glo.greenBallImg;
+            let x = this.box.x + b.x, y = this.box.y + b.y;
+
+            if (b.dots && b.dots.length > 0) {
+                let dot = b.dots[0];
+                // показываем деформацию
+                let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
+                let kr = G.distance(dot, b) / b.radius;
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(alpha);
+                ctx.scale(kr, 1 / kr);
+                ctx.rotate(-alpha);
+
+                ctx.translate(-b.radius, -b.radius);
+                let k = 2 * b.radius / img.width;
+                ctx.scale(k, k);
+            }
+            else
+            {
+                ctx.translate(x - b.radius, y - b.radius);
+                let k = 2 * b.radius / img.height;
+                ctx.scale(k, k);
+            }
+            ctx.drawImage(img, 0, 0);
+            ctx.restore();
+        }
+
+        // draw lines
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "blue";
+        ctx.beginPath();
+        for (let line of this.box.lines) {
+            ctx.moveTo(this.box.x + line.x1, this.box.y + line.y1);
+            ctx.lineTo(this.box.x + line.x2, this.box.y + line.y2);
+        }
+        ctx.stroke();
+
+        // print info
+        let sec = glo.chronos / 1000 * glo.INTERVAL | 0;
+        ctx.fillText("T = " + sec, 20, 20 );
+    }
+    
 
     drawGrayLine(p0: Point, p: Point) {
         const ctx = <CanvasRenderingContext2D>glo.canvas.getContext("2d");

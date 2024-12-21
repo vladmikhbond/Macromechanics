@@ -39,8 +39,9 @@ export const glo =
 
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
 
-    // redBallImg: document.getElementById("redBallImg"),
-    // blueBallImg: document.getElementById("blueBallImg"),
+    redBallImg: <HTMLImageElement>document.getElementById("redBallImg"),
+    greenBallImg: <HTMLImageElement>document.getElementById("greenBallImg"),
+    blueBallImg: <HTMLImageElement>document.getElementById("blueBallImg"),
     // header: document.getElementById("header"),
     // exportScenesButton: document.getElementById("exportScenesButton"),
     // importScenesButton: document.getElementById("importScenesButton"),

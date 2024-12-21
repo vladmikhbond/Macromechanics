@@ -21,8 +21,7 @@ export class Box {
     intervalId = 0;
     scriptFunc: Function = function t() {};
 
-    selectedBall: Ball | null = null;
-    selectedLine: Line | null = null;
+    selected: Ball | Line | Link | null = null;
 
     createMode = CreateMode.Ball; 
 
@@ -84,8 +83,8 @@ export class Box {
         if (idx === -1)
             return;
         this.balls.splice(idx, 1);
-        if (this.selectedBall === b)
-            this.selectedBall = null;
+        if (this.selected === b)
+            this.selected = null;
         // delete boll's links
         for (let i = this.links.length - 1; i >= 0; i--) {
             if (this.links[i].b1 === b || this.links[i].b2 === b)
@@ -108,13 +107,6 @@ export class Box {
         }
     }
 
-
-    // deleteSelectedBall() {
-    //     if (this.selectedBall) {
-    //         this.deleteBall(this.selectedBall);
-    //         this.selectedBall = null;
-    //     }
-    // }
 
     // find a ball under a point
     ballUnderPoint(p: Point) {
@@ -146,20 +138,15 @@ export class Box {
         this.lines.push(l);
     }
 
-    deleteLine(l: Line) {
-        let idx = this.lines.indexOf(l);
+    deleteLine(line: Line) {
+        let idx = this.lines.indexOf(line);
         if (idx === -1)
             return;
         this.lines.splice(idx, 1);
-        if (this.selectedLine === l)
-            this.selectedLine = null;
+        if (this.selected === line)
+            this.selected = null;
     }
 
-    // deleteSelectedLine() {
-    //     if (this.selectedLine) {
-    //         this.deleteLine(this.selectedLine);
-    //     }
-    // }
 
 //#endregion
 
@@ -176,79 +163,6 @@ export class Box {
     }
 
 
-//#endregion    
-
-
-
-
-
-
-    // // собирает на шары точки касания с отрезками (в т.ч. с границами)
-    // dotsFromLines() {
-    //     for (let ball of this.balls) {
-    //         ball.dots = [];
-    //         for (let line of this.lines.concat(this.border) ) {
-    //             if (G.distToInfiniteLine(ball, line) < ball.radius) {
-    //                 let p = G.cross(ball, line);
-    //                 if (p) {
-    //                     // точка пересечения перпендикуляра в пределах отрезка
-    //                     ball.dots.push(p);
-    //                 } else {
-    //                     // точка пересечения за пределами отрезка
-    //                     if (G.distance(ball, line.p1) < ball.radius)
-    //                         ball.dots.push(line.p1);
-    //                     if (G.distance(ball, line.p2) < ball.radius)
-    //                         ball.dots.push(line.p2);
-    //                 }
-    //             }
-    //          }
-    //     }
-    // }
-
-
-    // // собирает на шары точки касания с шарами
-    // dotsFromBalls() {
-    //     for (let i = 0; i < this.balls.length - 1; i++ ) {
-    //         for (let j = i + 1; j < this.balls.length; j++ ) {
-    //             let b1 = this.balls[i], b2 = this.balls[j];
-    //             let dot = touch(b1, b2);
-    //             if (dot) {
-    //                 b1.dots.push(dot);
-    //                 b2.dots.push(dot);
-    //             }
-    //         }
-    //     }
-
-
-    //     // деформация  шара тем больше, чем больше масса противоположного шара
-    //     // деформации задают не силы (они равны), а ускорения шаров
-    //     function touch(b1: Ball, b2: Ball) {
-    //         let d = G.distance(b1, b2);
-    //         // шары далеко
-    //         if (d > b1.radius + b2.radius )
-    //             return;
-    //         // ширина области деформации (области пересечения окружностей)
-    //         let delta = b1.radius + b2.radius - d;
-    //         // доля деформации для шара b1
-    //         let delta1 = delta * b1.m / (b1.m + b2.m);
-
-    //         // отношение расстояние от b1 до точки касания к расстоянию между шарами
-    //         let k = (d - b2.radius + delta1) / d;
-
-    //         // координаты точки касания
-    //         let x = b1.x + (b2.x - b1.x) * k;
-    //         let y = b1.y + (b2.y - b1.y) * k;
-    //         return {x, y};
-    //     }
-
-    // }
-
-
-    // step() {
-    //     this.dotsFromLines();
-    //     this.dotsFromBalls();
-    //     this.balls.forEach( b => b.move());
-    // }
-
+//#endregion
 
 }
