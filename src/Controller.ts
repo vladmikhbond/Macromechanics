@@ -1,10 +1,10 @@
 import { glo } from "./globals.js"; 
-import { Box, Mode, CreateMode } from "./Box.js";
-import { View } from "./View.js";
 import { Geometry as G, Point } from "./Geometry.js";
 import { Ball } from "./Ball.js";
 import { Line } from "./Line.js";
 import { Link } from "./Link.js";
+import { Box, Mode, CreateMode } from "./Box.js";
+import { View } from "./View.js";
 
 export class Controller 
 {
@@ -192,7 +192,7 @@ export class Controller
 
                 // step execution
                 case 's': case 'S': case 'ы': case 'Ы':
-                    this.box.mech.step();
+                    this.box.step();
                     this.mode = Mode.Stop;
                     if (this.box.selected)
                         glo.ballDefinition.value = this.box.selected.toString();
