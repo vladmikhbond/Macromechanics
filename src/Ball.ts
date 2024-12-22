@@ -1,6 +1,17 @@
 import { glo } from "./globals.js"; 
-import { Geometry as G, Point } from "./Geometry.js"; 
+import { Geometry as G, Point} from "./Geometry.js"; 
 import {Box} from "./Box.js";  
+
+export class Dot extends Point {
+    fromLink: boolean; // 
+
+    constructor (p: Point, fromLink = false) {
+        super(p.x, p.y);
+        this.fromLink = fromLink;
+    }     
+}
+
+
 
 export class Ball 
 {
@@ -8,7 +19,7 @@ export class Ball
     box: Box | null = null;
     fx = 0;
     fy = 0;
-    dots: Point[] = []
+    dots: Dot[] = []
 
     constructor(x:number, y:number, r:number, c:string, vx:number, vy:number, m=0) {
         this.x = x;
@@ -60,12 +71,14 @@ export class Ball
             let dr = ball.radius - bolDotDistance;
             // единичный вектор
             let u = G.unit(dot, ball, bolDotDistance);
-            
+
+            // coeff. conservation energy for link or for ball/line 
+            let w = dot.fromLink ? glo.Wl : glo.W; 
 
             // модуль упругости зависит от фазы - сжатие или расжатие шара
             let scalar = G.scalar(new Point(ball.vx, ball.vy), u);
 
-            let w = dot.w ? glo.Wl : glo.W;   //
+           
 
             let k = scalar > 0 ? glo.K * w : glo.K;
 

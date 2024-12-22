@@ -1,10 +1,15 @@
-import {glo} from "./globals.js";
+import {glo, doc} from "./globals.js";
 import {Box} from "./Box.js";
 import { Geometry as G, Point } from "./Geometry.js";
+
+
+export enum PrettyMode {Draft, Beauty};
 
 export class View 
 {
     box: Box;
+
+    prettyMode = PrettyMode.Draft;
 
     constructor(box: Box) {
         this.box = box;
@@ -12,11 +17,11 @@ export class View
 
     drawAll(lineWidth=0.5)
     {
-        if (glo.PRETTY)
+        if (this.prettyMode)
             return this.drawPretty();
     
-        const ctx = glo.canvas.getContext("2d")!;
-        ctx.clearRect(0, 0, glo.canvas.width, glo.canvas.height);
+        const ctx = doc.canvas.getContext("2d")!;
+        ctx.clearRect(0, 0, doc.canvas.width, doc.canvas.height);
         ctx.lineWidth = lineWidth;
     
         // draw box
@@ -97,8 +102,8 @@ export class View
 
     drawPretty() {
 
-        const ctx = glo.canvas.getContext("2d")!;
-        ctx.clearRect(0, 0, glo.canvas.width, glo.canvas.height);
+        const ctx = doc.canvas.getContext("2d")!;
+        ctx.clearRect(0, 0, doc.canvas.width, doc.canvas.height);
 
         // draw box
         ctx.lineWidth = 0.5;
@@ -121,7 +126,7 @@ export class View
         // draw balls
         for (let b of this.box.balls) {
             ctx.save();
-            let img = b.color === "red" ? glo.redBallImg : b.color === "blue" ? glo.blueBallImg : glo.greenBallImg;
+            let img = b.color === "red" ? doc.redBallImg : b.color === "blue" ? doc.blueBallImg : doc.greenBallImg;
             let x = this.box.x + b.x, y = this.box.y + b.y;
 
             if (b.dots && b.dots.length > 0) {
@@ -166,7 +171,7 @@ export class View
     
 
     drawGrayLine(p0: Point, p: Point) {
-        const ctx = <CanvasRenderingContext2D>glo.canvas.getContext("2d");
+        const ctx = <CanvasRenderingContext2D>doc.canvas.getContext("2d");
         ctx.strokeStyle = "gray";
         ctx.beginPath();
         ctx.moveTo(this.box.x + p0.x, this.box.y + p0.y);
@@ -175,7 +180,7 @@ export class View
     }
 
     drawGrayCircle(p0: Point, p: Point) {
-        const ctx = <CanvasRenderingContext2D>glo.canvas.getContext("2d");
+        const ctx = <CanvasRenderingContext2D>doc.canvas.getContext("2d");
         ctx.strokeStyle = "gray";
         ctx.beginPath();
         let x = this.box.x + p0.x, y = this.box.y + p0.y;

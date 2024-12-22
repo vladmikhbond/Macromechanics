@@ -1,6 +1,6 @@
 import { glo } from "./globals.js"; 
 import { Geometry as G, Point} from "./Geometry.js"; 
-import { Ball } from "./Ball.js"
+import { Ball, Dot } from "./Ball.js"
 import { Line } from "./Line.js";
 import { Link } from "./Link.js";
 
@@ -165,7 +165,7 @@ export class Box {
     // деформация  шара тем больше, чем больше масса противоположного шара
     // деформации задают не силы (силы должны быть равны), а ускорения шаров
     //
-    private static touchBallDot(b1: Ball, b2: Ball): Point | null
+    private static touchBallDot(b1: Ball, b2: Ball): Dot | null
     {
         let d = G.distance(b1, b2);
         // шары далеко
@@ -182,11 +182,10 @@ export class Box {
         // координаты точки касания
         let x = b1.x + (b2.x - b1.x) * k;
         let y = b1.y + (b2.y - b1.y) * k;
-        return new Point (x, y);
+        return new Dot(new Point (x, y));
     }
 
 
-    
     step() {
         
         for (let i = 0; i < glo.REPEATER; i++) {
@@ -201,34 +200,30 @@ export class Box {
         }
         glo.chronos++;
 
-        // fire events
-        glo.canvas.dispatchEvent(new Event("changed"));
-
         // invoke scriptFunc 2 times per sec
-        if (glo.chronos % (500/glo.INTERVAL | 0) === 0 && this.scriptFunc)
+        if (glo.chronos % (500/glo.INTERVAL | 0) === 0 && this.scriptFunc) {
             this.scriptFunc(glo.chronos / 500 * glo.INTERVAL | 0);
+        }
     }
 
     // собирает на шары точки касания с отрезками (в т.ч. с границами)
     dotsFromLines() {
-        let balls = this.balls;
-        let lines = this.lines;
-        for (let b of balls) {
-            for (let l of lines.concat(this.border)) {
-                if (G.distToInfiniteLine(b, l) < b.radius) {
-                    let p = G.cross(b, l);
-                    if (p) {
-                        // p - точка пересечения перпендикуляра в пределах отрезка
-                        b.dots.push(p);
+        for (let ball of this.balls) {
+            for (let line of this.lines.concat(this.border)) {
+                if (G.distToInfiniteLine(ball, line) < ball.radius) {
+                    let point = G.cross(ball, line);
+                    if (point) {
+                        // точка пересечения перпендикуляра лежит на отрезке
+                        ball.dots.push(new Dot(point));
                     } else {
                         // точка пересечения за пределами отрезка
-                        if (G.distance(b, l.p1) < b.radius) {
+                        if (G.distance(ball, line.p1) < ball.radius) {
                             // касание 1-го конца отрезка
-                            b.dots.push(l.p1);
+                            ball.dots.push(new Dot(line.p1));
                         }
-                        if (G.distance(b, l.p2) < b.radius) {
+                        if (G.distance(ball, line.p2) < ball.radius) {
                             // касание 2-го конца отрезка
-                            b.dots.push(l.p2);
+                            ball.dots.push(new Dot(line.p2));
                         }
                     }
                 }
@@ -237,8 +232,7 @@ export class Box {
     }
 
     // собирает на шары точки касания с шарами
-    dotsFromBalls()
-    {
+    dotsFromBalls() {
         let balls = this.balls;
         for (let i = 0; i < balls.length - 1; i++) {
             for (let j = i + 1; j < balls.length; j++) {
@@ -253,7 +247,7 @@ export class Box {
     }
 
     // собирает на шары виртуальные точки касания, обусловленные своей связью
-    // точки связей имеют свойство w != undefined
+    // точки связей имеют свойство w != 0
     dotsFromLinks()
     {
         let links = this.links;
@@ -278,16 +272,16 @@ export class Box {
             b2.x -= deX;
             b2.y -= deY;
             // найти точку касания
-            let dot: Point = Box.touchBallDot(b1, b2)!;
+            let dot = Box.touchBallDot(b1, b2)!;
             // вернуть на место второй шар
             b2.x += deX;
             b2.y += deY;
             if (dot) {
-                dot.w = 1;
-                // поместить точку касания на 1 шар
+                dot.fromLink = true;
+                // поместить точку касания на 1-й шар
                 b1.dots.push(dot);
-                // отодвинуть точку касания и поместить на 2 шар
-                let dot2 = {x: dot.x + deX, y: dot.y + deY, w: 1};
+                // отодвинуть точку касания и поместить на 2-й шар
+                let dot2 = new Dot(new Point(dot.x + deX, dot.y + deY), true);
                 b2.dots.push(dot2);
             }
         }
@@ -323,18 +317,18 @@ export class Box {
                 let k = d / (b.radius - deltaB);
                 let x = (p.x - b.x) / k + b.x;
                 let y = (p.y - b.y) / k + b.y;
-                b.dots.push({x, y});
+                b.dots.push({x, y, fromLink: false});
 
                 // точки касания для шаров гантели
                 // u - единичный векор перпедикуляра к связи
                 let u = G.unit(p, b, d);
                 // b1
                 let r1 = l.b1.radius - delta1;
-                let dot = {x: l.b1.x + r1 * u.x, y: l.b1.y + r1 * u.y};
+                let dot = new Dot (new Point(l.b1.x + r1 * u.x, l.b1.y + r1 * u.y), false);
                 l.b1.dots.push(dot);
                 // b2
                 let r2 = l.b2.radius - delta2;
-                dot = {x: l.b2.x + r2 * u.x, y: l.b2.y + r2 * u.y};
+                dot = new Dot (new Point(l.b2.x + r2 * u.x, l.b2.y + r2 * u.y), false);
                 l.b2.dots.push(dot);
             }
         }

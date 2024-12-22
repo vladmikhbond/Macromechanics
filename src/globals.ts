@@ -1,22 +1,27 @@
 export const glo = 
 {
-    W: 0.5,    // W - conservation of energу when two balls strikes ( 1 - no loss)
-    K: 0.1,    // modulus of elasticity (1 - absolutely solid)
+    W: 0.5,    // conservation of energу when two balls strikes ( 1 - no loss)
+    Wl: 0.99,  // conservation of energу when link reacts ( 1 - no loss)
+
+    K: 0.1,    // m W odulus of elasticity (1 - absolutely solid)
     
     g: 0.001,  // acceleration of gravity   0.002 = 1 g;
-    Wl: 0.99,  // 0.96 потери на связях  
+    
 
     INTERVAL: 30,
     chronos: 0,  // in ticks (1 sec = 1000/INTERVAL ticks)
 
     REPEATER: 1,
-    PRETTY: 0,  // false
 
-    // for velocity drawing
-    Kvelo: 100,
+
+    
+    Kvelo: 100,      // for velocity drawing
     pixInMeter: 1000,
+    Kg: 0.002,
+}
 
-
+export const doc = 
+{
     canvas: <HTMLCanvasElement>document.getElementById("canvas")!,
     modeButton: <HTMLButtonElement>document.getElementById("modeButton")!,
     createButton: <HTMLButtonElement>document.getElementById("createButton")!,

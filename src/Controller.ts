@@ -1,10 +1,10 @@
-import { glo } from "./globals.js"; 
+import { glo, doc } from "./globals.js"; 
 import { Geometry as G, Point } from "./Geometry.js";
 import { Ball } from "./Ball.js";
 import { Line } from "./Line.js";
 import { Link } from "./Link.js";
 import { Box, Mode, CreateMode } from "./Box.js";
-import { View } from "./View.js";
+import { PrettyMode, View } from "./View.js";
 
 export class Controller 
 {
@@ -24,7 +24,7 @@ export class Controller
         this.mode = Mode.Stop;
         this.createMode = CreateMode.Ball;
 
-        glo.infoSpan.title = "Клавиши:\
+        doc.infoSpan.title = "Клавиши:\
     \nB - balls\
     \nL - lines\
     \nK - links\
@@ -41,15 +41,17 @@ export class Controller
 
     set mode(mode: Mode) {
         if (mode === Mode.Play && this.intervalId === 0) {
-            // this.intervalId = setInterval(() => {this.box.step()}, glo.INTERVAL);
-            this.intervalId = setInterval(this.box.step.bind(this.box), glo.INTERVAL);
+            this.intervalId = setInterval(() => {
+                this.box.step();
+                this.view.drawAll();
+            }, glo.INTERVAL);
         } else {
             clearInterval(this.intervalId);
             this.intervalId = 0;
         }
         // UI
         const classAttrNames = ["glyphicon glyphicon-play", "glyphicon glyphicon-pause"];
-        glo.modeGlif.className = classAttrNames[mode];
+        doc.modeGlif.className = classAttrNames[mode];
         this.view.drawAll();
     }
 
@@ -59,7 +61,7 @@ export class Controller
 
 
     set createMode(v: CreateMode) {
-        glo.infoSpan.innerHTML = 
+        doc.infoSpan.innerHTML = 
               v === CreateMode.Ball ? "Ball"
             : v === CreateMode.Line ? "Line"
             : v === CreateMode.Link ? "Link" : "";
@@ -76,7 +78,7 @@ export class Controller
 
     set mousePos(v: Point) {
         this._mousePos = v;
-        glo.mousePosSpan.innerHTML = `x=${v.x} y=${v.y}`;
+        doc.mousePosSpan.innerHTML = `x=${v.x} y=${v.y}`;
     }
     get mousePos(): Point | null {
         return this._mousePos;
@@ -84,36 +86,32 @@ export class Controller
 
     set g(v: string) {
         glo.g = +v;
-        glo.graviValue.innerHTML = "G = " + (glo.g / 0.002).toFixed(2);
-        glo.graviRange.value = v;
+        doc.graviValue.innerHTML = "G = " + (glo.g / glo.Kg).toFixed(2);
+        doc.graviRange.value = v;
     }
     set W(v: string) {
         glo.W = +v;
-        glo.waistValue.innerHTML = "W = " + v;
-        glo.waistRange.value = v;
+        doc.waistValue.innerHTML = "W = " + v;
+        doc.waistRange.value = v;
     }
     set K(v: string) {
         glo.K = +v;
-        glo.rigidValue.innerHTML = "K = " + v;
-        glo.rigidRange.value = v;
+        doc.rigidValue.innerHTML = "K = " + v;
+        doc.rigidRange.value = v;
     }
 
     addListeners() 
     {
-        // glo.canvas.addEventListener("changed", () => {
-        //     this.view.drawAll();
-        // });
-    
         //------------------- button_click --------------------------------------
 
         // play-stop toggle
-        glo.modeButton.addEventListener("click", () => {
+        doc.modeButton.addEventListener("click", () => {
             this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
         });
    
     
         // restart button
-        glo.restartButton.addEventListener("click", () => {
+        doc.restartButton.addEventListener("click", () => {
             // if (this.curentScene) {
             //     this.curentScene.restore();   
             // }
@@ -121,14 +119,16 @@ export class Controller
         });
 
         // ugly-pretty toggle
-        glo.prettyButton.addEventListener("click", () =>
+        doc.prettyButton.addEventListener("click", () =>
         {
-            glo.PRETTY = (glo.PRETTY + 1)  % 2;
+            this.view.prettyMode = this.view.prettyMode === PrettyMode.Draft
+                ? PrettyMode.Beauty 
+                : PrettyMode.Draft;
             this.view.drawAll();
         });
 
         // clear screen
-        glo.eraseButton.addEventListener("click", () =>
+        doc.eraseButton.addEventListener("click", () =>
         {
             this.box.balls = [];
             this.box.lines = [];
@@ -142,37 +142,37 @@ export class Controller
         //------------------- input_change --------------------------------------
 
             // update selected ball
-        glo.ballDefinition.addEventListener("change", () => {
+            doc.ballDefinition.addEventListener("change", () => {
             if (this.box.selected &&  this.box.selected instanceof Ball) {
-                let o = JSON.parse(glo.ballDefinition.value);
+                let o = JSON.parse(doc.ballDefinition.value);
                 Object.assign(this.box.selected, o);
                 this.view.drawAll();
             }
         });
         
-        glo.graviRange.addEventListener("change", () =>
+        doc.graviRange.addEventListener("change", () =>
         {
-            glo.g = +glo.graviRange.value;
-            glo.graviValue.innerHTML = "G = " + (glo.g / 0.002).toFixed(2);
+            glo.g = +doc.graviRange.value;
+            doc.graviValue.innerHTML = "G = " + (glo.g / glo.Kg).toFixed(2);
 
         });
 
-        glo.waistRange.addEventListener("change", () =>
+        doc.waistRange.addEventListener("change", () =>
         {
-            glo.W = +glo.waistRange.value;
-            glo.waistValue.innerHTML = "W = " + glo.waistRange.value;
+            glo.W = +doc.waistRange.value;
+            doc.waistValue.innerHTML = "W = " + doc.waistRange.value;
         });
 
-        glo.rigidRange.addEventListener("change", () =>
+        doc.rigidRange.addEventListener("change", () =>
         {
-            glo.K = +glo.rigidRange.value;
-            glo.rigidValue.innerHTML = "K = " + glo.rigidRange.value;
+            glo.K = +doc.rigidRange.value;
+            doc.rigidValue.innerHTML = "K = " + doc.rigidRange.value;
         });
 
         //----------------------------- document_keydown ----------------------------
 
         document.addEventListener("keydown", (e) => {
-            if (document.activeElement === glo.ballDefinition)
+            if (document.activeElement === doc.ballDefinition)
                 return;
             switch(e.key) {
                 // stop=play toggle
@@ -185,7 +185,7 @@ export class Controller
                     this.box.step();
                     this.mode = Mode.Stop;
                     if (this.box.selected)
-                        glo.ballDefinition.value = this.box.selected.toString();
+                        doc.ballDefinition.value = this.box.selected.toString();
                     break;
 
                 // copy selected ball
@@ -259,10 +259,10 @@ export class Controller
         let isMousePressed = false;
         //let mode = "velo";  // "velo", "ball", "new"
     
-        glo.canvas.onmousedown = (e) => {
+        doc.canvas.onmousedown = (e) => {
             isMousePressed = true;
-            p0 = {x: e.pageX - glo.canvas.offsetLeft - this.box.x, 
-                  y: e.pageY - glo.canvas.offsetTop - this.box.y };
+            p0 = {x: e.pageX - doc.canvas.offsetLeft - this.box.x, 
+                  y: e.pageY - doc.canvas.offsetTop - this.box.y };
             ballVelo = this.box.ballVeloUnderPoint(p0);
             if (ballVelo) {
                 // mode = "velo";
@@ -278,13 +278,13 @@ export class Controller
             
         };
     
-        glo.canvas.onmousemove = (e) => {
+        doc.canvas.onmousemove = (e) => {
             if (!isMousePressed) return;
 
-            let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x, y: e.pageY - glo.canvas.offsetTop - this.box.y };
+            let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x, y: e.pageY - doc.canvas.offsetTop - this.box.y };
             this.mousePos = p;
             // change mouse cursor on velo
-            glo.canvas.style.cursor = this.box.ballVeloUnderPoint(p) ? "pointer" : "auto";
+            doc.canvas.style.cursor = this.box.ballVeloUnderPoint(p) ? "pointer" : "auto";
 
             if (ballVelo) {
                 ballVelo.vx = (p.x - ballVelo.x) / glo.Kvelo;
@@ -302,19 +302,19 @@ export class Controller
             this.view.drawGrayCircle(p0!, p);
         };
     
-        glo.canvas.onmouseup = (e) => {
+        doc.canvas.onmouseup = (e) => {
 
             if (!ball && !ballVelo) {
                 // create a new ball
-                let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
-                         y: e.pageY - glo.canvas.offsetTop - this.box.y };
+                let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
+                         y: e.pageY - doc.canvas.offsetTop - this.box.y };
 
                 let r = G.distance(p0!, p);
                 if (r > 2) {
                     let newBall = new Ball(p0!.x, p0!.y, r, "red", 0, 0);
                     this.box.addBall(newBall);
                     this.box.selected = newBall;
-                    glo.ballDefinition.value = newBall.toString();
+                    doc.ballDefinition.value = newBall.toString();
                 }
             }            
             this.view.drawAll();
@@ -325,9 +325,9 @@ export class Controller
     setLineHandlers() {
         let p0: Point | null = null;
     
-        glo.canvas.onmousedown = (e) => {
-            p0 = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
-                  y: e.pageY - glo.canvas.offsetTop - this.box.y };
+        doc.canvas.onmousedown = (e) => {
+            p0 = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
+                  y: e.pageY - doc.canvas.offsetTop - this.box.y };
             let line = this.box.lineUnderPoint(p0);
             if (line){
                 this.box.selected = line;
@@ -335,9 +335,9 @@ export class Controller
             }
         };
     
-        glo.canvas.onmousemove = (e) => {
-            let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
-                     y: e.pageY - glo.canvas.offsetTop - this.box.y };
+        doc.canvas.onmousemove = (e) => {
+            let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
+                     y: e.pageY - doc.canvas.offsetTop - this.box.y };
             if (p0) {
                 this.view.drawAll();
                 this.view.drawGrayLine(p0, p);
@@ -345,11 +345,11 @@ export class Controller
             this.mousePos = p;
         };
     
-        glo.canvas.onmouseup = (e) => {
+        doc.canvas.onmouseup = (e) => {
             if (p0 === null)
                 return;
-            let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
-                y: e.pageY - glo.canvas.offsetTop - this.box.y };
+            let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
+                y: e.pageY - doc.canvas.offsetTop - this.box.y };
             if (G.distance(p0, p) > 2) {
     
                 let l = new Line(p0.x, p0.y, p.x, p.y);
@@ -365,10 +365,10 @@ export class Controller
     setLinkHandlers() {
         let lastClickedBall: Ball | null = null;
     
-        glo.canvas.onmousedown = (e) => {
+        doc.canvas.onmousedown = (e) => {
             
-            let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
-                     y: e.pageY - glo.canvas.offsetTop - this.box.y };
+            let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
+                     y: e.pageY - doc.canvas.offsetTop - this.box.y };
 
             let ball = this.box.ballUnderPoint(p);
 
@@ -387,12 +387,12 @@ export class Controller
             this.view.drawAll();
         };
     
-        glo.canvas.onmousemove = (e) => {
-            this.mousePos = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
-                y: e.pageY - glo.canvas.offsetTop - this.box.y };
+        doc.canvas.onmousemove = (e) => {
+            this.mousePos = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
+                y: e.pageY - doc.canvas.offsetTop - this.box.y };
         };
     
-        glo.canvas.onmouseup = (e) => {
+        doc.canvas.onmouseup = (e) => {
         }
     }
     
