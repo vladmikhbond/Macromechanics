@@ -12,19 +12,12 @@ export class Controller
     view: View;
     
     private _mousePos: Point | null = null;
-    private _g: number;
-    private _W: number;
-    private _K: number;
     private intervalId = 0;
 
     
     constructor(box: Box, view: View) {
         this.box = box;
         this.view = view;
-
-        this._g = glo.g;
-        this._W = glo.W;
-        this._K = glo.K;
    
         // set state of UI
         this._mousePos = new Point(0, 0); // relative to the box
@@ -89,17 +82,17 @@ export class Controller
     }
 
     set g(v: string) {
-        this._g = +v;
-        glo.graviValue.innerHTML = "G = " + (this._g / 0.002).toFixed(2) + "g";
+        glo.g = +v;
+        glo.graviValue.innerHTML = "G = " + (glo.g / 0.002).toFixed(2);
         glo.graviRange.value = v;
     }
     set W(v: string) {
-        this._W = +v;
+        glo.W = +v;
         glo.waistValue.innerHTML = "W = " + v;
         glo.waistRange.value = v;
     }
     set K(v: string) {
-        this._K = +v;
+        glo.K = +v;
         glo.rigidValue.innerHTML = "K = " + v;
         glo.rigidRange.value = v;
     }
@@ -148,9 +141,6 @@ export class Controller
             this.box.balls = [];
             this.box.lines = [];
             this.box.links = [];
-            this._W = glo.W;    // к.п.д. при соударении (1 - без потерь)
-            this._K = glo.K;    // модуль упругости (1 - твердый)
-            this._g = glo.g;  // 0.002 = 1g;
             this.mode = Mode.Stop;
             this.createMode = CreateMode.Ball;
             glo.chronos = 0;
@@ -162,17 +152,19 @@ export class Controller
         glo.graviRange.addEventListener("change", () =>
         {
             glo.g = +glo.graviRange.value;
+            glo.graviValue.innerHTML = "G = " + (glo.g / 0.002).toFixed(2);
+
         });
 
         glo.waistRange.addEventListener("change", () =>
         {
-            this._W = +glo.waistRange.value;
+            glo.W = +glo.waistRange.value;
             glo.waistValue.innerHTML = "W = " + glo.waistRange.value;
         });
 
         glo.rigidRange.addEventListener("change", () =>
         {
-            this._K = +glo.rigidRange.value;
+            glo.K = +glo.rigidRange.value;
             glo.rigidValue.innerHTML = "K = " + glo.rigidRange.value;
         });
 
@@ -256,50 +248,6 @@ export class Controller
                     break;
             }
         });
-
-        //------------------------------ mouse ---------------------------
-
-        // select object
-        // glo.canvas.addEventListener("click", (e) => {
-        //     let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
-        //         y: e.pageY - glo.canvas.offsetTop - this.box.y };
-
-        //     // select ball
-        //     for (let b of this.box.balls) {
-        //         if (G.distance(p, b ) < b.radius) {
-        //             this.box.selected = b;
-        //             if (this.createMode !== CreateMode.Link) {
-        //                 this.createMode = CreateMode.Ball;
-        //             }
-        //             this.view.drawAll();
-        //             glo.ballDefinition.value = b.toString();
-        //             break;
-        //         }
-        //     }
-        //     // select line
-        //     for (let l of this.box.lines) {
-        //         if (G.distToInfiniteLine(p, l) < 5 && G.cross(p, l)) {
-        //             this.box.selected = l;
-        //             this.createMode = CreateMode.Line;
-        //             this.view.drawAll();
-        //             break;
-        //         }
-        //     }
-        //     // select link
-        //     for (let link of this.box.links) {
-        //         let l = new Line(link.x1, link.y1, link.x2, link.y2 );
-        //         if (G.distToInfiniteLine(p, l) < 5 && G.cross(p, l)) {
-        //             this.box.selected = link;
-        //             this.createMode = CreateMode.Link;
-        //             this.view.drawAll();
-        //             break;
-        //         }
-        //     }
-
-        // });
-
-
-
 
     }
 
