@@ -17,12 +17,12 @@ export class Box {
     lines: Line[] = [];
     border: Line[];
     links: Link[] = [];
-    intervalId = 0;
+
     scriptFunc: Function = function t() {};
 
     selected: Ball | Line | Link | null = null;
 
-    createMode = CreateMode.Ball; 
+   
 
     constructor(x: number, y: number, w: number, h: number) {
         this.x = x;
@@ -43,18 +43,6 @@ export class Box {
         this.scriptFunc = new Function("t", body);
     }
 
-    // 0-stop, 1-play
-    set mode(v: Mode) {
-        if (v) {
-            this.intervalId = setInterval(() => {this.step()}, glo.INTERVAL);
-        } else {
-            clearInterval(this.intervalId);
-            glo.intervalId = null;
-        }
-    }
-    get mode(): Mode {
-        return this.intervalId ? Mode.Play : Mode.Stop;
-    }
 
     get sumEnergy() {
         let e = 0;
@@ -106,7 +94,7 @@ export class Box {
     }
 
 
-    // find a ball under a point
+    // find a ball under point
     ballUnderPoint(p: Point) {
         for (let b of this.balls) {
             if (G.distance(p, b) < b.radius) {
@@ -145,6 +133,15 @@ export class Box {
             this.selected = null;
     }
 
+    // find a line under point
+    lineUnderPoint(p: Point) {
+        for (let l of this.lines) {
+            if (G.distToInfiniteLine(p, l) < 5 && G.cross(p, l)) {
+                return l;
+            }
+        }
+        return null;
+    }
 
 //#endregion
 

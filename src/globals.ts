@@ -7,7 +7,6 @@ export const glo =
     Wl: 0.99,  // 0.96 потери на связях  
 
     INTERVAL: 30,
-    intervalId: null,
     chronos: 0,  // in ticks (1 sec = 1000/INTERVAL ticks)
 
     REPEATER: 1,

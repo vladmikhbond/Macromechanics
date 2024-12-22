@@ -12,13 +12,12 @@ export class Controller
     view: View;
     
     private _mousePos: Point | null = null;
-    private _createMode = CreateMode.Ball;
     private _g: number;
     private _W: number;
     private _K: number;
-    // curentScene: Scene | null = null;
-    
+    private intervalId = 0;
 
+    
     constructor(box: Box, view: View) {
         this.box = box;
         this.view = view;
@@ -26,12 +25,12 @@ export class Controller
         this._g = glo.g;
         this._W = glo.W;
         this._K = glo.K;
-        this._createMode = CreateMode.Ball;
    
         // set state of UI
         this._mousePos = new Point(0, 0); // relative to the box
-        this.mode = Mode.Stop
+        this.mode = Mode.Stop;
         this.createMode = CreateMode.Ball;
+
         glo.infoSpan.title = "Клавиши:\
     \nB - balls\
     \nL - lines\
@@ -44,23 +43,28 @@ export class Controller
     ";
         //
         this.addListeners();
+
     }
 
-
-    // mode property
-    set mode(v: Mode) {
-        this.box.mode = v;
-        const classNames = ["glyphicon glyphicon-pause", "glyphicon glyphicon-play"];
-        glo.modeGlif.className = classNames[v];
+    set mode(mode: Mode) {
+        if (mode === Mode.Play && this.intervalId === 0) {
+            this.intervalId = setInterval(() => {this.box.step()}, glo.INTERVAL);
+        } else {
+            clearInterval(this.intervalId);
+            this.intervalId = 0;
+        }
+        // UI
+        const classAttrNames = ["glyphicon glyphicon-play", "glyphicon glyphicon-pause"];
+        glo.modeGlif.className = classAttrNames[mode];
         this.view.drawAll();
     }
-    get mode() {
-        return this.box.mode;
+
+    get mode(): Mode {
+        return this.intervalId ? Mode.Play : Mode.Stop;
     }
 
-    // createMode property
-    set createMode(v) {
-        this.box.createMode = v;
+
+    set createMode(v: CreateMode) {
         glo.infoSpan.innerHTML = 
               v === CreateMode.Ball ? "Ball"
             : v === CreateMode.Line ? "Line"
@@ -75,11 +79,7 @@ export class Controller
             this.setLinkHandlers();
         }
     }
-    get createMode() {
-        return this._createMode;
-    }
 
-    // mousePos property
     set mousePos(v: Point) {
         this._mousePos = v;
         glo.mousePosSpan.innerHTML = `x=${v.x} y=${v.y}`;
@@ -88,7 +88,6 @@ export class Controller
         return this._mousePos;
     }
 
-    // g property
     set g(v: string) {
         this._g = +v;
         glo.graviValue.innerHTML = "G = " + (this._g / 0.002).toFixed(2) + "g";
@@ -124,9 +123,7 @@ export class Controller
 
         // play-stop toggle
         glo.modeButton.addEventListener("click", () => {
-            this.mode = (this.mode + 1) % 2;
-            // if (this.mode === Mode.Play)
-            //     this.curentScene = new Scene();
+            this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
         });
    
     
@@ -164,7 +161,7 @@ export class Controller
 
         glo.graviRange.addEventListener("change", () =>
         {
-            this._g = +glo.graviRange.value;
+            glo.g = +glo.graviRange.value;
         });
 
         glo.waistRange.addEventListener("change", () =>
@@ -224,7 +221,7 @@ export class Controller
                 }
                 break;
 
-                // calbrate
+                // calibrate
                 case 't': case 'T': case 'е': case 'Е':
                 //this.box.calibrate(this.view.drawAll());
                 break;
@@ -263,43 +260,43 @@ export class Controller
         //------------------------------ mouse ---------------------------
 
         // select object
-        glo.canvas.addEventListener("click", (e) => {
-            let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
-                y: e.pageY - glo.canvas.offsetTop - this.box.y };
+        // glo.canvas.addEventListener("click", (e) => {
+        //     let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
+        //         y: e.pageY - glo.canvas.offsetTop - this.box.y };
 
-            // select ball
-            for (let b of this.box.balls) {
-                if (G.distance(p, b ) < b.radius) {
-                    this.box.selected = b;
-                    if (this.createMode !== CreateMode.Link) {
-                        this.createMode = CreateMode.Ball;
-                    }
-                    this.view.drawAll();
-                    glo.ballDefinition.value = b.toString();
-                    break;
-                }
-            }
-            // select line
-            for (let l of this.box.lines) {
-                if (G.distToInfiniteLine(p, l) < 5 && G.cross(p, l)) {
-                    this.box.selected = l;
-                    this.createMode = CreateMode.Line;
-                    this.view.drawAll();
-                    break;
-                }
-            }
-            // select link
-            for (let link of this.box.links) {
-                let l = new Line(link.x1, link.y1, link.x2, link.y2 );
-                if (G.distToInfiniteLine(p, l) < 5 && G.cross(p, l)) {
-                    this.box.selected = link;
-                    this.createMode = CreateMode.Link;
-                    this.view.drawAll();
-                    break;
-                }
-            }
+        //     // select ball
+        //     for (let b of this.box.balls) {
+        //         if (G.distance(p, b ) < b.radius) {
+        //             this.box.selected = b;
+        //             if (this.createMode !== CreateMode.Link) {
+        //                 this.createMode = CreateMode.Ball;
+        //             }
+        //             this.view.drawAll();
+        //             glo.ballDefinition.value = b.toString();
+        //             break;
+        //         }
+        //     }
+        //     // select line
+        //     for (let l of this.box.lines) {
+        //         if (G.distToInfiniteLine(p, l) < 5 && G.cross(p, l)) {
+        //             this.box.selected = l;
+        //             this.createMode = CreateMode.Line;
+        //             this.view.drawAll();
+        //             break;
+        //         }
+        //     }
+        //     // select link
+        //     for (let link of this.box.links) {
+        //         let l = new Line(link.x1, link.y1, link.x2, link.y2 );
+        //         if (G.distToInfiniteLine(p, l) < 5 && G.cross(p, l)) {
+        //             this.box.selected = link;
+        //             this.createMode = CreateMode.Link;
+        //             this.view.drawAll();
+        //             break;
+        //         }
+        //     }
 
-        });
+        // });
 
 
 
@@ -324,10 +321,10 @@ export class Controller
             }
             ball = this.box.ballUnderPoint(p0);
             if (ball) {
-                // mode = "ball";
                 // в p0 смещение курсора от центра шара
                 p0 = {x: ball.x - p0.x, y: ball.y - p0.y};
-                return;
+                this.box.selected = ball;
+                this.view.drawAll();
             }
             
         };
@@ -382,6 +379,11 @@ export class Controller
         glo.canvas.onmousedown = (e) => {
             p0 = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
                   y: e.pageY - glo.canvas.offsetTop - this.box.y };
+            let line = this.box.lineUnderPoint(p0);
+            if (line){
+                this.box.selected = line;
+                this.view.drawAll();
+            }
         };
     
         glo.canvas.onmousemove = (e) => {
@@ -412,25 +414,28 @@ export class Controller
     
     
     setLinkHandlers() {
-        let b0: Ball | null = null;
+        let lastClickedBall: Ball | null = null;
     
         glo.canvas.onmousedown = (e) => {
-    
+            
             let p = {x: e.pageX - glo.canvas.offsetLeft - this.box.x,
                      y: e.pageY - glo.canvas.offsetTop - this.box.y };
-    
-            let b = this.box.ballUnderPoint(p);
-            if (!b)
+
+            let ball = this.box.ballUnderPoint(p);
+
+            if (ball === null || ball === lastClickedBall) {
                 return;
-            if (!b0) {
-                b0 = b;
-            } else if (b0 !== b){
-                let l = new Link(b0, b);
-                this.box.addLink(l);
-                this.box.selected = l;
-                b0 = null;
             }
-    
+            if (lastClickedBall === null) {
+                lastClickedBall = ball;
+                return;
+            }
+            
+            let link = new Link(lastClickedBall, ball);
+            this.box.addLink(link);
+            this.box.selected = link;
+            lastClickedBall = null;
+            this.view.drawAll();
         };
     
         glo.canvas.onmousemove = (e) => {
