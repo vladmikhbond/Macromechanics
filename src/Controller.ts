@@ -99,20 +99,11 @@ export class Controller
 
     addListeners() 
     {
-        glo.canvas.addEventListener("changed", () => {
-            this.view.drawAll();
-        });
+        // glo.canvas.addEventListener("changed", () => {
+        //     this.view.drawAll();
+        // });
     
-        // update selected ball
-        glo.ballDefinition.addEventListener("change", () => {
-            if (this.box.selected &&  this.box.selected instanceof Ball) {
-                let o = JSON.parse(glo.ballDefinition.value);
-                Object.assign(this.box.selected, o);
-                this.view.drawAll();
-            }
-        });
-    
-        //------------------- buttons --------------------------------------
+        //------------------- button_click --------------------------------------
 
         // play-stop toggle
         glo.modeButton.addEventListener("click", () => {
@@ -147,8 +138,17 @@ export class Controller
             this.view.drawAll();
         });
 
-        //------------------- input-range --------------------------------------
+        //------------------- input_change --------------------------------------
 
+            // update selected ball
+        glo.ballDefinition.addEventListener("change", () => {
+            if (this.box.selected &&  this.box.selected instanceof Ball) {
+                let o = JSON.parse(glo.ballDefinition.value);
+                Object.assign(this.box.selected, o);
+                this.view.drawAll();
+            }
+        });
+        
         glo.graviRange.addEventListener("change", () =>
         {
             glo.g = +glo.graviRange.value;
@@ -168,7 +168,7 @@ export class Controller
             glo.rigidValue.innerHTML = "K = " + glo.rigidRange.value;
         });
 
-        //----------------------------- keyboard ----------------------------
+        //----------------------------- document_keydown ----------------------------
 
         document.addEventListener("keydown", (e) => {
             if (document.activeElement === glo.ballDefinition)
