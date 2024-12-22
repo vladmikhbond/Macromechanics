@@ -41,7 +41,8 @@ export class Controller
 
     set mode(mode: Mode) {
         if (mode === Mode.Play && this.intervalId === 0) {
-            this.intervalId = setInterval(() => {this.box.step()}, glo.INTERVAL);
+            // this.intervalId = setInterval(() => {this.box.step()}, glo.INTERVAL);
+            this.intervalId = setInterval(this.box.step.bind(this.box), glo.INTERVAL);
         } else {
             clearInterval(this.intervalId);
             this.intervalId = 0;
@@ -103,16 +104,7 @@ export class Controller
             this.view.drawAll();
         });
     
-        // update selected ball
-        glo.ballDefinition.addEventListener("change", () => {
-            if (this.box.selected &&  this.box.selected instanceof Ball) {
-                let o = JSON.parse(glo.ballDefinition.value);
-                Object.assign(this.box.selected, o);
-                this.view.drawAll();
-            }
-        });
-    
-        //------------------- buttons --------------------------------------
+        //------------------- button_click --------------------------------------
 
         // play-stop toggle
         glo.modeButton.addEventListener("click", () => {
@@ -147,8 +139,17 @@ export class Controller
             this.view.drawAll();
         });
 
-        //------------------- input-range --------------------------------------
+        //------------------- input_change --------------------------------------
 
+            // update selected ball
+        glo.ballDefinition.addEventListener("change", () => {
+            if (this.box.selected &&  this.box.selected instanceof Ball) {
+                let o = JSON.parse(glo.ballDefinition.value);
+                Object.assign(this.box.selected, o);
+                this.view.drawAll();
+            }
+        });
+        
         glo.graviRange.addEventListener("change", () =>
         {
             glo.g = +glo.graviRange.value;
@@ -168,7 +169,7 @@ export class Controller
             glo.rigidValue.innerHTML = "K = " + glo.rigidRange.value;
         });
 
-        //----------------------------- keyboard ----------------------------
+        //----------------------------- document_keydown ----------------------------
 
         document.addEventListener("keydown", (e) => {
             if (document.activeElement === glo.ballDefinition)
@@ -176,7 +177,7 @@ export class Controller
             switch(e.key) {
                 // stop=play toggle
                 case 'Enter':
-                    this.mode = (this.mode + 1) % 2;
+                    this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
                     break;
 
                 // step execution

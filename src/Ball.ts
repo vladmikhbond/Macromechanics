@@ -50,35 +50,35 @@ export class Ball
 
     // вызывается, когда собраны точки касания
     move(ax: number, ay: number) {
-        let b = this;
-        if (b.color === "blue")
+        let ball = this;
+        if (ball.color === "blue")
             return;
 
         // суммируем ускорения от реакций точек касания
-        for (let p of b.dots) {
-            let d = G.distance(b, p);
-            let r = b.radius - d;
+        for (let dot of ball.dots) {
+            let bolDotDistance = G.distance(ball, dot);
+            let dr = ball.radius - bolDotDistance;
             // единичный вектор
-            let u = G.unit(p, b, d);
-            //{x: (b.x - p.x) / d, y: (b.y - p.y) / d };
+            let u = G.unit(dot, ball, bolDotDistance);
+            
 
             // модуль упругости зависит от фазы - сжатие или расжатие шара
-            let scalar = G.scalar(new Point(b.vx, b.vy), u);
+            let scalar = G.scalar(new Point(ball.vx, ball.vy), u);
 
-            let w = p.w ? glo.Wl : glo.W;   //
+            let w = dot.w ? glo.Wl : glo.W;   //
 
             let k = scalar > 0 ? glo.K * w : glo.K;
 
-            ax += k * r * u.x;
-            ay += k * r * u.y;
+            ax += k * dr * u.x;
+            ay += k * dr * u.y;
         }
 
         // изменение скорости
-        b.vx += ax;
-        b.vy += ay;
+        ball.vx += ax;
+        ball.vy += ay;
         // изменение координат
-        b.x += b.vx;
-        b.y += b.vy;
+        ball.x += ball.vx;
+        ball.y += ball.vy;
     }
 
 }

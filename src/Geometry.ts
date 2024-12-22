@@ -3,7 +3,7 @@ import { Line } from "./Line.js";
 export class Point {
     x: number;
     y: number;
-    w? : number;
+    w? : number;  // пружність зв'язку, якщо точка на зв'язаній кулі 
     
     constructor(x: number, y: number) {
         this.x = x;
@@ -12,6 +12,7 @@ export class Point {
      
      
 }
+
 
 export class Geometry {
     // Distance between two points
