@@ -100,9 +100,9 @@ export class Controller
 
     addListeners() 
     {
-        glo.canvas.addEventListener("changed", () => {
-            this.view.drawAll();
-        });
+        // glo.canvas.addEventListener("changed", () => {
+        //     this.view.drawAll();
+        // });
     
         //------------------- button_click --------------------------------------
 
