@@ -35,7 +35,6 @@ export const doc =
     graviValue: <HTMLLabelElement>document.getElementById("graviValue"),
     waistValue: <HTMLLabelElement>document.getElementById("waistValue"),
     rigidValue: <HTMLLabelElement>document.getElementById("rigidValue"),
-    ballDefinition: <HTMLInputElement>document.getElementById("ballDefinition"),
     scenesDiv: <HTMLDivElement>document.getElementById("scenesDiv"),
     infoSpan: <HTMLSpanElement>document.getElementById("infoSpan"),
     mousePosSpan: <HTMLSpanElement>document.getElementById("mousePosSpan"),
@@ -46,7 +45,8 @@ export const doc =
 
     ballBoard: <HTMLDivElement>document.getElementById("ballBoard"),
     lineBoard: <HTMLDivElement>document.getElementById("lineBoard"),
-
+    applyBallButton: <HTMLButtonElement>document.getElementById("applyBallButton"),
+    applyLineButton: <HTMLButtonElement>document.getElementById("applyLineButton"),
 
     redBallImg: <HTMLImageElement>document.getElementById("redBallImg"),
     greenBallImg: <HTMLImageElement>document.getElementById("greenBallImg"),

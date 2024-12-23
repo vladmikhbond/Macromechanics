@@ -94,7 +94,7 @@ export class View
             ctx.stroke();
         }
     
-        // print info
+        // draw text
         let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(2);
         const x = 10, y = 590;
         ctx.fillText("T = " + seconds, x, y);

@@ -28,18 +28,16 @@
 
         <button id="modeButton" class="btn btn-sm btn-success" title="Start / Stop"><span id="modeGlif" class="glyphicon glyphicon-pause"> </span></button>
         <button id="restartButton" class="btn btn-sm" title="Return to the last stop"><span class="glyphicon glyphicon-triangle-left"> </span></button>
-    </div>
 
-    <!-- second panel -->
-    <div class="panel panel-default">
-        <input type="text" id="ballDefinition">
         <button id="prettyButton" class="btn btn-sm" title="Debug / Exec"><span class="glyphicon glyphicon-adjust"/></button>
         <button id="eraseButton" class="btn btn-sm" title="Clear screen"><span class="glyphicon glyphicon-erase"> </span></button>
         <span id="infoSpan"></span>
         <span id="mousePosSpan"></span>
     </div>
-
+    
     <div class="canvas-cont">
+
+      <!-- Ball Board -->
       <div id="ballBoard" class="canvas-item">
         <div> 
             <span class="dash-label">Name </span>  <input id="nameText" class="dash-text" title="Name"/>
@@ -61,6 +59,7 @@
         <button id="applyBallButton" class="dash-btn" >Apply</button>   
       </div>
 
+      <!-- Line Board -->
       <div id="lineBoard" class="canvas-item">
         <div>
             <span class="dash-label">X1 </span>  <input id="x1Text" class="dash-text" title="X1 coordinate"/>

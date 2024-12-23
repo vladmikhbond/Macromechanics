@@ -146,6 +146,7 @@ export class Box {
 //#endregion
 
 //#region Link Suit
+
     addLink(link: Link) {
         this.links.push(link);
     }

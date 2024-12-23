@@ -11,7 +11,6 @@ export class Controller
     box: Box;
     view: View;
     
-    private _mousePos: Point | null = null;
     private intervalId = 0;
 
     
@@ -20,7 +19,6 @@ export class Controller
         this.view = view;
    
         // set state of UI
-        this._mousePos = new Point(0, 0); // relative to the box
         this.mode = Mode.Stop;
         this.createMode = CreateMode.Ball;
 
@@ -39,8 +37,14 @@ export class Controller
 
     }
 
-    set selected(obj: Ball | Line | Link | null) {
-        function show(val: number|string, id: string) {
+    // Встановлює поле box.selected 
+    // і відкриває панель параметрів для обраної кулі або лінії
+    //
+    set selected(obj: Ball | Line | Link | null) 
+    {
+        // inner function
+        function show(val: number|string, id: string)
+        {
             if (typeof val == 'number')
                 val = val.toFixed(2);
             let el = document.getElementById(id) as HTMLInputElement;
@@ -54,10 +58,10 @@ export class Controller
             doc.ballBoard.style.display = 'block';
             doc.lineBoard.style.display = 'none';
             
-            show("Ball", 'nameText'); show(obj.m, 'massaText');
+            show("Ball", 'nameText');       show(obj.m, 'massaText');
             show(obj.radius, 'radiusText'); show(obj.color, 'colorText');
-            show(obj.x, 'xText'); show(obj.y, 'yText');
-            show(obj.vx, 'vxText'); show(obj.vy, 'vyText');
+            show(obj.x, 'xText');           show(obj.y, 'yText');
+            show(obj.vx, 'vxText');         show(obj.vy, 'vyText');
         } 
         else if (obj instanceof Line) 
         {
@@ -115,11 +119,7 @@ export class Controller
     }
 
     set mousePos(point: Point) {
-        this._mousePos = point;
-        doc.mousePosSpan.innerHTML = `x=${point.x} y=${point.y}`;
-    }
-    get mousePos(): Point | null {
-        return this._mousePos;
+        doc.mousePosSpan.innerHTML = `x=${point.x.toFixed(0)} y=${point.y.toFixed(0)}`;
     }
 
     set g(v: string) {
@@ -176,17 +176,40 @@ export class Controller
             glo.chronos = 0;
             this.view.drawAll();
         });
+   
+
+        // inner function
+        function read(id: string): string {               
+            return (document.getElementById(id) as HTMLInputElement).value;
+        }    
+
+        doc.applyBallButton.addEventListener("click", () => 
+        {
+            const ball = this.selected as Ball;
+            if (ball) {
+                ball.m = +read('massaText');
+                ball.radius = +read('radiusText');  ball.color = read('colorText');                              
+                ball.x = +read('xText');    ball.y = +read('yText');
+                ball.vx = +read('vxText');  ball.vy = +read('vyText');
+            }
+            this.view.drawAll();
+        });
+
+        doc.applyLineButton.addEventListener("click", () => 
+        {
+            const line = this.selected as Line;
+            if (line) {                                 
+                line.x1 = +read('x1Text');    line.y1 = +read('y1Text');
+                line.x2 = +read('x2Text');    line.y2 = +read('v2Text');
+            }
+            this.view.drawAll();
+        });
+
 
         //------------------- input_change --------------------------------------
 
             // update selected ball
-            doc.ballDefinition.addEventListener("change", () => {
-            if (this.selected &&  this.selected instanceof Ball) {
-                let o = JSON.parse(doc.ballDefinition.value);
-                Object.assign(this.selected, o);
-                this.view.drawAll();
-            }
-        });
+
         
         doc.graviRange.addEventListener("change", () =>
         {
@@ -210,8 +233,6 @@ export class Controller
         //----------------------------- document_keydown ----------------------------
 
         document.addEventListener("keydown", (e) => {
-            if (document.activeElement === doc.ballDefinition)
-                return;
             switch(e.key) {
                 // stop=play toggle
                 case 'Enter':
@@ -221,9 +242,8 @@ export class Controller
                 // step execution
                 case 's': case 'S': case 'ы': case 'Ы':
                     this.box.step();
+                    this.view.drawAll();
                     this.mode = Mode.Stop;
-                    if (this.selected)
-                        doc.ballDefinition.value = this.selected.toString();
                     break;
 
                 // copy selected ball
@@ -290,18 +310,23 @@ export class Controller
 
     }
 
+    private cursorPoint(event: MouseEvent) {
+        const canvasRect = doc.canvas.getBoundingClientRect();
+        return {x: event.x - canvasRect.left - this.box.x, 
+                y: event.y - canvasRect.top - this.box.y };
+    }
+
     setBallHandlers() {
         let p0: Point | null = null;   // в p0 смещение курсора от центра шара
         let ball: Ball | null = null;
         let ballVelo: Ball | null = null;
         let isMousePressed = false;
-        const canvasRect = doc.canvas.getBoundingClientRect();
+        
     
         doc.canvas.onmousedown = (e) => {
             isMousePressed = true;
 
-            p0 = {x: e.x - canvasRect.left - this.box.x, 
-                  y: e.y - canvasRect.top - this.box.y };
+            p0 = this.cursorPoint(e);
             ballVelo = this.box.ballVeloUnderPoint(p0);
             if (ballVelo) {
                 return;
@@ -317,13 +342,13 @@ export class Controller
         };
     
         doc.canvas.onmousemove = (e) => {
-            if (!isMousePressed) return;
-   
-            let p = {x: e.x - canvasRect.left - this.box.x, 
-                     y: e.y - canvasRect.top - this.box.y };
+            let p = this.cursorPoint(e);
             this.mousePos = p;
+
+            if (!isMousePressed) return;
+
             // change mouse cursor on velo
-            doc.canvas.style.cursor = this.box.ballVeloUnderPoint(p) ? "pointer" : "auto";
+            // doc.canvas.style.cursor = this.box.ballVeloUnderPoint(p) ? "pointer" : "auto";
 
             if (ballVelo) {
                 ballVelo.vx = (p.x - ballVelo.x) / glo.Kvelo;
@@ -337,23 +362,21 @@ export class Controller
                 this.view.drawAll();
                 return;
             }
+            // creating a new ball
             this.view.drawAll();
             this.view.drawGrayCircle(p0!, p);
         };
     
         doc.canvas.onmouseup = (e) => {
 
-            if (!ball && !ballVelo) {
-                // create a new ball
-                let p = {x: e.x - canvasRect.left - this.box.x, 
-                         y: e.y - canvasRect.top - this.box.y };
-
+            if (!ball && !ballVelo) {                
+                let p = this.cursorPoint(e);
                 let r = G.distance(p0!, p);
                 if (r > 2) {
+                    // create a new ball
                     let newBall = new Ball(p0!.x, p0!.y, r, "red", 0, 0);
                     this.box.addBall(newBall);
                     this.selected = newBall;
-                    doc.ballDefinition.value = newBall.toString();
                 }
             }            
             this.view.drawAll();
@@ -363,11 +386,10 @@ export class Controller
     
     setLineHandlers() {
         let p0: Point | null = null;
-        const canvasRect = doc.canvas.getBoundingClientRect();
+        
     
         doc.canvas.onmousedown = (e) => {
-            p0 = {x: e.x - canvasRect.left - this.box.x, 
-                  y: e.y - canvasRect.top - this.box.y };
+            p0 = this.cursorPoint(e);
             let line = this.box.lineUnderPoint(p0);
             if (line){
                 this.selected = line;
@@ -376,20 +398,20 @@ export class Controller
         };
     
         doc.canvas.onmousemove = (e) => {
-            let p = {x: e.x - canvasRect.left - this.box.x, 
-                     y: e.y - canvasRect.top - this.box.y };
+            let p = this.cursorPoint(e);
+            this.mousePos = p;
+
             if (p0) {
                 this.view.drawAll();
                 this.view.drawGrayLine(p0, p);
             }
-            this.mousePos = p;
+            
         };
     
         doc.canvas.onmouseup = (e) => {
             if (p0 === null)
                 return;
-            let p = {x: e.x - canvasRect.left - this.box.x, 
-                     y: e.y - canvasRect.top - this.box.y };
+            let p = this.cursorPoint(e);
             if (G.distance(p0, p) > 2) {
     
                 let l = new Line(p0.x, p0.y, p.x, p.y);
@@ -404,12 +426,10 @@ export class Controller
     
     setLinkHandlers() {
         let lastClickedBall: Ball | null = null;
-        const canvasRect = doc.canvas.getBoundingClientRect();
     
         doc.canvas.onmousedown = (e) => {
             
-            let p = {x: e.x - canvasRect.left - this.box.x, 
-                     y: e.y - canvasRect.top - this.box.y };
+            let p = this.cursorPoint(e);
 
             let ball = this.box.ballUnderPoint(p);
 
@@ -429,8 +449,7 @@ export class Controller
         };
     
         doc.canvas.onmousemove = (e) => {
-            this.mousePos = {x: e.x - canvasRect.left - this.box.x, 
-                             y: e.y - canvasRect.top - this.box.y };
+            this.mousePos = this.cursorPoint(e);
         };
     
         doc.canvas.onmouseup = (e) => {
