@@ -44,7 +44,8 @@ export const doc =
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
     
 
-    selBoard: <HTMLDivElement>document.getElementById("selBoard"),
+    ballBoard: <HTMLDivElement>document.getElementById("ballBoard"),
+    lineBoard: <HTMLDivElement>document.getElementById("lineBoard"),
 
 
     redBallImg: <HTMLImageElement>document.getElementById("redBallImg"),

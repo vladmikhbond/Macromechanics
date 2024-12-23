@@ -40,13 +40,41 @@ export class Controller
     }
 
     set selected(obj: Ball | Line | Link | null) {
+        function show(val: number|string, id: string) {
+            if (typeof val == 'number')
+                val = val.toFixed(2);
+            let el = document.getElementById(id) as HTMLInputElement;
+            el.value = val;
+        }
+
         this.box.selected = obj;
         
-        if (obj instanceof Ball) {
-            doc.selBoard.style.display = 'block';
-        } else {
-            doc.selBoard.style.display = 'none';
+        if (obj instanceof Ball) 
+        {
+            doc.ballBoard.style.display = 'block';
+            doc.lineBoard.style.display = 'none';
+            
+            show("Ball", 'nameText'); show(obj.m, 'massaText');
+            show(obj.radius, 'radiusText'); show(obj.color, 'colorText');
+            show(obj.x, 'xText'); show(obj.y, 'yText');
+            show(obj.vx, 'vxText'); show(obj.vy, 'vyText');
+        } 
+        else if (obj instanceof Line) 
+        {
+            doc.ballBoard.style.display = 'none';
+            doc.lineBoard.style.display = 'block';
+            show(obj.x1, 'x1Text'); show(obj.y1, 'y1Text');
+            show(obj.x2, 'x2Text'); show(obj.y2, 'y2Text');  
+        } 
+        else 
+        {
+            doc.ballBoard.style.display = 'none';
+            doc.lineBoard.style.display = 'none';
         };
+    }
+
+    get selected() {
+        return this.box.selected;
     }
 
     set mode(mode: Mode) {
@@ -153,9 +181,9 @@ export class Controller
 
             // update selected ball
             doc.ballDefinition.addEventListener("change", () => {
-            if (this.box.selected &&  this.box.selected instanceof Ball) {
+            if (this.selected &&  this.selected instanceof Ball) {
                 let o = JSON.parse(doc.ballDefinition.value);
-                Object.assign(this.box.selected, o);
+                Object.assign(this.selected, o);
                 this.view.drawAll();
             }
         });
@@ -194,25 +222,25 @@ export class Controller
                 case 's': case 'S': case 'ы': case 'Ы':
                     this.box.step();
                     this.mode = Mode.Stop;
-                    if (this.box.selected)
-                        doc.ballDefinition.value = this.box.selected.toString();
+                    if (this.selected)
+                        doc.ballDefinition.value = this.selected.toString();
                     break;
 
                 // copy selected ball
                 case 'c': case 'C': case 'с': case 'С':
-                    if (this.box.selected && this.box.selected.constructor === Ball) {
-                        let s = this.box.selected;
+                    if (this.selected && this.selected.constructor === Ball) {
+                        let s = this.selected;
                         let p = this.mousePos!;
                         let b = new Ball(p.x, p.y, s.radius, s.color, s.vx, s.vy, s.m);
                         this.box.addBall(b);
-                        this.box.selected = b;
+                        this.selected = b;
                         this.view.drawAll();
                     }
                     break;
 
                 // toggle ball color
                 case 'f': case 'F': case 'а': case 'А':
-                let sel = this.box.selected;
+                let sel = this.selected;
                 if (!sel)
                     break;
                 if (sel.constructor === Ball) {
@@ -246,15 +274,15 @@ export class Controller
 
                 // delete selected object
                 case 'Delete':
-                    if (!this.box.selected)
+                    if (!this.selected)
                         break;
-                    if (this.box.selected.constructor === Ball)
-                        this.box.deleteBall(this.box.selected);
-                    else if (this.box.selected.constructor === Line)
-                        this.box.deleteLine(this.box.selected);
-                    else if (this.box.selected.constructor === Link)
-                        this.box.deleteLink(this.box.selected);
-                    this.box.selected = null;
+                    if (this.selected.constructor === Ball)
+                        this.box.deleteBall(this.selected);
+                    else if (this.selected.constructor === Line)
+                        this.box.deleteLine(this.selected);
+                    else if (this.selected.constructor === Link)
+                        this.box.deleteLink(this.selected);
+                    this.selected = null;
                     this.view.drawAll();
                     break;
             }
@@ -282,7 +310,7 @@ export class Controller
             if (ball) {
                 // в p0 смещение курсора от центра шара
                 p0 = {x: ball.x - p0.x, y: ball.y - p0.y};
-                this.box.selected = ball;
+                this.selected = ball;
                 this.view.drawAll();
             }
             
@@ -324,7 +352,7 @@ export class Controller
                 if (r > 2) {
                     let newBall = new Ball(p0!.x, p0!.y, r, "red", 0, 0);
                     this.box.addBall(newBall);
-                    this.box.selected = newBall;
+                    this.selected = newBall;
                     doc.ballDefinition.value = newBall.toString();
                 }
             }            
@@ -342,7 +370,7 @@ export class Controller
                   y: e.y - canvasRect.top - this.box.y };
             let line = this.box.lineUnderPoint(p0);
             if (line){
-                this.box.selected = line;
+                this.selected = line;
                 this.view.drawAll();
             }
         };
@@ -366,7 +394,7 @@ export class Controller
     
                 let l = new Line(p0.x, p0.y, p.x, p.y);
                 this.box.addLine(l);
-                this.box.selected = l;
+                this.selected = l;
             }
             p0 = null;
             this.view.drawAll();
@@ -395,7 +423,7 @@ export class Controller
             
             let link = new Link(lastClickedBall, ball);
             this.box.addLink(link);
-            this.box.selected = link;
+            this.selected = link;
             lastClickedBall = null;
             this.view.drawAll();
         };

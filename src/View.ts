@@ -95,9 +95,10 @@ export class View
         }
     
         // print info
-        let sec = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(2);
-        ctx.fillText("T = " + sec, 20, 20 );
-        ctx.fillText("E = " + this.box.sumEnergy, 120, 20 );
+        let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(2);
+        const x = 10, y = 590;
+        ctx.fillText("T = " + seconds, x, y);
+        ctx.fillText("E = " + this.box.sumEnergy, x + 100, y);
     }
 
     drawPretty() {

@@ -79,7 +79,7 @@ input[type=range]+label
 }
 
 
-#selBoard {
+#ballBoard, #lineBoard {
     border: solid black 1px;
     font-family: monospace;
     font-weight: 800;

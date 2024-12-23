@@ -18,11 +18,13 @@
     <!-- first panel -->
     <div class="panel panel-default">
         <input type="range" id="graviRange" step="0.0005" min="0" max="0.02" value="0.001" title="тяжіння"/>
-        <label id="graviValue">G = 0.5</label>
+        <label id="graviValue" for="graviRange">G = 0.5</label>
+
         <input type="range" id="waistRange" step="0.001" min="0" max="1" value="0.5" title="втрати (1-нема втрат)"/>
-        <label id="waistValue">W = 0.5</label>
+        <label id="waistValue" for="waistRange">W = 0.5</label>
+
         <input type="range" id="rigidRange" step="0.1" min="0" max="1" value="0.1" title="пружність"/>
-        <label id="rigidValue">K = 0.1</label>
+        <label id="rigidValue"  for="rigidRange" >K = 0.1</label>
 
         <button id="modeButton" class="btn btn-sm btn-success" title="Start / Stop"><span id="modeGlif" class="glyphicon glyphicon-pause"> </span></button>
         <button id="restartButton" class="btn btn-sm" title="Return to the last stop"><span class="glyphicon glyphicon-triangle-left"> </span></button>
@@ -38,31 +40,41 @@
     </div>
 
     <div class="canvas-cont">
-        <div id="selBoard" class="canvas-item">
-          <div> 
-              <span class="dash-label">Name </span>  <input id="nameText" class="dash-text" title="Name"/>
-              <span class="dash-label">Massa </span>  <input id="massaText" class="dash-text" title="Massa"/>
-          </div>
-          <div>
-              <span class="dash-label">Radius </span>  <input id="radiusText" class="dash-text" title="Radius"/>
-              <span class="dash-label">Color </span>  <input id="colorText" class="dash-text" title="Color"/>
-          </div>       
-          <p>
-          <div>
-              <span class="dash-label">X </span>  <input id="xText" class="dash-text" title="X coordinate"/>
-              <span class="dash-label">Y </span>  <input id="yText" class="dash-text" title="Y coordinate"/>
-          </div>
-          <div>
-              <span class="dash-label">Vx </span>  <input id="vxText" class="dash-text" title="Vx velocity"/>
-              <span class="dash-label">Vy </span>  <input id="vyText" class="dash-text" title="Vy velocity"/>
-          </div>
-         
-          <button id="saveButton" class="dash-btn" >Save</button> 
-          
+      <div id="ballBoard" class="canvas-item">
+        <div> 
+            <span class="dash-label">Name </span>  <input id="nameText" class="dash-text" title="Name"/>
+            <span class="dash-label">Massa </span>  <input id="massaText" class="dash-text" title="Massa"/>
+        </div>
+        <div>
+            <span class="dash-label">Radius </span>  <input id="radiusText" class="dash-text" title="Radius"/>
+            <span class="dash-label">Color </span>  <input id="colorText" class="dash-text" title="Color"/>
+        </div>       
+        <p>
+        <div>
+            <span class="dash-label">X </span>  <input id="xText" class="dash-text" title="X coordinate"/>
+            <span class="dash-label">Y </span>  <input id="yText" class="dash-text" title="Y coordinate"/>
+        </div>
+        <div>
+            <span class="dash-label">Vx </span>  <input id="vxText" class="dash-text" title="Vx velocity"/>
+            <span class="dash-label">Vy </span>  <input id="vyText" class="dash-text" title="Vy velocity"/>
+        </div>
+        <button id="applyBallButton" class="dash-btn" >Apply</button>   
+      </div>
+
+      <div id="lineBoard" class="canvas-item">
+        <div>
+            <span class="dash-label">X1 </span>  <input id="x1Text" class="dash-text" title="X1 coordinate"/>
+            <span class="dash-label">Y1 </span>  <input id="y1Text" class="dash-text" title="Y1 coordinate"/>
+        </div>
+        <div>
+            <span class="dash-label">X2 </span>  <input id="x2Text" class="dash-text" title="X2 coordinate"/>
+            <span class="dash-label">Y2 </span>  <input id="y2Text" class="dash-text" title="Y2 coordinate"/>
+        </div>
+        <button id="applyLineButton" class="dash-btn" >Apply</button>   
       </div>
 
 
-        <canvas id="canvas" width="1150" height="600" ></canvas>
+      <canvas id="canvas" width="1150" height="600" ></canvas>
     </div>
 
     <!-- <div class="panel panel-default">
