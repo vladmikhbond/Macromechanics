@@ -39,6 +39,16 @@ export class Controller
 
     }
 
+    set selected(obj: Ball | Line | Link | null) {
+        this.box.selected = obj;
+        
+        if (obj instanceof Ball) {
+            doc.selBoard.style.display = 'block';
+        } else {
+            doc.selBoard.style.display = 'none';
+        };
+    }
+
     set mode(mode: Mode) {
         if (mode === Mode.Play && this.intervalId === 0) {
             this.intervalId = setInterval(() => {
@@ -76,9 +86,9 @@ export class Controller
         }
     }
 
-    set mousePos(v: Point) {
-        this._mousePos = v;
-        doc.mousePosSpan.innerHTML = `x=${v.x} y=${v.y}`;
+    set mousePos(point: Point) {
+        this._mousePos = point;
+        doc.mousePosSpan.innerHTML = `x=${point.x} y=${point.y}`;
     }
     get mousePos(): Point | null {
         return this._mousePos;
@@ -257,15 +267,15 @@ export class Controller
         let ball: Ball | null = null;
         let ballVelo: Ball | null = null;
         let isMousePressed = false;
-        //let mode = "velo";  // "velo", "ball", "new"
+        const canvasRect = doc.canvas.getBoundingClientRect();
     
         doc.canvas.onmousedown = (e) => {
             isMousePressed = true;
-            p0 = {x: e.pageX - doc.canvas.offsetLeft - this.box.x, 
-                  y: e.pageY - doc.canvas.offsetTop - this.box.y };
+
+            p0 = {x: e.x - canvasRect.left - this.box.x, 
+                  y: e.y - canvasRect.top - this.box.y };
             ballVelo = this.box.ballVeloUnderPoint(p0);
             if (ballVelo) {
-                // mode = "velo";
                 return;
             }
             ball = this.box.ballUnderPoint(p0);
@@ -280,8 +290,9 @@ export class Controller
     
         doc.canvas.onmousemove = (e) => {
             if (!isMousePressed) return;
-
-            let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x, y: e.pageY - doc.canvas.offsetTop - this.box.y };
+   
+            let p = {x: e.x - canvasRect.left - this.box.x, 
+                     y: e.y - canvasRect.top - this.box.y };
             this.mousePos = p;
             // change mouse cursor on velo
             doc.canvas.style.cursor = this.box.ballVeloUnderPoint(p) ? "pointer" : "auto";
@@ -306,8 +317,8 @@ export class Controller
 
             if (!ball && !ballVelo) {
                 // create a new ball
-                let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
-                         y: e.pageY - doc.canvas.offsetTop - this.box.y };
+                let p = {x: e.x - canvasRect.left - this.box.x, 
+                         y: e.y - canvasRect.top - this.box.y };
 
                 let r = G.distance(p0!, p);
                 if (r > 2) {
@@ -324,10 +335,11 @@ export class Controller
     
     setLineHandlers() {
         let p0: Point | null = null;
+        const canvasRect = doc.canvas.getBoundingClientRect();
     
         doc.canvas.onmousedown = (e) => {
-            p0 = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
-                  y: e.pageY - doc.canvas.offsetTop - this.box.y };
+            p0 = {x: e.x - canvasRect.left - this.box.x, 
+                  y: e.y - canvasRect.top - this.box.y };
             let line = this.box.lineUnderPoint(p0);
             if (line){
                 this.box.selected = line;
@@ -336,8 +348,8 @@ export class Controller
         };
     
         doc.canvas.onmousemove = (e) => {
-            let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
-                     y: e.pageY - doc.canvas.offsetTop - this.box.y };
+            let p = {x: e.x - canvasRect.left - this.box.x, 
+                     y: e.y - canvasRect.top - this.box.y };
             if (p0) {
                 this.view.drawAll();
                 this.view.drawGrayLine(p0, p);
@@ -348,8 +360,8 @@ export class Controller
         doc.canvas.onmouseup = (e) => {
             if (p0 === null)
                 return;
-            let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
-                y: e.pageY - doc.canvas.offsetTop - this.box.y };
+            let p = {x: e.x - canvasRect.left - this.box.x, 
+                     y: e.y - canvasRect.top - this.box.y };
             if (G.distance(p0, p) > 2) {
     
                 let l = new Line(p0.x, p0.y, p.x, p.y);
@@ -364,11 +376,12 @@ export class Controller
     
     setLinkHandlers() {
         let lastClickedBall: Ball | null = null;
+        const canvasRect = doc.canvas.getBoundingClientRect();
     
         doc.canvas.onmousedown = (e) => {
             
-            let p = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
-                     y: e.pageY - doc.canvas.offsetTop - this.box.y };
+            let p = {x: e.x - canvasRect.left - this.box.x, 
+                     y: e.y - canvasRect.top - this.box.y };
 
             let ball = this.box.ballUnderPoint(p);
 
@@ -388,8 +401,8 @@ export class Controller
         };
     
         doc.canvas.onmousemove = (e) => {
-            this.mousePos = {x: e.pageX - doc.canvas.offsetLeft - this.box.x,
-                y: e.pageY - doc.canvas.offsetTop - this.box.y };
+            this.mousePos = {x: e.x - canvasRect.left - this.box.x, 
+                             y: e.y - canvasRect.top - this.box.y };
         };
     
         doc.canvas.onmouseup = (e) => {

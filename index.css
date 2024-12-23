@@ -1,70 +1,91 @@
-#canvas {
-    cursor: none;
-    border: thin solid;
+#ballDefinition,
+#scenesExportText
+{
+    width: 650px;
 }
 
-input {
-    height: 18px;    
+input[type=range]
+{
+    width: 126px;
+    height: 14px;
+    display: inline;
+    margin: 5px 0px 0px 5px;
+}
+input[type=range]+label
+{
+    width: 80px;
 }
 
-input[type="color"] {
-    width: 30px;
-    height:22px;
+#infoSpan {
+    color: blue;
+    margin: 0px 10px 0px 10px;
+    border: blue solid thin;
+    padding: 5px 10px 5px 10px;
+}
+
+#redBallImg, #blueBallImg, #greenBallImg {
+    display: none
 }
 
 .panel {
-    border: thin gray solid;
-    display: inline;
-    position: relative;
-    margin-right: 5px;
-    top: 4px;
-    padding-top: 5px;
+     margin-bottom: 10px;
 }
-
-#deepText {
-    height: 16px;
-    width: 40px;
-    text-align: right;
-    padding-right: 3px;
-}
-
-#deepSpan{
-    color: gray;
-    font-size: small;
-    width: 50px;
-    display: inline-block;
-    text-align: left;
-}
-
-#scaleSpan {
-    font-size: small;
-}
-#exportText {
-    /* display: none; */
-    width: 600px;
-    font-size: small;
-}
-
-h3 {
-     color: darkred;
-}
-
-#power, #delta {
-    cursor: pointer;
-    color: red;
-}
-
-#helpButton {
-    background-color: transparent;
-    color: blue;
+.thumbnail {
+    width: 120px;
+    height: 70px;
     border: none;
-    font-size: small;
-    margin-left: 150px;
+    margin-right: 5px;
+    display: inline;
 }
 
-#helpDiv {
-    width: 600px;
-    font-size: small;
+#scenesDiv {
+    height: 80px;
+    margin-bottom: -10px;
+}
+
+#sceneAttrs {
     display: none;
+    position: absolute;
+    background-color: white;
+    top: 230px;
+    width: 60%;
+    height: 500px;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.canvas-cont {
+    position: relative;
+}
+.canvas-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.dash-text {
+    width: 70px;
+    text-align: right;
+    margin-bottom: 3px;
+}
+
+.dash-label {
+    width: 55px;
+    display:inline-block;
+    text-align: right;
+    margin-right: 4px;
+}
+
+
+#selBoard {
+    border: solid black 1px;
+    font-family: monospace;
+    font-weight: 800;
+    color: black;
+    padding: 5px;
+    background-color: rgb(117 190 218 / 20%);  
+    display: none; 
 }
 

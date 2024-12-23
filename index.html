@@ -7,15 +7,15 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-
-    <link rel="stylesheet" href="site.css" />
-
+    
+    <link rel="stylesheet" href="index.css" />
 </head>
+
 <body>
 <div class="container">
     <h3 id="header">Macromechanics</h3>
 
+    <!-- first panel -->
     <div class="panel panel-default">
         <input type="range" id="graviRange" step="0.0005" min="0" max="0.02" value="0.001" title="тяжіння"/>
         <label id="graviValue">G = 0.5</label>
@@ -28,6 +28,7 @@
         <button id="restartButton" class="btn btn-sm" title="Return to the last stop"><span class="glyphicon glyphicon-triangle-left"> </span></button>
     </div>
 
+    <!-- second panel -->
     <div class="panel panel-default">
         <input type="text" id="ballDefinition">
         <button id="prettyButton" class="btn btn-sm" title="Debug / Exec"><span class="glyphicon glyphicon-adjust"/></button>
@@ -36,11 +37,35 @@
         <span id="mousePosSpan"></span>
     </div>
 
+    <div class="canvas-cont">
+        <div id="selBoard" class="canvas-item">
+          <div> 
+              <span class="dash-label">Name </span>  <input id="nameText" class="dash-text" title="Name"/>
+              <span class="dash-label">Massa </span>  <input id="massaText" class="dash-text" title="Massa"/>
+          </div>
+          <div>
+              <span class="dash-label">Radius </span>  <input id="radiusText" class="dash-text" title="Radius"/>
+              <span class="dash-label">Color </span>  <input id="colorText" class="dash-text" title="Color"/>
+          </div>       
+          <p>
+          <div>
+              <span class="dash-label">X </span>  <input id="xText" class="dash-text" title="X coordinate"/>
+              <span class="dash-label">Y </span>  <input id="yText" class="dash-text" title="Y coordinate"/>
+          </div>
+          <div>
+              <span class="dash-label">Vx </span>  <input id="vxText" class="dash-text" title="Vx velocity"/>
+              <span class="dash-label">Vy </span>  <input id="vyText" class="dash-text" title="Vy velocity"/>
+          </div>
+         
+          <button id="saveButton" class="dash-btn" >Save</button> 
+          
+      </div>
 
-      <canvas id="canvas" width="1150" height="600" ></canvas>
 
+        <canvas id="canvas" width="1150" height="600" ></canvas>
+    </div>
 
-    <div class="panel panel-default">
+    <!-- <div class="panel panel-default">
         <button id="saveSceneButton" class="btn btn-sm" title="Save the scene"><span class="glyphicon glyphicon-save"> </span></button>
         <input type="text" id="scenesExportText">
         <button id="importScenesButton" class="btn btn-sm" title="Import scenes" scenes><span class="glyphicon glyphicon-import"> </span></button>
@@ -67,7 +92,7 @@
         <button class="btn btn-primary" id="saveSceneScriptButton">Save</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
     <img src="pic/redBall.png" id="redBallImg" width="523" height="520" />

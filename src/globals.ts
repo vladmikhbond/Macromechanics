@@ -42,10 +42,18 @@ export const doc =
     modeGlif: <HTMLSpanElement>document.getElementById("modeGlif"),
 
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
+    
+
+    selBoard: <HTMLDivElement>document.getElementById("selBoard"),
+
 
     redBallImg: <HTMLImageElement>document.getElementById("redBallImg"),
     greenBallImg: <HTMLImageElement>document.getElementById("greenBallImg"),
     blueBallImg: <HTMLImageElement>document.getElementById("blueBallImg"),
+
+
+    
+
     // header: document.getElementById("header"),
     // exportScenesButton: document.getElementById("exportScenesButton"),
     // importScenesButton: document.getElementById("importScenesButton"),

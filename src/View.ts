@@ -29,9 +29,9 @@ export class View
         ctx.strokeRect(this.box.x, this.box.y, this.box.width, this.box.height);
     
         // draw scale
-        for (let y = this.box.height, n = 0; y >= 0; y -= glo.pixInMeter, n++) {
-            ctx.fillText(n.toString(), 0, y + this.box.y );
-        }
+        // for (let y = this.box.height, n = 0; y >= 0; y -= glo.pixInMeter, n++) {
+        //     ctx.fillText(n.toString(), 0, y + this.box.y );
+        // }
         //ctx.stroke();
     
         // draw balls
