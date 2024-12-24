@@ -322,7 +322,6 @@ export class Controller
         let ballVelo: Ball | null = null;
         let isMousePressed = false;
         
-    
         doc.canvas.onmousedown = (e) => {
             isMousePressed = true;
 
@@ -335,10 +334,13 @@ export class Controller
             if (ball) {
                 // в p0 смещение курсора от центра шара
                 p0 = {x: ball.x - p0.x, y: ball.y - p0.y};
-                this.selected = ball;
-                this.view.drawAll();
+                this.selected = ball;                
+            } else {
+                if (this.selected instanceof Ball) {
+                    this.selected = null;
+                }
             }
-            
+            this.view.drawAll();            
         };
     
         doc.canvas.onmousemove = (e) => {
@@ -386,15 +388,18 @@ export class Controller
     
     setLineHandlers() {
         let p0: Point | null = null;
-        
     
         doc.canvas.onmousedown = (e) => {
             p0 = this.cursorPoint(e);
             let line = this.box.lineUnderPoint(p0);
             if (line){
-                this.selected = line;
-                this.view.drawAll();
-            }
+                this.selected = line;    
+            } else {
+                if (this.selected instanceof Line) {
+                    this.selected = null;
+                }
+            } 
+            this.view.drawAll();
         };
     
         doc.canvas.onmousemove = (e) => {
