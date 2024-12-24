@@ -45,19 +45,6 @@ export class Ball
     }
 
 
-    toString(): string {
-        let b = this;
-        return JSON.stringify({ 
-            x: +(b.x.toFixed(2)), y: +(b.y.toFixed(2)),
-            vx: +(b.vx.toFixed(2)), vy: +(b.vy.toFixed(2)),
-            radius: +(b.radius.toFixed(2)), color:b.color, m: +(b.m.toFixed(2))}, null, ' ');
-    }
-
-    static fromString(s: string): Ball {
-        let o = JSON.parse(s);
-        return new Ball(o.x, o.y, o.radius, o.color, o.vx, o.vy, o.m);
-    }
-
     // вызывается, когда собраны точки касания
     move(ax: number, ay: number) {
         let ball = this;
