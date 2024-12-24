@@ -50,9 +50,9 @@ export class Box {
         return e | 0;
     }
 
-    get sumMomentum() {
+    get sumImpulse() {
         let e = 0;
-        this.balls.forEach( b => e += b.momentum);
+        this.balls.forEach( b => e += b.impulse);
         return e | 0;
     }
 

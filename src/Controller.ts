@@ -1,4 +1,4 @@
-import { glo, doc } from "./globals.js"; 
+import { glo, doc } from "./globals.js";
 import { Geometry as G, Point } from "./Geometry.js";
 import { Ball } from "./Ball.js";
 import { Line } from "./Line.js";
@@ -6,18 +6,17 @@ import { Link } from "./Link.js";
 import { Box, Mode, CreateMode } from "./Box.js";
 import { PrettyMode, View } from "./View.js";
 
-export class Controller 
-{
+export class Controller {
     box: Box;
     view: View;
-    
+
     private intervalId = 0;
 
-    
+
     constructor(box: Box, view: View) {
         this.box = box;
         this.view = view;
-   
+
         // set state of UI
         this.mode = Mode.Stop;
         this.createMode = CreateMode.Ball;
@@ -33,18 +32,15 @@ export class Controller
     \nDel - delete selected\
     ";
         //
-        this.addListeners();
+        this.addButtonClickListeners();
+        this.addOtherListeners();
 
     }
 
-    // Встановлює поле box.selected 
-    // і відкриває панель параметрів для обраної кулі або лінії
-    //
-    set selected(obj: Ball | Line | Link | null) 
-    {
+    // Встановлює поле box.selected і відкриває панель параметрів для обраної кулі або лінії.
+    set selected(obj: Ball | Line | Link | null) {
         // inner function
-        function show(val: number|string, id: string)
-        {
+        function show(val: number | string, id: string) {
             if (typeof val == 'number')
                 val = val.toFixed(2);
             let el = document.getElementById(id) as HTMLInputElement;
@@ -52,31 +48,27 @@ export class Controller
         }
 
         this.box.selected = obj;
-        
-        if (obj instanceof Ball) 
-        {
+
+        if (obj instanceof Ball) {
             doc.ballBoard.style.display = 'block';
             doc.lineBoard.style.display = 'none';
-            
-            show("Ball", 'nameText');       show(obj.m, 'massaText');
+
+            show("Ball", 'nameText'); show(obj.m, 'massaText');
             show(obj.radius, 'radiusText'); show(obj.color, 'colorText');
-            show(obj.x, 'xText');           show(obj.y, 'yText');
-            show(obj.vx, 'vxText');         show(obj.vy, 'vyText');
-        } 
-        else if (obj instanceof Line) 
-        {
+            show(obj.x, 'xText'); show(obj.y, 'yText');
+            show(obj.vx, 'vxText'); show(obj.vy, 'vyText');
+        }
+        else if (obj instanceof Line) {
             doc.ballBoard.style.display = 'none';
             doc.lineBoard.style.display = 'block';
             show(obj.x1, 'x1Text'); show(obj.y1, 'y1Text');
-            show(obj.x2, 'x2Text'); show(obj.y2, 'y2Text');  
-        } 
-        else 
-        {
+            show(obj.x2, 'x2Text'); show(obj.y2, 'y2Text');
+        }
+        else {
             doc.ballBoard.style.display = 'none';
             doc.lineBoard.style.display = 'none';
         };
     }
-
     get selected() {
         return this.box.selected;
     }
@@ -96,28 +88,26 @@ export class Controller
         doc.modeGlif.className = classAttrNames[mode];
         this.view.drawAll();
     }
-
     get mode(): Mode {
         return this.intervalId ? Mode.Play : Mode.Stop;
     }
 
 
     set createMode(v: CreateMode) {
-        doc.infoSpan.innerHTML = 
-              v === CreateMode.Ball ? "Ball"
-            : v === CreateMode.Line ? "Line"
-            : v === CreateMode.Link ? "Link" : "";
+        doc.infoSpan.innerHTML =
+            v === CreateMode.Ball ? "Ball"
+                : v === CreateMode.Line ? "Line"
+                    : v === CreateMode.Link ? "Link" : "";
 
         // mouse handlers
         if (v === CreateMode.Ball) {
             this.setBallHandlers();
         } else if (v === CreateMode.Line) {
             this.setLineHandlers();
-        }  else if (v === CreateMode.Link) {
+        } else if (v === CreateMode.Link) {
             this.setLinkHandlers();
         }
     }
-
     set mousePos(point: Point) {
         doc.mousePosSpan.innerHTML = `x=${point.x.toFixed(0)} y=${point.y.toFixed(0)}`;
     }
@@ -138,16 +128,13 @@ export class Controller
         doc.rigidRange.value = v;
     }
 
-    addListeners() 
-    {
-        //------------------- button_click --------------------------------------
-
+    addButtonClickListeners() {
         // play-stop toggle
         doc.modeButton.addEventListener("click", () => {
             this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
         });
-   
-    
+
+
         // restart button
         doc.restartButton.addEventListener("click", () => {
             // if (this.curentScene) {
@@ -157,17 +144,15 @@ export class Controller
         });
 
         // ugly-pretty toggle
-        doc.prettyButton.addEventListener("click", () =>
-        {
+        doc.prettyButton.addEventListener("click", () => {
             this.view.prettyMode = this.view.prettyMode === PrettyMode.Draft
-                ? PrettyMode.Beauty 
+                ? PrettyMode.Beauty
                 : PrettyMode.Draft;
             this.view.drawAll();
         });
 
         // clear screen
-        doc.eraseButton.addEventListener("click", () =>
-        {
+        doc.eraseButton.addEventListener("click", () => {
             this.box.balls = [];
             this.box.lines = [];
             this.box.links = [];
@@ -176,56 +161,94 @@ export class Controller
             glo.chronos = 0;
             this.view.drawAll();
         });
-   
+
 
         // inner function
-        function read(id: string): string {               
+        function read(id: string): string {
             return (document.getElementById(id) as HTMLInputElement).value;
-        }    
+        }
 
-        doc.applyBallButton.addEventListener("click", () => 
-        {
+        doc.applyBallButton.addEventListener("click", () => {
             const ball = this.selected as Ball;
             if (ball) {
                 ball.m = +read('massaText');
-                ball.radius = +read('radiusText');  ball.color = read('colorText');                              
-                ball.x = +read('xText');    ball.y = +read('yText');
-                ball.vx = +read('vxText');  ball.vy = +read('vyText');
+                ball.radius = +read('radiusText'); ball.color = read('colorText');
+                ball.x = +read('xText'); ball.y = +read('yText');
+                ball.vx = +read('vxText'); ball.vy = +read('vyText');
             }
             this.view.drawAll();
         });
 
-        doc.applyLineButton.addEventListener("click", () => 
-        {
+        doc.applyLineButton.addEventListener("click", () => {
             const line = this.selected as Line;
-            if (line) {                                 
-                line.x1 = +read('x1Text');    line.y1 = +read('y1Text');
-                line.x2 = +read('x2Text');    line.y2 = +read('v2Text');
+            if (line) {
+                line.x1 = +read('x1Text'); line.y1 = +read('y1Text');
+                line.x2 = +read('x2Text'); line.y2 = +read('v2Text');
             }
             this.view.drawAll();
         });
 
+        doc.saveSceneButton.addEventListener("click", () => {
+            this.box.balls.forEach(b => b.box = null);
+            let o = {
+                balls: this.box.balls,
+                lines: this.box.lines,
+                links: this.box.links.map(l => [l.b1.x, l.b1.y, l.b2.x, l.b2.y]),
+                g: glo.g, W: glo.W, K: glo.K, 
+            };
+            doc.savedSceneArea.value = JSON.stringify(o);
 
+            this.box.balls.forEach(b => b.box = this.box);
+        });
+
+
+        doc.loadSceneButton.addEventListener("click", () => {
+            const o = JSON.parse(doc.savedSceneArea.value);
+            // restore balls
+            this.box.balls = o.balls.map((b: any) => new Ball(b.x, b.y, b.radius, b.color, b.vx, b.vy, b.m));
+            this.box.balls.forEach(b => b.box = this.box);
+            // restore lines
+            this.box.lines = o.lines.map((l: any) => new Line(l.x1, l.y1, l.x2, l.y2));
+            // restore links
+            this.box.links = [];
+            o.links.forEach((arr: number[]) => {
+                let b1 = this.box.ballUnderPoint({ x: arr[0], y: arr[1] });
+                let b2 = this.box.ballUnderPoint({ x: arr[2], y: arr[3] });
+                if (b1 && b2) {
+                    this.box.links.push(new Link(b1, b2));
+                }
+            });
+            // restore globals
+            glo.g = o.g;
+            glo.W = o.W;
+            glo.K = o.K;
+            
+            this.view.drawAll();
+            doc.graviRange.value = glo.g.toString();
+            doc.waistRange.value = glo.W.toString();
+            doc.rigidRange.value = glo.K.toString();
+            
+        });
+
+    }
+
+
+
+    addOtherListeners() {
         //------------------- input_change --------------------------------------
 
-            // update selected ball
-
-        
-        doc.graviRange.addEventListener("change", () =>
-        {
+        doc.graviRange.addEventListener("change", () => {
             glo.g = +doc.graviRange.value;
             doc.graviValue.innerHTML = "G = " + (glo.g / glo.Kg).toFixed(2);
 
         });
 
-        doc.waistRange.addEventListener("change", () =>
-        {
+        doc.waistRange.addEventListener("change", () => {
             glo.W = +doc.waistRange.value;
             doc.waistValue.innerHTML = "W = " + doc.waistRange.value;
         });
 
-        doc.rigidRange.addEventListener("change", () =>
-        {
+        doc.rigidRange.addEventListener("change", () => {
             glo.K = +doc.rigidRange.value;
             doc.rigidValue.innerHTML = "K = " + doc.rigidRange.value;
         });
@@ -233,7 +256,7 @@ export class Controller
         //----------------------------- document_keydown ----------------------------
 
         document.addEventListener("keydown", (e) => {
-            switch(e.key) {
+            switch (e.key) {
                 // stop=play toggle
                 case 'Enter':
                     this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
@@ -260,37 +283,37 @@ export class Controller
 
                 // toggle ball color
                 case 'f': case 'F': case 'а': case 'А':
-                let sel = this.selected;
-                if (!sel)
+                    let sel = this.selected;
+                    if (!sel)
+                        break;
+                    if (sel.constructor === Ball) {
+                        sel.color = sel.color === "red" ? "blue" : "red";
+                        this.view.drawAll();
+                    } else if (sel.constructor === Link) {
+                        sel.transparent = !sel.transparent;
+                        this.view.drawAll();
+                    }
                     break;
-                if (sel.constructor === Ball) {
-                    sel.color = sel.color === "red" ? "blue" : "red";
-                    this.view.drawAll();
-                } else if (sel.constructor === Link) {
-                    sel.transparent = ! sel.transparent;
-                    this.view.drawAll();
-                }
-                break;
 
                 // calibrate
                 case 't': case 'T': case 'е': case 'Е':
-                //this.box.calibrate(this.view.drawAll());
-                break;
+                    //this.box.calibrate(this.view.drawAll());
+                    break;
 
                 // balls
                 case 'b': case 'B': case 'и': case 'И':
-                this.createMode = CreateMode.Ball;
-                break;
+                    this.createMode = CreateMode.Ball;
+                    break;
 
                 // lines
                 case 'l': case 'L': case 'д': case 'Д':
-                this.createMode = CreateMode.Line;
-                break;
+                    this.createMode = CreateMode.Line;
+                    break;
 
                 // links
                 case 'k': case 'K': case 'л': case 'Л':
-                this.createMode = CreateMode.Link;
-                break;
+                    this.createMode = CreateMode.Link;
+                    break;
 
                 // delete selected object
                 case 'Delete':
@@ -312,8 +335,10 @@ export class Controller
 
     private cursorPoint(event: MouseEvent) {
         const canvasRect = doc.canvas.getBoundingClientRect();
-        return {x: event.x - canvasRect.left - this.box.x, 
-                y: event.y - canvasRect.top - this.box.y };
+        return {
+            x: event.x - canvasRect.left - this.box.x,
+            y: event.y - canvasRect.top - this.box.y
+        };
     }
 
     setBallHandlers() {
@@ -321,7 +346,7 @@ export class Controller
         let ball: Ball | null = null;
         let ballVelo: Ball | null = null;
         let isMousePressed = false;
-        
+
         doc.canvas.onmousedown = (e) => {
             isMousePressed = true;
 
@@ -333,16 +358,16 @@ export class Controller
             ball = this.box.ballUnderPoint(p0);
             if (ball) {
                 // в p0 смещение курсора от центра шара
-                p0 = {x: ball.x - p0.x, y: ball.y - p0.y};
-                this.selected = ball;                
+                p0 = { x: ball.x - p0.x, y: ball.y - p0.y };
+                this.selected = ball;
             } else {
                 if (this.selected instanceof Ball) {
                     this.selected = null;
                 }
             }
-            this.view.drawAll();            
+            this.view.drawAll();
         };
-    
+
         doc.canvas.onmousemove = (e) => {
             let p = this.cursorPoint(e);
             this.mousePos = p;
@@ -368,10 +393,10 @@ export class Controller
             this.view.drawAll();
             this.view.drawGrayCircle(p0!, p);
         };
-    
+
         doc.canvas.onmouseup = (e) => {
 
-            if (!ball && !ballVelo) {                
+            if (!ball && !ballVelo) {
                 let p = this.cursorPoint(e);
                 let r = G.distance(p0!, p);
                 if (r > 2) {
@@ -380,28 +405,28 @@ export class Controller
                     this.box.addBall(newBall);
                     this.selected = newBall;
                 }
-            }            
+            }
             this.view.drawAll();
             isMousePressed = false;
         }
     }
-    
+
     setLineHandlers() {
         let p0: Point | null = null;
-    
+
         doc.canvas.onmousedown = (e) => {
             p0 = this.cursorPoint(e);
             let line = this.box.lineUnderPoint(p0);
-            if (line){
-                this.selected = line;    
+            if (line) {
+                this.selected = line;
             } else {
                 if (this.selected instanceof Line) {
                     this.selected = null;
                 }
-            } 
+            }
             this.view.drawAll();
         };
-    
+
         doc.canvas.onmousemove = (e) => {
             let p = this.cursorPoint(e);
             this.mousePos = p;
@@ -410,15 +435,15 @@ export class Controller
                 this.view.drawAll();
                 this.view.drawGrayLine(p0, p);
             }
-            
+
         };
-    
+
         doc.canvas.onmouseup = (e) => {
             if (p0 === null)
                 return;
             let p = this.cursorPoint(e);
             if (G.distance(p0, p) > 2) {
-    
+
                 let l = new Line(p0.x, p0.y, p.x, p.y);
                 this.box.addLine(l);
                 this.selected = l;
@@ -427,13 +452,12 @@ export class Controller
             this.view.drawAll();
         };
     }
-    
-    
+
     setLinkHandlers() {
         let lastClickedBall: Ball | null = null;
-    
+
         doc.canvas.onmousedown = (e) => {
-            
+
             let p = this.cursorPoint(e);
 
             let ball = this.box.ballUnderPoint(p);
@@ -445,22 +469,22 @@ export class Controller
                 lastClickedBall = ball;
                 return;
             }
-            
+
             let link = new Link(lastClickedBall, ball);
             this.box.addLink(link);
             this.selected = link;
             lastClickedBall = null;
             this.view.drawAll();
         };
-    
+
         doc.canvas.onmousemove = (e) => {
             this.mousePos = this.cursorPoint(e);
         };
-    
+
         doc.canvas.onmouseup = (e) => {
         }
     }
-    
+
 }
 
 

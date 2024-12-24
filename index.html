@@ -9,8 +9,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   
-  <link rel="stylesheet" href="index.css" />
-    
+  <link rel="stylesheet" href="index.css" />   
 </head>
 
 <body>
@@ -75,17 +74,16 @@
       </div>
 
 
-      <canvas id="canvas" width="1150" height="600" ></canvas>
+      <canvas id="canvas" width="800" height="600" ></canvas>
     </div>
 
-    <!-- <div class="panel panel-default">
-        <button id="saveSceneButton" class="btn btn-sm" title="Save the scene"><span class="glyphicon glyphicon-save"> </span></button>
-        <input type="text" id="scenesExportText">
-        <button id="importScenesButton" class="btn btn-sm" title="Import scenes" scenes><span class="glyphicon glyphicon-import"> </span></button>
-        <button id="exportScenesButton" class="btn btn-sm" title="Export all scenes"><span class="glyphicon glyphicon-export"> </span></button>
+    <div class="panel panel-default">
+      <button id="saveSceneButton" class="btn btn-sm" title="Export scene"><span class="glyphicon glyphicon-import"> </span></button>
+      <textarea id="savedSceneText"></textarea>
+      <button id="loadSceneButton" class="btn btn-sm" title="Import scene"><span class="glyphicon glyphicon-export"> </span></button>   
     </div>
 
-
+<!-- 
     <div id="scenesDiv"> </div>
 
   <div class="container" id="sceneAttrs" >

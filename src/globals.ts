@@ -1,4 +1,4 @@
-export const glo = 
+export let glo = 
 {
     W: 0.5,    // conservation of energу when two balls strikes ( 1 - no loss)
     Wl: 0.99,  // conservation of energу when link reacts ( 1 - no loss)
@@ -28,7 +28,6 @@ export const doc =
     prettyButton: <HTMLButtonElement>document.getElementById("prettyButton"),
     updateButton: <HTMLButtonElement>document.getElementById("updateButton"),
     eraseButton: <HTMLButtonElement>document.getElementById("eraseButton"),
-    saveSceneButton: <HTMLButtonElement>document.getElementById("saveSceneButton"),
     graviRange: <HTMLInputElement>document.getElementById("graviRange"),  //
     waistRange: <HTMLInputElement>document.getElementById("waistRange"),
     rigidRange: <HTMLInputElement>document.getElementById("rigidRange"),
@@ -52,13 +51,13 @@ export const doc =
     greenBallImg: <HTMLImageElement>document.getElementById("greenBallImg"),
     blueBallImg: <HTMLImageElement>document.getElementById("blueBallImg"),
 
-
+    saveSceneButton: <HTMLButtonElement>document.getElementById("saveSceneButton"),
+    loadSceneButton: <HTMLButtonElement>document.getElementById("loadSceneButton"),
+    savedSceneArea: <HTMLTextAreaElement>document.getElementById("savedSceneText"),  
     
 
     // header: document.getElementById("header"),
-    // exportScenesButton: document.getElementById("exportScenesButton"),
-    // importScenesButton: document.getElementById("importScenesButton"),
-    // scenesExportText: document.getElementById("scenesExportText"),  
+    
 }
 
 export const world = {

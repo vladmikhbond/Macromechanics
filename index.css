@@ -1,8 +1,3 @@
-#ballDefinition,
-#scenesExportText
-{
-    width: 650px;
-}
 
 input[type=range]
 {
@@ -38,19 +33,6 @@ input[type=range]+label
     display: inline;
 }
 
-#scenesDiv {
-    height: 80px;
-    margin-bottom: -10px;
-}
-
-#sceneAttrs {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: 230px;
-    width: 60%;
-    height: 500px;
-}
 
 .form-group {
     width: 100%;
@@ -89,3 +71,22 @@ input[type=range]+label
     display: none; 
 }
 
+/* #scenesDiv {
+    height: 80px;
+    margin-bottom: -10px;
+} */
+
+#savedSceneText
+{
+    width: 650px;
+}
+
+
+/* #sceneAttrs {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: 230px;
+    width: 60%;
+    height: 500px;
+} */
