@@ -64,10 +64,12 @@ export class Controller {
             show(obj.x1, 'x1Text'); show(obj.y1, 'y1Text');
             show(obj.x2, 'x2Text'); show(obj.y2, 'y2Text');
         }
-        else {
+        else 
+        {
             doc.ballBoard.style.display = 'none';
             doc.lineBoard.style.display = 'none';
         };
+        this.view.drawAll();
     }
     get selected() {
         return this.box.selected;
@@ -365,7 +367,7 @@ export class Controller {
                     this.selected = null;
                 }
             }
-            this.view.drawAll();
+            // this.view.drawAll();
         };
 
         doc.canvas.onmousemove = (e) => {
@@ -424,7 +426,7 @@ export class Controller {
                     this.selected = null;
                 }
             }
-            this.view.drawAll();
+            // this.view.drawAll();
         };
 
         doc.canvas.onmousemove = (e) => {
@@ -463,6 +465,14 @@ export class Controller {
             let ball = this.box.ballUnderPoint(p);
 
             if (ball === null || ball === lastClickedBall) {
+                let link = this.box.linkUnderPoint(p);
+                if (link) {
+                    this.selected = link;
+                } else {
+                    if (this.selected instanceof Link) {
+                        this.selected = null;
+                    }
+                }
                 return;
             }
             if (lastClickedBall === null) {

@@ -158,6 +158,16 @@ export class Box {
         this.links.splice(idx, 1);
     }
 
+    // find a link under point
+    linkUnderPoint(point: Point) {
+        for (let link of this.links) {
+            let line = new Line(link.x1, link.y1, link.x2, link.y2);
+            if (G.distToInfiniteLine(point, line) < 5 && G.cross(point, line)) {
+                return link;
+            }
+        }
+        return null;
+    }
 
 //#endregion
 
