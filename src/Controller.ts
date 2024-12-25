@@ -21,7 +21,7 @@ export class Controller {
         this.mode = Mode.Stop;
         this.createMode = CreateMode.Ball;
 
-        doc.infoSpan.title = "Клавиши:\
+        doc.infoSpan.title = "Клавіші:\
     \nB - balls\
     \nL - lines\
     \nK - links\
@@ -86,8 +86,8 @@ export class Controller {
             this.intervalId = 0;
         }
         // UI
-        const classAttrNames = ["glyphicon glyphicon-play", "glyphicon glyphicon-pause"];
-        doc.modeGlif.className = classAttrNames[mode];
+        let icon = mode === Mode.Play ? "stop-fill.svg" : "play-fill.svg";
+        (doc.modeButton.children[0] as HTMLImageElement).src = "/assets/icons/" + icon;
         this.view.drawAll();
     }
     get mode(): Mode {
@@ -135,7 +135,6 @@ export class Controller {
         doc.modeButton.addEventListener("click", () => {
             this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
         });
-
 
         // restart button
         doc.restartButton.addEventListener("click", () => {
@@ -196,7 +195,7 @@ export class Controller {
                 balls: this.box.balls,
                 lines: this.box.lines,
                 links: this.box.links.map(l => [l.b1.x, l.b1.y, l.b2.x, l.b2.y]),
-                g: glo.g, W: glo.W, K: glo.K, 
+                g: glo.g, W: glo.W,  Wl: glo.Wl, K: glo.K, 
             };
             doc.savedSceneArea.value = JSON.stringify(o);
 
@@ -223,6 +222,7 @@ export class Controller {
             // restore globals
             glo.g = o.g;
             glo.W = o.W;
+            glo.Wl = o.Wl;
             glo.K = o.K;
             
             this.view.drawAll();

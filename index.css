@@ -1,11 +1,11 @@
-
 input[type=range]
 {
-    width: 126px;
+    width: 100px;
     height: 14px;
     display: inline;
     margin: 5px 0px 0px 5px;
 }
+
 input[type=range]+label
 {
     width: 80px;
@@ -18,25 +18,11 @@ input[type=range]+label
     padding: 5px 10px 5px 10px;
 }
 
-#redBallImg, #blueBallImg, #greenBallImg {
-    display: none
-}
-
 .panel {
      margin-bottom: 10px;
 }
-.thumbnail {
-    width: 120px;
-    height: 70px;
-    border: none;
-    margin-right: 5px;
-    display: inline;
-}
 
 
-.form-group {
-    width: 100%;
-}
 
 .canvas-cont {
     position: relative;
@@ -71,22 +57,12 @@ input[type=range]+label
     display: none; 
 }
 
-/* #scenesDiv {
-    height: 80px;
-    margin-bottom: -10px;
-} */
 
 #savedSceneText
 {
     width: 650px;
 }
 
-
-/* #sceneAttrs {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: 230px;
-    width: 60%;
-    height: 500px;
-} */
+#modeButton {
+    background-image: image('./assets/icons/play-fill.svg');
+}

@@ -3,7 +3,7 @@ export let glo =
     W: 0.5,    // conservation of energу when two balls strikes ( 1 - no loss)
     Wl: 0.99,  // conservation of energу when link reacts ( 1 - no loss)
 
-    K: 0.1,    // m W odulus of elasticity (1 - absolutely solid)
+    K: 0.1,    // modulus of elasticity of a ball (1 - absolutely solid)
     
     g: 0.001,  // acceleration of gravity   0.002 = 1 g;
     

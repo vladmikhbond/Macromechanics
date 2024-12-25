@@ -54,6 +54,7 @@ export class Ball
         // суммируем ускорения от реакций точек касания
         for (let dot of ball.dots) {
             let bolDotDistance = G.distance(ball, dot);
+            // differential of radius
             let dr = ball.radius - bolDotDistance;
             // единичный вектор
             let u = G.unit(dot, ball, bolDotDistance);

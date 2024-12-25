@@ -11,7 +11,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-
-  "type": "module"
-
+  "type": "module",
+  "dependencies": {
+    "bootstrap-icons": "^1.11.3"
+  }
 }
