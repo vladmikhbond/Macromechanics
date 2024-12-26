@@ -42,10 +42,9 @@ export class View
             let x = this.box.x + b.x, y = this.box.y + b.y;
             if (b.dots && b.dots.length > 0) {
                 let dot = b.dots[0];
-                // показываем деформацию
+                // show the deformation of the ball
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
                 let kr = (G.distance(dot, b) / b.radius) ** 0.5; // зведення **0.5 наближає kr до 1 
-                //kr = 1 + (kr - 1) / 10;  /////////////////////////////////////
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.rotate(alpha);
@@ -133,9 +132,9 @@ export class View
 
             if (b.dots && b.dots.length > 0) {
                 let dot = b.dots[0];
-                // показываем деформацию
+                // show the deformation of the ball
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
-                let kr = (G.distance(dot, b) / b.radius)**0.5;
+                let kr = (G.distance(dot, b) / b.radius)**0.5; // зведення **0.5 наближає kr до 1 
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.rotate(alpha);

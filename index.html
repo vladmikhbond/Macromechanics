@@ -20,6 +20,7 @@
 
     <!---------------------- top panel ---------------------->
     <div class="panel">
+      <span id="infoSpan"></span>
       <button id="modeButton" class="btn btn-sm btn-success" title="Start / Stop">
         <img src="/assets/icons/play-fill.svg" width="16" height="16">
       </button>
@@ -30,7 +31,6 @@
             d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
         </svg>
       </button>
-
       <button id="prettyButton" class="btn btn-sm" title="Debug / Exec">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half"
           viewBox="0 0 16 16">
@@ -44,7 +44,7 @@
             d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293z" />
         </svg>
       </button>
-      <span id="infoSpan"></span>
+
       <span id="mousePosSpan"></span>
 
       <div>
@@ -66,60 +66,59 @@
       </div>
     </div>
 
-
-
-
     <div class="canvas-cont">
 
       <!-- Ball Board -->
       <div id="ballBoard" class="canvas-item">
         <div>
-          <span class="dash-label">Name </span> <input id="nameText" class="dash-text" title="Name" />
-          <span class="dash-label">Massa </span> <input id="massaText" class="dash-text" title="Massa" />
+          <span class="board-label">X </span> <input id="xText" class="board-text" title="X coordinate" />
+          <span class="board-label">Y </span> <input id="yText" class="board-text" title="Y coordinate" />
         </div>
         <div>
-          <span class="dash-label">Radius </span> <input id="radiusText" class="dash-text" title="Radius" />
-          <span class="dash-label">Color </span> <input id="colorText" class="dash-text" title="Color" />
-        </div>
-        <p>
-        <div>
-          <span class="dash-label">X </span> <input id="xText" class="dash-text" title="X coordinate" />
-          <span class="dash-label">Y </span> <input id="yText" class="dash-text" title="Y coordinate" />
+          <span class="board-label">Vx </span> <input id="vxText" class="board-text" title="Vx velocity" />
+          <span class="board-label">Vy </span> <input id="vyText" class="board-text" title="Vy velocity" />
+        </div>        <div>
+          <span class="board-label">Massa </span> <input id="massaText" class="board-text" title="Massa" />
+          <span class="board-label">Radius </span> <input id="radiusText" class="board-text" title="Radius" />
         </div>
         <div>
-          <span class="dash-label">Vx </span> <input id="vxText" class="dash-text" title="Vx velocity" />
-          <span class="dash-label">Vy </span> <input id="vyText" class="dash-text" title="Vy velocity" />
+          <span class="board-label">Color </span> <input id="colorText" class="board-text" title="Color" />
+          <span class="board-label"> </span> <button id="applyBallButton" class="board-button">Apply</button>
         </div>
-        <button id="applyBallButton" class="dash-btn">Apply</button>
       </div>
 
       <!-- Line Board -->
       <div id="lineBoard" class="canvas-item">
         <div>
-          <span class="dash-label">X1 </span> <input id="x1Text" class="dash-text" title="X1 coordinate" />
-          <span class="dash-label">Y1 </span> <input id="y1Text" class="dash-text" title="Y1 coordinate" />
+          <span class="board-label">X1 </span> <input id="x1Text" class="board-text" title="X1 coordinate" />
+          <span class="board-label">Y1 </span> <input id="y1Text" class="board-text" title="Y1 coordinate" />
         </div>
         <div>
-          <span class="dash-label">X2 </span> <input id="x2Text" class="dash-text" title="X2 coordinate" />
-          <span class="dash-label">Y2 </span> <input id="y2Text" class="dash-text" title="Y2 coordinate" />
+          <span class="board-label">X2 </span> <input id="x2Text" class="board-text" title="X2 coordinate" />
+          <span class="board-label">Y2 </span> <input id="y2Text" class="board-text" title="Y2 coordinate" />
         </div>
-        <button id="applyLineButton" class="dash-btn">Apply</button>
+        <div>
+          <button id="applyLineButton" class="board-button" style="float: right;">Apply</button>
+        </div>
       </div>
 
       <canvas id="canvas" width="800" height="600"></canvas>
 
     </div>
+
     <!------------------ bottom panel ---------------->
-    <div class="panel">
-      <button id="saveSceneButton" class="btn btn-sm btn-primary" title="Export scene">
+    <div>
+      <button id="saveSceneButton" class="btn btn-sm btn-primary scene-btn" title="Export scene">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
           class="bi bi-arrow-down-right-square-fill" viewBox="0 0 16 16">
           <path
             d="M14 16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2zM5.904 5.197 10 9.293V6.525a.5.5 0 0 1 1 0V10.5a.5.5 0 0 1-.5.5H6.525a.5.5 0 0 1 0-1h2.768L5.197 5.904a.5.5 0 0 1 .707-.707" />
         </svg>
       </button>
+
       <textarea id="savedSceneText"></textarea>
-      <button id="loadSceneButton" class="btn btn-sm btn-primary" title="Import scene">
+
+      <button id="loadSceneButton" class="zzz btn btn-sm btn-primary scene-btn" title="Import scene">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
           class="bi bi-arrow-up-right-square-fill" viewBox="0 0 16 16">
           <path

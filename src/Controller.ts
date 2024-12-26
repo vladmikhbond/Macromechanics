@@ -53,7 +53,7 @@ export class Controller {
             doc.ballBoard.style.display = 'block';
             doc.lineBoard.style.display = 'none';
 
-            show("Ball", 'nameText'); show(obj.m, 'massaText');
+            show(obj.m, 'massaText');
             show(obj.radius, 'radiusText'); show(obj.color, 'colorText');
             show(obj.x, 'xText'); show(obj.y, 'yText');
             show(obj.vx, 'vxText'); show(obj.vy, 'vyText');
@@ -224,12 +224,18 @@ export class Controller {
             glo.W = o.W;
             glo.Wl = o.Wl;
             glo.K = o.K;
-            
+
+            // view 
             this.view.drawAll();
             doc.graviRange.value = glo.g.toString();
             doc.waistRange.value = glo.W.toString();
+            doc.waistLinkRange.value = glo.Wl.toString();
             doc.rigidRange.value = glo.K.toString();
-            
+            doc.graviRange.dispatchEvent(new Event("change"));
+            doc.waistRange.dispatchEvent(new Event("change"));
+            doc.waistLinkRange.dispatchEvent(new Event("change"));
+            doc.rigidRange.dispatchEvent(new Event("change"));
+            this.mode = Mode.Stop;
         });
 
     }
