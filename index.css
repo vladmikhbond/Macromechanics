@@ -1,3 +1,4 @@
+/* <!---------------------- top panel ----------------------> */
 .panel {
     border: solid gray 1px;   
     width: 800px;
@@ -26,8 +27,12 @@ input[type=range]+label
     border: blue solid 2px;
     padding: 1px 10px 2px 10px;
     font-weight: 500;
-}
 
+}
+#mousePosSpan {
+    float: right;
+    margin-right: 10px;
+}
 
 /* ----------------- Canvas Containeer -------------------------- */
 .canvas-cont {
@@ -73,6 +78,7 @@ input[type=range]+label
     color: gray
 }
 
+/* <!------------------ bottom panel ----------------> */
 #savedSceneText
 {
     width: 720px;

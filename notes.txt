@@ -4,6 +4,7 @@ https://icons.getbootstrap.com/
 
 
 перевірити усі кнопки
+help
 
 
 scriptFunc - remove
