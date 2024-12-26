@@ -1,4 +1,4 @@
-import { glo } from "./globals.js"; 
+import { glo, doc } from "./globals.js"; 
 import { Geometry as G, Point} from "./Geometry.js"; 
 import { Ball, Dot } from "./Ball.js"
 import { Line } from "./Line.js";
@@ -346,4 +346,45 @@ export class Box {
     }
 
 //#endregion
+
+//#region Json
+
+
+    toJson() {
+        this.balls.forEach(b => b.box = null);
+        let o = {
+            balls: this.balls,
+            lines: this.lines,
+            links: this.links.map(l => [l.b1.x, l.b1.y, l.b2.x, l.b2.y]),
+            g: glo.g, W: glo.W,  Wl: glo.Wl, K: glo.K, 
+        };
+        let json = JSON.stringify(o);
+        this.balls.forEach(b => b.box = this);  
+        return json;  
+    }
+
+    fromJson(json: string) {
+        const o = JSON.parse(json);
+        // restore balls
+        this.balls = o.balls.map((b: any) => new Ball(b.x, b.y, b.radius, b.color, b.vx, b.vy, b.m));
+        this.balls.forEach(b => b.box = this);
+        // restore lines
+        this.lines = o.lines.map((l: any) => new Line(l.x1, l.y1, l.x2, l.y2));
+        // restore links
+        this.links = [];
+        o.links.forEach((arr: number[]) => {
+            let b1 = this.ballUnderPoint({ x: arr[0], y: arr[1] });
+            let b2 = this.ballUnderPoint({ x: arr[2], y: arr[3] });
+            if (b1 && b2) {
+                this.links.push(new Link(b1, b2));
+            }
+        });
+        // restore globals
+        glo.g = o.g;
+        glo.W = o.W;
+        glo.Wl = o.Wl;
+        glo.K = o.K;
+    }
+//#endregion
 }
+

@@ -9,8 +9,8 @@ import { PrettyMode, View } from "./View.js";
 export class Controller {
     box: Box;
     view: View;
-
     private intervalId = 0;
+    sceneJson = "";
 
 
     constructor(box: Box, view: View) {
@@ -20,21 +20,10 @@ export class Controller {
         // set state of UI
         this.mode = Mode.Stop;
         this.createMode = CreateMode.Ball;
-
-        doc.infoSpan.title = "Клавіші:\
-    \nB - balls\
-    \nL - lines\
-    \nK - links\
-    \nC - copy selected\
-    \nF - fixed ball\
-    \nS - step\
-    \nT - calibrate\
-    \nDel - delete selected\
-    ";
-        //
+        this.resetUI();
+        
         this.addButtonClickListeners();
         this.addOtherListeners();
-
     }
 
     // Встановлює поле box.selected і відкриває панель параметрів для обраної кулі або лінії.
@@ -81,6 +70,7 @@ export class Controller {
                 this.box.step();
                 this.view.drawAll();
             }, glo.INTERVAL);
+            this.sceneJson = this.box.toJson();
         } else {
             clearInterval(this.intervalId);
             this.intervalId = 0;
@@ -130,7 +120,8 @@ export class Controller {
         doc.rigidRange.value = v;
     }
 
-    addButtonClickListeners() {
+    addButtonClickListeners() 
+    {      
         // play-stop toggle
         doc.modeButton.addEventListener("click", () => {
             this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
@@ -138,9 +129,10 @@ export class Controller {
 
         // restart button
         doc.restartButton.addEventListener("click", () => {
-            // if (this.curentScene) {
-            //     this.curentScene.restore();   
-            // }
+            if (this.sceneJson) {
+                this.box.fromJson(this.sceneJson);
+                this.resetUI();
+            }
             this.mode = Mode.Stop;
         });
 
@@ -190,57 +182,30 @@ export class Controller {
         });
 
         doc.saveSceneButton.addEventListener("click", () => {
-            this.box.balls.forEach(b => b.box = null);
-            let o = {
-                balls: this.box.balls,
-                lines: this.box.lines,
-                links: this.box.links.map(l => [l.b1.x, l.b1.y, l.b2.x, l.b2.y]),
-                g: glo.g, W: glo.W,  Wl: glo.Wl, K: glo.K, 
-            };
-            doc.savedSceneArea.value = JSON.stringify(o);
-
-            this.box.balls.forEach(b => b.box = this.box);
+            doc.savedSceneArea.value = this.box.toJson();
         });
 
 
         doc.loadSceneButton.addEventListener("click", () => {
-            const o = JSON.parse(doc.savedSceneArea.value);
-            // restore balls
-            this.box.balls = o.balls.map((b: any) => new Ball(b.x, b.y, b.radius, b.color, b.vx, b.vy, b.m));
-            this.box.balls.forEach(b => b.box = this.box);
-            // restore lines
-            this.box.lines = o.lines.map((l: any) => new Line(l.x1, l.y1, l.x2, l.y2));
-            // restore links
-            this.box.links = [];
-            o.links.forEach((arr: number[]) => {
-                let b1 = this.box.ballUnderPoint({ x: arr[0], y: arr[1] });
-                let b2 = this.box.ballUnderPoint({ x: arr[2], y: arr[3] });
-                if (b1 && b2) {
-                    this.box.links.push(new Link(b1, b2));
-                }
-            });
-            // restore globals
-            glo.g = o.g;
-            glo.W = o.W;
-            glo.Wl = o.Wl;
-            glo.K = o.K;
-
+            this.box.fromJson(doc.savedSceneArea.value);
             // view 
-            this.view.drawAll();
-            doc.graviRange.value = glo.g.toString();
-            doc.waistRange.value = glo.W.toString();
-            doc.waistLinkRange.value = glo.Wl.toString();
-            doc.rigidRange.value = glo.K.toString();
-            doc.graviRange.dispatchEvent(new Event("change"));
-            doc.waistRange.dispatchEvent(new Event("change"));
-            doc.waistLinkRange.dispatchEvent(new Event("change"));
-            doc.rigidRange.dispatchEvent(new Event("change"));
+            this.resetUI()
             this.mode = Mode.Stop;
         });
 
     }
 
-
+    resetUI() {
+        this.view.drawAll();
+        doc.graviRange.value = glo.g.toString();
+        doc.waistRange.value = glo.W.toString();
+        doc.waistLinkRange.value = glo.Wl.toString();
+        doc.rigidRange.value = glo.K.toString();
+        doc.graviRange.dispatchEvent(new Event("change"));
+        doc.waistRange.dispatchEvent(new Event("change"));
+        doc.waistLinkRange.dispatchEvent(new Event("change"));
+        doc.rigidRange.dispatchEvent(new Event("change"));           
+    }
 
     addOtherListeners() {
         //------------------- input_change --------------------------------------
