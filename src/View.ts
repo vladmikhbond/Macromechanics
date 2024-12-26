@@ -44,7 +44,8 @@ export class View
                 let dot = b.dots[0];
                 // показываем деформацию
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
-                let kr = G.distance(dot, b) / b.radius;
+                let kr = (G.distance(dot, b) / b.radius) ** 0.5; // зведення **0.5 наближає kr до 1 
+                //kr = 1 + (kr - 1) / 10;  /////////////////////////////////////
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.rotate(alpha);
@@ -134,7 +135,7 @@ export class View
                 let dot = b.dots[0];
                 // показываем деформацию
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
-                let kr = G.distance(dot, b) / b.radius;
+                let kr = (G.distance(dot, b) / b.radius)**0.5;
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.rotate(alpha);

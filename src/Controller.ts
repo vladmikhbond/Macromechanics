@@ -250,6 +250,11 @@ export class Controller {
             doc.waistValue.innerHTML = "W = " + doc.waistRange.value;
         });
 
+        doc.waistLinkRange.addEventListener("change", () => {
+            glo.Wl = +doc.waistLinkRange.value;
+            doc.waistLinkValue.innerHTML = "Wl = " + doc.waistLinkRange.value;
+        });
+
         doc.rigidRange.addEventListener("change", () => {
             glo.K = +doc.rigidRange.value;
             doc.rigidValue.innerHTML = "K = " + doc.rigidRange.value;
