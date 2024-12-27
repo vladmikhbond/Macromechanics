@@ -28,7 +28,8 @@ export const doc =
     prettyButton: <HTMLButtonElement>document.getElementById("prettyButton"),
     updateButton: <HTMLButtonElement>document.getElementById("updateButton"),
     eraseButton: <HTMLButtonElement>document.getElementById("eraseButton"),
-    graviRange: <HTMLInputElement>document.getElementById("graviRange"),  //
+    helpButton: <HTMLButtonElement>document.getElementById("helpButton"),
+    graviRange: <HTMLInputElement>document.getElementById("graviRange"),  
     waistRange: <HTMLInputElement>document.getElementById("waistRange"),
     waistLinkRange: <HTMLInputElement>document.getElementById("waistLinkRange"),
     rigidRange: <HTMLInputElement>document.getElementById("rigidRange"),

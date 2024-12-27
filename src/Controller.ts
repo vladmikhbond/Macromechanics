@@ -155,6 +155,12 @@ export class Controller {
             this.view.drawAll();
         });
 
+        // help
+        doc.helpButton.addEventListener("click", () => {
+            window.open("./help.html", );
+            
+        });
+    
 
         // inner function
         function read(id: string): string {

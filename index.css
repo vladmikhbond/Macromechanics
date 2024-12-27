@@ -1,7 +1,15 @@
 /* <!---------------------- top panel ----------------------> */
 .panel {
-    border: solid gray 1px;   
+    border: solid gray 1px; 
+    padding: 5px;  
     width: 800px;
+}
+
+.panel-button {
+    border: solid gray 1px; 
+    width: 40px;
+    margin-left: 20px;
+    font-weight: 700;;
 }
 
 input[type=range]
@@ -47,10 +55,11 @@ input[type=range]+label
 /* -----------------  Board Styles -------------------------- */
 
 #ballBoard, #lineBoard {
-    border: solid black 1px;
+    border: solid 1px;
+    border-color: rgb(117 190 218 / 60%);
     font-family: monospace;
     font-weight: 800;
-    color: black;
+    color: gray;
     padding: 5px;
     background-color: rgb(117 190 218 / 10%);  
     display: none; 
@@ -62,13 +71,15 @@ input[type=range]+label
     margin-bottom: 3px;
     background-color: rgb(117 190 218 / 0%); 
     border-color: rgb(117 190 218 / 60%);
+
 }
 
 .board-button {
     width: 70px;
-    background-color: rgb(0 0 0 / 10%);  
+    background-color: rgb(0 0 0 / 10%);
+    border-color: rgb(117 190 218 / 60%); 
+    color: gray;
 }
-
 
 .board-label {
     width: 55px;
