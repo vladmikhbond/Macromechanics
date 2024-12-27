@@ -8,10 +8,10 @@ export let glo =
     g: 0.001,  // acceleration of gravity   0.002 = 1 g;
     
 
-    INTERVAL: 30,
+    INTERVAL: 10,
     chronos: 0,  // in ticks (1 sec = 1000/INTERVAL ticks)
 
-    REPEATER: 1,
+    REPEATER: 2,
 
 
     
@@ -41,19 +41,14 @@ export const doc =
     infoSpan: <HTMLSpanElement>document.getElementById("infoSpan"),
     mousePosSpan: <HTMLSpanElement>document.getElementById("mousePosSpan"),
     modeGlif: <HTMLSpanElement>document.getElementById("modeGlif"),
-
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
-    
-
     ballBoard: <HTMLDivElement>document.getElementById("ballBoard"),
     lineBoard: <HTMLDivElement>document.getElementById("lineBoard"),
     applyBallButton: <HTMLButtonElement>document.getElementById("applyBallButton"),
     applyLineButton: <HTMLButtonElement>document.getElementById("applyLineButton"),
-
     redBallImg: <HTMLImageElement>document.getElementById("redBallImg"),
     greenBallImg: <HTMLImageElement>document.getElementById("greenBallImg"),
     blueBallImg: <HTMLImageElement>document.getElementById("blueBallImg"),
-
     saveSceneButton: <HTMLButtonElement>document.getElementById("saveSceneButton"),
     loadSceneButton: <HTMLButtonElement>document.getElementById("loadSceneButton"),
     savedSceneArea: <HTMLTextAreaElement>document.getElementById("savedSceneText"),  

@@ -11,6 +11,7 @@ export class Controller {
     view: View;
     private intervalId = 0;
     sceneJson = "";
+    _mousePos = new Point(0, 0);
 
 
     constructor(box: Box, view: View) {
@@ -100,8 +101,13 @@ export class Controller {
             this.setLinkHandlers();
         }
     }
+
     set mousePos(point: Point) {
+        this._mousePos = point;
         doc.mousePosSpan.innerHTML = `x=${point.x.toFixed(0)} y=${point.y.toFixed(0)}`;
+    }
+    get mousePos(): Point {
+        return this._mousePos
     }
 
     set g(v: string) {
@@ -255,12 +261,11 @@ export class Controller {
 
                 // copy selected ball
                 case 'c': case 'C': case 'с': case 'С':
-                    if (this.selected && this.selected.constructor === Ball) {
+                    if (this.selected instanceof Ball) {
                         let s = this.selected;
-                        let p = this.mousePos!;
-                        let b = new Ball(p.x, p.y, s.radius, s.color, s.vx, s.vy, s.m);
-                        this.box.addBall(b);
-                        this.selected = b;
+                        let ball = new Ball(this.mousePos.x, this.mousePos.y, s.radius, s.color, s.vx, s.vy, s.m);
+                        this.box.addBall(ball);
+                        this.selected = ball;
                         this.view.drawAll();
                     }
                     break;
