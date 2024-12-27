@@ -87,7 +87,7 @@ export class Controller {
 
 
     set createMode(v: CreateMode) {
-        doc.infoSpan.innerHTML =
+        doc.modeSpan.innerHTML =
             v === CreateMode.Ball ? "Ball"
                 : v === CreateMode.Line ? "Line"
                     : v === CreateMode.Link ? "Link" : "";
@@ -483,9 +483,3 @@ export class Controller {
     }
 
 }
-
-
-
-
-
-

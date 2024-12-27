@@ -65,8 +65,6 @@ export class Ball
             // модуль упругости зависит от фазы - сжатие или расжатие шара
             let scalar = G.scalar(new Point(ball.vx, ball.vy), u);
 
-           
-
             let k = scalar > 0 ? glo.K * w : glo.K;
 
             ax += k * dr * u.x;

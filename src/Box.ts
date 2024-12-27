@@ -1,9 +1,8 @@
-import { glo, doc } from "./globals.js"; 
+import { glo } from "./globals.js"; 
 import { Geometry as G, Point} from "./Geometry.js"; 
 import { Ball, Dot } from "./Ball.js"
 import { Line } from "./Line.js";
 import { Link } from "./Link.js";
-
 
 export enum Mode {Stop, Play};
 export enum CreateMode {Ball, Line, Link};
@@ -18,11 +17,7 @@ export class Box {
     border: Line[];
     links: Link[] = [];
 
-    scriptFunc: Function = function t() {};
-
     selected: Ball | Line | Link | null = null;
-
-   
 
     constructor(x: number, y: number, w: number, h: number) {
         this.x = x;
@@ -37,12 +32,6 @@ export class Box {
             new Line(0, h, 0, 0), // left
         ];
     }
-
-    setScriptFunc(body: string) {
-        if (!body) body = "";
-        this.scriptFunc = new Function("t", body);
-    }
-
 
     get sumEnergy() {
         let e = 0;
@@ -114,7 +103,6 @@ export class Box {
         }
         return null;
     }
-    
 
 //#endregion
 
@@ -173,30 +161,6 @@ export class Box {
 
 //#region Mechanics
 
-    // деформация  шара тем больше, чем больше масса противоположного шара
-    // деформации задают не силы (силы должны быть равны), а ускорения шаров
-    //
-    private static touchBallDot(b1: Ball, b2: Ball): Dot | null
-    {
-        let d = G.distance(b1, b2);
-        // шары далеко
-        if (d > b1.radius + b2.radius)
-            return null;
-        // ширина области деформации (области пересечения окружностей)
-        let delta = b1.radius + b2.radius - d;
-        // доля деформации для шара b2
-        let delta2 = delta * b1.m / (b1.m + b2.m);
-
-        // отношение расстояние от b1 до точки касания к расстоянию между шарами
-        let k = (d - b2.radius + delta2) / d;
-
-        // координаты точки касания
-        let x = b1.x + (b2.x - b1.x) * k;
-        let y = b1.y + (b2.y - b1.y) * k;
-        return new Dot(new Point (x, y));
-    }
-
-
     step() {
         
         for (let i = 0; i < glo.REPEATER; i++) {
@@ -210,11 +174,6 @@ export class Box {
             this.balls.forEach( b => b.move(0, glo.g) )
         }
         glo.chronos++;
-
-        // invoke scriptFunc 2 times per sec
-        if (glo.chronos % (500/glo.INTERVAL | 0) === 0 && this.scriptFunc) {
-            this.scriptFunc(glo.chronos / 500 * glo.INTERVAL | 0);
-        }
     }
 
     // собирает на шары точки касания с отрезками (в т.ч. с границами)
@@ -255,6 +214,29 @@ export class Box {
                 }
             }
         }
+    }
+
+    // деформация  шара тем больше, чем больше масса противоположного шара
+    // деформации задают не силы (силы должны быть равны), а ускорения шаров
+    //
+    private static touchBallDot(b1: Ball, b2: Ball): Dot | null
+    {
+        let d = G.distance(b1, b2);
+        // шары далеко
+        if (d > b1.radius + b2.radius)
+            return null;
+        // ширина области деформации (области пересечения окружностей)
+        let delta = b1.radius + b2.radius - d;
+        // доля деформации для шара b2
+        let delta2 = delta * b1.m / (b1.m + b2.m);
+
+        // отношение расстояние от b1 до точки касания к расстоянию между шарами
+        let k = (d - b2.radius + delta2) / d;
+
+        // координаты точки касания
+        let x = b1.x + (b2.x - b1.x) * k;
+        let y = b1.y + (b2.y - b1.y) * k;
+        return new Dot(new Point (x, y));
     }
 
     // собирает на шары виртуальные точки касания, обусловленные своей связью

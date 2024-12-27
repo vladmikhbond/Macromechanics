@@ -38,7 +38,7 @@ export const doc =
     waistLinkValue: <HTMLLabelElement>document.getElementById("waistLinkValue"),
     rigidValue: <HTMLLabelElement>document.getElementById("rigidValue"),
     scenesDiv: <HTMLDivElement>document.getElementById("scenesDiv"),
-    infoSpan: <HTMLSpanElement>document.getElementById("infoSpan"),
+    modeSpan: <HTMLSpanElement>document.getElementById("modeSpan"),
     mousePosSpan: <HTMLSpanElement>document.getElementById("mousePosSpan"),
     modeGlif: <HTMLSpanElement>document.getElementById("modeGlif"),
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
