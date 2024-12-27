@@ -4,7 +4,8 @@ https://icons.getbootstrap.com/
 
 
 
-help
+help текст
+переменніе в css
 
 
 scriptFunc - remove
