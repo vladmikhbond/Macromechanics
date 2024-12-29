@@ -23,6 +23,7 @@ export let glo =
 export const doc = 
 {
     canvas: <HTMLCanvasElement>document.getElementById("canvas")!,
+    canvas2: <HTMLCanvasElement>document.getElementById("canvas2")!,
     modeButton: <HTMLButtonElement>document.getElementById("modeButton")!,
     createButton: <HTMLButtonElement>document.getElementById("createButton")!,
     prettyButton: <HTMLButtonElement>document.getElementById("prettyButton"),
@@ -38,7 +39,7 @@ export const doc =
     waistLinkValue: <HTMLLabelElement>document.getElementById("waistLinkValue"),
     rigidValue: <HTMLLabelElement>document.getElementById("rigidValue"),
     scenesDiv: <HTMLDivElement>document.getElementById("scenesDiv"),
-    modeSpan: <HTMLSpanElement>document.getElementById("modeSpan"),
+    createModeButton: <HTMLSpanElement>document.getElementById("createModeButton"),
     mousePosSpan: <HTMLSpanElement>document.getElementById("mousePosSpan"),
     modeGlif: <HTMLSpanElement>document.getElementById("modeGlif"),
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),

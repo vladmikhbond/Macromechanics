@@ -1,6 +1,7 @@
 
 :root {
     --canvas-width: 800px;
+    --canvas-height: 600px;
 }
 
 /* ---------------------- top panel ---------------------- */
@@ -8,8 +9,8 @@
     border: solid gray 1px; 
     padding: 5px;  
     width: var(--canvas-width);
+    margin-bottom: 4px;
 }
-
 
 input[type=range]
 {
@@ -24,8 +25,7 @@ input[type=range]+label
     width: 80px;
 }
 
-
-#modeSpan {
+#createModeButton {
     color: blue;   
     border: blue solid 2px;
     font-weight: 600; 
@@ -57,6 +57,8 @@ input[type=range]+label
 .canvas-cont {
     position: relative;
     width: var(--canvas-width);
+    height: var(--canvas-height);
+    
 }
 .canvas-item {
     position: absolute;
@@ -75,11 +77,15 @@ input[type=range]+label
     padding: 5px;
     background-color: rgb(117 190 218 / 10%);  
     display: none; 
-    z-index: 1;
+    z-index: 3;
 }
 #canvas {
     z-index: 2;
 }
+#canvas2 {
+    z-index: 1;
+}
+
 
 .board-text {
     width: 70px;
@@ -106,6 +112,9 @@ input[type=range]+label
 }
 
 /* <!------------------ bottom panel ----------------> */
+.bottom-panel {
+   margin-top: 4px;
+} 
 #savedSceneText
 {
     width: 720px;

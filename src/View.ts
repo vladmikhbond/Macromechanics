@@ -4,15 +4,23 @@ import { Geometry as G, Point } from "./Geometry.js";
 
 
 export enum PrettyMode {Draft, Beauty};
+export enum TraceMode {No, Yes};
 
 export class View 
 {
-    box: Box;
 
-    prettyMode = PrettyMode.Draft;
+    private box: Box;
+
+    public prettyMode = PrettyMode.Draft;
+    public traceMode = TraceMode.No;
 
     constructor(box: Box) {
         this.box = box;
+    }
+
+    clearTrace() {
+        const ctx2 = doc.canvas2.getContext("2d")!;
+        ctx2.clearRect(0, 0, doc.canvas2.width, doc.canvas2.height);
     }
 
     drawAll(lineWidth=0.5)
@@ -56,14 +64,23 @@ export class View
             {
                 ctx.arc(x, y, b.radius, 0, Math.PI * 2);
             }
+
             // draw velocity
             ctx.strokeRect(x + b.vx * glo.Kvelo - 0.5, y + b.vy * glo.Kvelo - 0.5, 1, 1);
             ctx.moveTo(x, y);
             ctx.lineTo(x + b.vx * glo.Kvelo, y + b.vy * glo.Kvelo );
             ctx.stroke();
+
+            // draw trace
+            if (this.traceMode === TraceMode.Yes) {
+                const ctx2 = doc.canvas2.getContext("2d")!;
+                ctx2.fillStyle = "gray";
+                ctx2.fillRect(x-0.5, y-0.5, 1, 1);
+            }
         }
     
-        // draw dots (for debug)
+
+        // draw dots of balls
         for (let b of this.box.balls) {
             if (!b.dots) continue;
             for (let d of b.dots) {
@@ -170,6 +187,7 @@ export class View
         ctx.fillText("T = " + sec, 20, 20 );
     }
     
+    // -------------------- gray things -------------------
 
     drawGrayLine(p0: Point, p: Point) {
         const ctx = <CanvasRenderingContext2D>doc.canvas.getContext("2d");

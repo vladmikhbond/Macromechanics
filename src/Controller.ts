@@ -4,14 +4,16 @@ import { Ball } from "./Ball.js";
 import { Line } from "./Line.js";
 import { Link } from "./Link.js";
 import { Box, Mode, CreateMode } from "./Box.js";
-import { PrettyMode, View } from "./View.js";
+import { PrettyMode, TraceMode, View } from "./View.js";
 
 export class Controller {
     box: Box;
     view: View;
-    private intervalId = 0;
-    sceneJson = "";
-    _mousePos = new Point(0, 0);
+    private intervalId = 0;   // base field for mode
+    private sceneJson = "";
+    private _mousePos = new Point(0, 0);
+    private _createMode = CreateMode.Ball;
+    
 
 
     constructor(box: Box, view: View) {
@@ -24,7 +26,8 @@ export class Controller {
         this.resetUI();
         
         this.addButtonClickListeners();
-        this.addOtherListeners();
+        this.addChangeListeners();
+        this.addKeyboardListeners();
     }
 
     // Встановлює поле box.selected і відкриває панель параметрів для обраної кулі або лінії.
@@ -87,10 +90,11 @@ export class Controller {
 
 
     set createMode(v: CreateMode) {
-        doc.modeSpan.innerHTML =
-            v === CreateMode.Ball ? "Ball"
-                : v === CreateMode.Line ? "Line"
-                    : v === CreateMode.Link ? "Link" : "";
+        this._createMode = v;
+        doc.createModeButton.innerHTML =
+            v === CreateMode.Ball ? "<b>B</b>all"
+                : v === CreateMode.Line ? "<b>L</b>ine"
+                    : v === CreateMode.Link ? "Lin<b>K</b>" : "";
 
         // mouse handlers
         if (v === CreateMode.Ball) {
@@ -128,6 +132,14 @@ export class Controller {
 
     addButtonClickListeners() 
     {      
+        doc.createModeButton.addEventListener("click", () => {
+            this.createMode = this._createMode === CreateMode.Ball
+                ? CreateMode.Line
+                : this._createMode === CreateMode.Line
+                    ? CreateMode.Link
+                    : CreateMode.Ball;
+        });
+
         // play-stop toggle
         doc.modeButton.addEventListener("click", () => {
             this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
@@ -219,7 +231,7 @@ export class Controller {
         doc.rigidRange.dispatchEvent(new Event("change"));           
     }
 
-    addOtherListeners() {
+    addChangeListeners() {
         //------------------- input_change --------------------------------------
 
         doc.graviRange.addEventListener("change", () => {
@@ -244,7 +256,8 @@ export class Controller {
         });
 
         //----------------------------- document_keydown ----------------------------
-
+    }
+    addKeyboardListeners() {
         document.addEventListener("keydown", (e) => {
             switch (e.key) {
                 // stop=play toggle
@@ -286,7 +299,10 @@ export class Controller {
 
                 // calibrate
                 case 't': case 'T': case 'е': case 'Е':
-                    //this.box.calibrate(this.view.drawAll());
+                    this.view.traceMode = this.view.traceMode === TraceMode.No ? TraceMode.Yes : TraceMode.No;
+                    if (this.view.traceMode === TraceMode.No) {
+                        this.view.clearTrace();
+                    }
                     break;
 
                 // balls
