@@ -151,7 +151,7 @@ export class View
                 let dot = b.dots[0];
                 // show the deformation of the ball
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
-                let kr = (G.distance(dot, b) / b.radius)**0.5; // зведення **0.5 наближає kr до 1 
+                let kr = (G.distance(dot, b) / b.radius)**0.5; // зведення у 0.5 зменшує деформацію
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.rotate(alpha);
