@@ -6,7 +6,8 @@ import { Link } from "./Link.js";
 import { Box, Mode, CreateMode } from "./Box.js";
 import { PrettyMode, TraceMode, View } from "./View.js";
 
-export class Controller {
+export class Controller 
+{
     box: Box;
     view: View;
     private intervalId = 0;   // base field for mode

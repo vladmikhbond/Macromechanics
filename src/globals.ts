@@ -5,28 +5,26 @@ export let glo =
 
     K: 100,     // modulus of elasticity of a ball 
     
-    g: 0.0005,  // acceleration of gravity   0.002 = 1 g;
+    g: 0.0005,  // acceleration of gravity  
     
-
     INTERVAL: 10,
     chronos: 0,      // in ticks (1 sec = 1000/INTERVAL ticks)
 
     REPEATER: 2,
 
     Kvelo: 100,      // for velocity drawing
-    pixInMeter: 1000,
-    Kg: 1000,
+    // pixInMeter: 1000,
+    Kg: 1000,        // for gravity range
 }
 
 export const doc = 
 {
-    canvas: <HTMLCanvasElement>document.getElementById("canvas")!,
-    canvas2: <HTMLCanvasElement>document.getElementById("canvas2")!,
+    canvas: <HTMLCanvasElement>document.getElementById("canvas"),
+    canvas2: <HTMLCanvasElement>document.getElementById("canvas2"),
     mousePosSpan: <HTMLSpanElement>document.getElementById("mousePosSpan"),
     infoSpan: <HTMLSpanElement>document.getElementById("infoSpan"),
-    
-    modeButton: <HTMLButtonElement>document.getElementById("modeButton")!,
-    createButton: <HTMLButtonElement>document.getElementById("createButton")!,
+    modeButton: <HTMLButtonElement>document.getElementById("modeButton"),
+    createButton: <HTMLButtonElement>document.getElementById("createButton"),
     prettyButton: <HTMLButtonElement>document.getElementById("prettyButton"),
     updateButton: <HTMLButtonElement>document.getElementById("updateButton"),
     eraseButton: <HTMLButtonElement>document.getElementById("eraseButton"),
