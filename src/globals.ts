@@ -1,9 +1,9 @@
 export let glo = 
 {
     W: 0.5,    // conservation of energу when two balls strikes ( 1 - no loss)
-    Wl: 0.9,   // conservation of energу when link reacts ( 1 - no loss)
+    Wl: 0.95,   // conservation of energу when link reacts ( 1 - no loss)
 
-    K: 0.1,    // modulus of elasticity of a ball (1 - absolutely solid)
+    K: 100,    // modulus of elasticity of a ball 
     
     g: 0.001,  // acceleration of gravity   0.002 = 1 g;
     
@@ -13,8 +13,6 @@ export let glo =
 
     REPEATER: 2,
 
-
-    
     Kvelo: 100,      // for velocity drawing
     pixInMeter: 1000,
     Kg: 0.002,
@@ -54,21 +52,5 @@ export const doc =
     loadSceneButton: <HTMLButtonElement>document.getElementById("loadSceneButton"),
     savedSceneArea: <HTMLTextAreaElement>document.getElementById("savedSceneText"),  
     
-
-    // header: document.getElementById("header"),
-    
+    header: <HTMLHeadingElement>document.getElementById("header"),
 }
-
-export const world = {
-    toString() {
-        let w = {W: glo.W, K: glo.K, g: glo.g};
-        return JSON.stringify(w);
-    },
-
-    fromString(s: string) {
-        let o = JSON.parse(s);
-        glo.W = o.W;
-        glo.K = o.K;
-        glo.g = o.g;
-     }
-};

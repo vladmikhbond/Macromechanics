@@ -56,19 +56,19 @@ export class Ball
             let bolDotDistance = G.distance(ball, dot);
             // differential of radius
             let dr = ball.radius - bolDotDistance;
-            // единичный вектор
+            // единичный вектор от точки  касания к центру шара
             let u = G.unit(dot, ball, bolDotDistance);
 
             // coeff. conservation energy for link or for ball/line 
             let w = dot.fromLink ? glo.Wl : glo.W; 
 
-            // модуль упругости зависит от фазы - сжатие или расжатие шара
+            // потери зависят от фазы - сжатие или расжатие шара (scalar < 0 - сжатие)
             let scalar = G.scalar(new Point(ball.vx, ball.vy), u);
+            w = scalar > 0 ? w : 1;
+ 
 
-            let k = scalar > 0 ? glo.K * w : glo.K;
-
-            ax += k * dr * u.x;
-            ay += k * dr * u.y;
+            ax += glo.K * w * dr * u.x / ball.m;
+            ay += glo.K * w * dr * u.y / ball.m;
         }
 
         // изменение скорости
