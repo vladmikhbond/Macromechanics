@@ -5,7 +5,7 @@ https://icons.getbootstrap.com/
 на концах линии маленький неподвиж шар
 
 help текст
-переменніе в css
+
 
 
 scriptFunc - remove

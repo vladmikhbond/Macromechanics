@@ -1,21 +1,21 @@
 export let glo = 
 {
-    W: 0.5,    // conservation of energу when two balls strikes ( 1 - no loss)
+    W: 0.5,     // conservation of energу when two balls strikes ( 1 - no loss)
     Wl: 0.95,   // conservation of energу when link reacts ( 1 - no loss)
 
-    K: 100,    // modulus of elasticity of a ball 
+    K: 100,     // modulus of elasticity of a ball 
     
-    g: 0.000467456,  // acceleration of gravity   0.002 = 1 g;
+    g: 0.0005,  // acceleration of gravity   0.002 = 1 g;
     
 
     INTERVAL: 10,
-    chronos: 0,  // in ticks (1 sec = 1000/INTERVAL ticks)
+    chronos: 0,      // in ticks (1 sec = 1000/INTERVAL ticks)
 
     REPEATER: 2,
 
     Kvelo: 100,      // for velocity drawing
     pixInMeter: 1000,
-    Kg: 0.002,
+    Kg: 1000,
 }
 
 export const doc = 
@@ -51,6 +51,7 @@ export const doc =
     redBallImg: <HTMLImageElement>document.getElementById("redBallImg"),
     greenBallImg: <HTMLImageElement>document.getElementById("greenBallImg"),
     blueBallImg: <HTMLImageElement>document.getElementById("blueBallImg"),
+    goldBallImg: <HTMLImageElement>document.getElementById("goldBallImg"),
     saveSceneButton: <HTMLButtonElement>document.getElementById("saveSceneButton"),
     loadSceneButton: <HTMLButtonElement>document.getElementById("loadSceneButton"),
     savedSceneArea: <HTMLTextAreaElement>document.getElementById("savedSceneText"),  

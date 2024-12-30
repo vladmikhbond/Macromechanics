@@ -13,7 +13,7 @@ export class Dot extends Point {
 
 export class Ball 
 {
-    x:number; y:number; radius:number; color:string; vx:number; vy:number; m:number;
+    x: number; y: number; radius: number; color: string; vx: number; vy: number; m: number;
     box: Box | null = null;
     fx = 0;
     fy = 0;

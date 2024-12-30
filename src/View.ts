@@ -110,12 +110,6 @@ export class View
             ctx.lineTo(this.box.x + l.x2, this.box.y + l.y2);
             ctx.stroke();
         }
-
-        // // draw text
-        // let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(2);
-        // const x = 10, y = 590;
-        // ctx.fillText("T = " + seconds, x, y);
-        // ctx.fillText("E = " + this.box.sumEnergy, x + 100, y);
     }
 
     drawPretty() {
@@ -144,7 +138,11 @@ export class View
         // draw balls
         for (let b of this.box.balls) {
             ctx.save();
-            let img = b.color === "red" ? doc.redBallImg : b.color === "blue" ? doc.blueBallImg : doc.greenBallImg;
+
+            let img = b.color === "red" ? doc.redBallImg : 
+                      b.color === "blue" ? doc.blueBallImg : 
+                      b.color === "gold" ? doc.goldBallImg :
+                      doc.greenBallImg;
             let x = this.box.x + b.x, y = this.box.y + b.y;
 
             if (b.dots && b.dots.length > 0) {

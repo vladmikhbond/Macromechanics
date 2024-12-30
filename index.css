@@ -53,8 +53,10 @@ input[type=range]+label
     float: right;
     margin-right: 10px;
     font-size: 14px;
+}
 
-
+#mousePosSpan  {
+    color: blue;
 }
 
 /* ----------------- Canvas Containeer -------------------------- */

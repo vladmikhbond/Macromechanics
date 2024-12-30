@@ -32,13 +32,13 @@ export class Controller {
     step() { 
         this.box.step(); 
         this.view.drawAll(); 
-        if (glo.chronos % 1 === 0) {
+        if (glo.chronos % 100 === 0) {
             let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(0);
             let [ek, ep] = this.box.sumEnergy;
-            let impulse = this.box.sumImpulse.toFixed(2);
+            // let impulse = this.box.sumImpulse.toFixed(2);
             doc.infoSpan.innerHTML = `Time: ${seconds}    
             Ek + Ep: ${ek.toFixed(2)} + ${ep.toFixed(2)} = ${(ek + ep).toFixed()}  `;
-            // Impulse: ${impulse}
+
         }   
     }
 
@@ -241,6 +241,7 @@ export class Controller {
         doc.waistRange.value = glo.W.toString();
         doc.waistLinkRange.value = glo.Wl.toString();
         doc.rigidRange.value = glo.K.toString();
+
         doc.graviRange.dispatchEvent(new Event("change"));
         doc.waistRange.dispatchEvent(new Event("change"));
         doc.waistLinkRange.dispatchEvent(new Event("change"));
@@ -252,7 +253,7 @@ export class Controller {
 
         doc.graviRange.addEventListener("change", () => {
             glo.g = +doc.graviRange.value;
-            doc.graviValue.innerHTML = "G = " + glo.g.toFixed(3);
+            doc.graviValue.innerHTML = "G = " + (glo.g * glo.Kg).toFixed(1);
 
         });
 
@@ -312,7 +313,7 @@ export class Controller {
                     }
                     break;
 
-                // calibrate
+                // trace mode
                 case 't': case 'T': case 'е': case 'Е':
                     this.view.traceMode = this.view.traceMode === TraceMode.No ? TraceMode.Yes : TraceMode.No;
                     if (this.view.traceMode === TraceMode.No) {
