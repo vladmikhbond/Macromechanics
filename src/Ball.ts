@@ -30,13 +30,14 @@ export class Ball
         this.m = m ? m : r * r;
     }
 
-    get Energy() {
+    get kinEnergy() {
         let b = this;
-        let kinetic = b.m * (b.vx * b.vx + b.vy * b.vy) / 2;
-        let potential = b.m * glo.g * (b.y - b.box!.height + b.radius);
-        return kinetic + potential;
+        return b.m * (b.vx * b.vx + b.vy * b.vy) / 2;
     }
-
+    get potEnergy() {
+        const b = this, h = b.box!.height - b.radius - b.y;   
+        return b.m * glo.g * h;    
+    }
 
     // m*|v| 
     get impulse() {
@@ -66,9 +67,9 @@ export class Ball
             let scalar = G.scalar(new Point(ball.vx, ball.vy), u);
             w = scalar > 0 ? w : 1;
  
-
-            ax += glo.K * w * dr * u.x / ball.m;
-            ay += glo.K * w * dr * u.y / ball.m;
+            let common = glo.K * w * dr / ball.m;     
+            ax += common * u.x;
+            ay += common * u.y;
         }
 
         // изменение скорости

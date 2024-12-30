@@ -110,12 +110,12 @@ export class View
             ctx.lineTo(this.box.x + l.x2, this.box.y + l.y2);
             ctx.stroke();
         }
-    
-        // draw text
-        let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(2);
-        const x = 10, y = 590;
-        ctx.fillText("T = " + seconds, x, y);
-        ctx.fillText("E = " + this.box.sumEnergy, x + 100, y);
+
+        // // draw text
+        // let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(2);
+        // const x = 10, y = 590;
+        // ctx.fillText("T = " + seconds, x, y);
+        // ctx.fillText("E = " + this.box.sumEnergy, x + 100, y);
     }
 
     drawPretty() {
@@ -181,10 +181,6 @@ export class View
             ctx.lineTo(this.box.x + line.x2, this.box.y + line.y2);
         }
         ctx.stroke();
-
-        // print info
-        let sec = glo.chronos / 1000 * glo.INTERVAL | 0;
-        ctx.fillText("T = " + sec, 20, 20 );
     }
     
     // -------------------- gray things -------------------

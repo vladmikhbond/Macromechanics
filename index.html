@@ -51,25 +51,27 @@
       Del - delete selected">
         <span>H</span>
       </button>
+      
+      <span id="infoSpan"></span>
 
       <span id="mousePosSpan"></span>
 
       <div style="margin: 10px 0px 0px 0px ;">
-        <input type="range" id="graviRange" class="form-range" step="0.0005" min="0" max="0.02" value="0.001"
+        <input type="range" id="graviRange" class="form-range" step="0.000467456" min="0" max="0.01" value="0.000467456"
           title="тяжіння" />
-        <label id="graviValue" class="form-label" for="graviRange">G = 0.5</label>
+        <label id="graviValue" class="form-label" for="graviRange"></label>
 
         <input type="range" id="waistRange" class="form-range" step="0.01" min="0" max="1" value="0.5"
           title="втрати (1-нема втрат)" />
-        <label id="waistValue" class="form-label" for="waistRange">W = 0.5</label>
+        <label id="waistValue" class="form-label" for="waistRange"></label>
 
         <input type="range" id="waistLinkRange" class="form-range" step="0.01" min="0.9" max="1" value="0.95"
           title="втрати (1-нема втрат)" />
-        <label id="waistLinkValue" class="form-label" for="waistLinkRange">Wl = 0.95</label>
+        <label id="waistLinkValue" class="form-label" for="waistLinkRange"></label>
 
         <input type="range" id="rigidRange" class="form-range" step="5" min="0" max="500" value="100"
           title="пружність" />
-        <label id="rigidValue" class="form-label" for="rigidRange">K = 100</label>
+        <label id="rigidValue" class="form-label" for="rigidRange"></label>
       </div>
     </div>
 
@@ -80,18 +82,23 @@
       <!-- Ball Board -->
       <div id="ballBoard" class="canvas-item">
         <div>
-          <span class="board-label">X </span> <input id="xText" class="board-text" title="X coordinate" />
-          <span class="board-label">Y </span> <input id="yText" class="board-text" title="Y coordinate" />
+          <span class="board-label">X </span> <input id="xText" class="board-text" />
+          <span class="board-label">Y </span> <input id="yText" class="board-text" />
         </div>
         <div>
-          <span class="board-label">Vx </span> <input id="vxText" class="board-text" title="Vx velocity" />
-          <span class="board-label">Vy </span> <input id="vyText" class="board-text" title="Vy velocity" />
+          <span class="board-label">Vx </span> <input id="vxText" class="board-text" />
+          <span class="board-label">Vy </span> <input id="vyText" class="board-text" />
         </div>        <div>
-          <span class="board-label">Massa </span> <input id="massaText" class="board-text" title="Massa" />
-          <span class="board-label">Radius </span> <input id="radiusText" class="board-text" title="Radius" />
+          <span class="board-label">Massa </span> <input id="massaText" class="board-text" />
+          <span class="board-label">Radius </span> <input id="radiusText" class="board-text"/>
         </div>
         <div>
-          <span class="board-label">Color </span> <input id="colorText" class="board-text" title="Color" />
+          <span class="board-label">Color </span> 
+             <select id="colorText" class="board-text">
+              <option value="red">Red</option>
+              <option value="blue">Blue</option>
+              <option value="green">Green</option>
+             </select>
           <span class="board-label"> </span> <button id="applyBallButton" class="board-button">Apply</button>
         </div>
       </div>

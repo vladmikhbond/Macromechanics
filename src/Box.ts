@@ -34,9 +34,9 @@ export class Box {
     }
 
     get sumEnergy() {
-        let e = 0;
-        this.balls.forEach( b => e += b.Energy);
-        return e | 0;
+        let ek = 0, ep  =0;
+        this.balls.forEach( b => { ek += b.kinEnergy; ep += b.potEnergy; });
+        return [ek, ep]
     }
 
     get sumImpulse() {

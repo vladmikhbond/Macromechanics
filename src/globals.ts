@@ -5,7 +5,7 @@ export let glo =
 
     K: 100,    // modulus of elasticity of a ball 
     
-    g: 0.001,  // acceleration of gravity   0.002 = 1 g;
+    g: 0.000467456,  // acceleration of gravity   0.002 = 1 g;
     
 
     INTERVAL: 10,
@@ -22,6 +22,9 @@ export const doc =
 {
     canvas: <HTMLCanvasElement>document.getElementById("canvas")!,
     canvas2: <HTMLCanvasElement>document.getElementById("canvas2")!,
+    mousePosSpan: <HTMLSpanElement>document.getElementById("mousePosSpan"),
+    infoSpan: <HTMLSpanElement>document.getElementById("infoSpan"),
+    
     modeButton: <HTMLButtonElement>document.getElementById("modeButton")!,
     createButton: <HTMLButtonElement>document.getElementById("createButton")!,
     prettyButton: <HTMLButtonElement>document.getElementById("prettyButton"),
@@ -38,7 +41,7 @@ export const doc =
     rigidValue: <HTMLLabelElement>document.getElementById("rigidValue"),
     scenesDiv: <HTMLDivElement>document.getElementById("scenesDiv"),
     createModeButton: <HTMLSpanElement>document.getElementById("createModeButton"),
-    mousePosSpan: <HTMLSpanElement>document.getElementById("mousePosSpan"),
+    
     modeGlif: <HTMLSpanElement>document.getElementById("modeGlif"),
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
     ballBoard: <HTMLDivElement>document.getElementById("ballBoard"),

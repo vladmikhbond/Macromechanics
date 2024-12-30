@@ -23,12 +23,25 @@ export class Controller {
         // set state of UI
         this.mode = Mode.Stop;
         this.createMode = CreateMode.Ball;
-        this.resetUI();
-        
         this.addButtonClickListeners();
         this.addChangeListeners();
         this.addKeyboardListeners();
+        this.resetUI();  // last action
     }
+
+    step() { 
+        this.box.step(); 
+        this.view.drawAll(); 
+        if (glo.chronos % 1 === 0) {
+            let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(0);
+            let [ek, ep] = this.box.sumEnergy;
+            let impulse = this.box.sumImpulse.toFixed(2);
+            doc.infoSpan.innerHTML = `Time: ${seconds}    
+            Ek + Ep: ${ek.toFixed(2)} + ${ep.toFixed(2)} = ${(ek + ep).toFixed()}  `;
+            // Impulse: ${impulse}
+        }   
+    }
+
 
     // Встановлює поле box.selected і відкриває панель параметрів для обраної кулі або лінії.
     set selected(obj: Ball | Line | Link | null) {
@@ -47,9 +60,13 @@ export class Controller {
             doc.lineBoard.style.display = 'none';
 
             show(obj.m, 'massaText');
-            show(obj.radius, 'radiusText'); show(obj.color, 'colorText');
-            show(obj.x, 'xText'); show(obj.y, 'yText');
-            show(obj.vx, 'vxText'); show(obj.vy, 'vyText');
+            show(obj.radius, 'radiusText'); 
+            show(obj.x, 'xText'); 
+            show(obj.y, 'yText');
+            show(obj.vx, 'vxText'); 
+            show(obj.vy, 'vyText');
+            let el = document.getElementById('colorText') as HTMLSelectElement;
+            el.value = obj.color;            
         }
         else if (obj instanceof Line) {
             doc.ballBoard.style.display = 'none';
@@ -71,8 +88,7 @@ export class Controller {
     set mode(mode: Mode) {
         if (mode === Mode.Play && this.intervalId === 0) {
             this.intervalId = setInterval(() => {
-                this.box.step();
-                this.view.drawAll();
+                this.step();
             }, glo.INTERVAL);
             this.sceneJson = this.box.toJson();
         } else {
@@ -116,7 +132,7 @@ export class Controller {
 
     set g(v: string) {
         glo.g = +v;
-        doc.graviValue.innerHTML = "G = " + (glo.g / glo.Kg).toFixed(2);
+        doc.graviValue.innerHTML = "G = " + glo.g.toFixed(3);
         doc.graviRange.value = v;
     }
     set W(v: string) {
@@ -236,7 +252,7 @@ export class Controller {
 
         doc.graviRange.addEventListener("change", () => {
             glo.g = +doc.graviRange.value;
-            doc.graviValue.innerHTML = "G = " + (glo.g / glo.Kg).toFixed(2);
+            doc.graviValue.innerHTML = "G = " + glo.g.toFixed(3);
 
         });
 
@@ -267,8 +283,7 @@ export class Controller {
 
                 // step execution
                 case 's': case 'S': case 'ы': case 'Ы':
-                    this.box.step();
-                    this.view.drawAll();
+                    this.step();
                     this.mode = Mode.Stop;
                     break;
 

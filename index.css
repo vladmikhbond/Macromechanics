@@ -30,6 +30,7 @@ input[type=range]+label
     border: blue solid 2px;
     font-weight: 600; 
     margin-left: 10px;
+    margin-right: 10px;
     height: 36px;
     width: 64px;
 }
@@ -37,7 +38,7 @@ input[type=range]+label
 .panel-button {
     border: solid gray 1px; 
     width: 40px;
-    margin-left: 20px;
+    margin-left: 8px;
     font-weight: 700;
     background-color: lightblue;
     
@@ -48,9 +49,12 @@ input[type=range]+label
     background-color: rgb(200, 0, 0)
 }
 
-#mousePosSpan {
+#mousePosSpan, #infoSpan  {
     float: right;
     margin-right: 10px;
+    font-size: 14px;
+
+
 }
 
 /* ----------------- Canvas Containeer -------------------------- */
