@@ -6,8 +6,6 @@ https://icons.getbootstrap.com/
 
 help текст
 
+збереження сцен
 
 
-scriptFunc - remove
-
-calibrate
