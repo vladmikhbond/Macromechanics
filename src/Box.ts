@@ -221,17 +221,17 @@ export class Box {
     //
     private static touchBallDot(b1: Ball, b2: Ball): Dot | null
     {
-        let d = G.distance(b1, b2);
+        let dist = G.distance(b1, b2);
         // шары далеко
-        if (d > b1.radius + b2.radius)
+        if (dist > b1.radius + b2.radius)
             return null;
         // ширина области деформации (области пересечения окружностей)
-        let delta = b1.radius + b2.radius - d;
+        let delta = b1.radius + b2.radius - dist;
         // доля деформации для шара b2
         let delta2 = delta * b1.m / (b1.m + b2.m);
 
         // отношение расстояние от b1 до точки касания к расстоянию между шарами
-        let k = (d - b2.radius + delta2) / d;
+        let k = (dist - b2.radius + delta2) / dist;
 
         // координаты точки касания
         let x = b1.x + (b2.x - b1.x) * k;

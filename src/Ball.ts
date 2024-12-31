@@ -54,11 +54,11 @@ export class Ball
 
         // суммируем ускорения от реакций точек касания
         for (let dot of ball.dots) {
-            let bolDotDistance = G.distance(ball, dot);
+            let ballDotDistance = G.distance(ball, dot);
             // differential of radius
-            let dr = ball.radius - bolDotDistance;
+            let dr = ball.radius - ballDotDistance;
             // единичный вектор от точки  касания к центру шара
-            let u = G.unit(dot, ball, bolDotDistance);
+            let u = G.unit(dot, ball, ballDotDistance);
 
             // coeff. conservation energy for link or for ball/line 
             let w = dot.fromLink ? glo.Wl : glo.W; 
