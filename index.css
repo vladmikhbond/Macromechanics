@@ -126,6 +126,11 @@ input[type=range]+label
     height: 30px;
 }
 
+scene-textarea {
+    width: 720px;
+    height: 100px;
+    margin-top: 4px;
+}
 .scene-btn {
     vertical-align: top;
 }

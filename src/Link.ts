@@ -1,12 +1,11 @@
 import { Ball } from "./Ball.js";
-import { Geometry as G, Point} from "./Geometry.js"; 
-import {Box} from "./Box.js";  
+import { Geometry as G} from "./Geometry.js"; 
 
 export class Link 
 {
     b1: Ball;
     b2: Ball;
-    len0: number;
+    len0: number;  // довжина ненапруженого зв'язку
     transparent: boolean;
         
 

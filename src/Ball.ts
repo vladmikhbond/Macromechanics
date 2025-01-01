@@ -5,8 +5,8 @@ import {Box} from "./Box.js";
 export class Dot extends Point {
     fromLink: boolean; // 
 
-    constructor (p: Point, fromLink = false) {
-        super(p.x, p.y);
+    constructor (x: number, y: number, fromLink = false) {
+        super(x, y);
         this.fromLink = fromLink;
     }     
 }
