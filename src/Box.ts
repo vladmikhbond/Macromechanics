@@ -263,7 +263,7 @@ export class Box {
         b2.dots.push(dot2);
     }
 
-    // збирає на кулі віртуальні точки стикання, зумовлені зв'язками
+    // Збирає на кулі віртуальні точки стикання, зумовлені зв'язками
     // точки зв'язків мають властивість fromLink = true
     dotsFromLinks() {
         for (let link of this.links) {
@@ -274,49 +274,46 @@ export class Box {
         }
     }
 
-    // собирает на шары точки касания от ударов о связи
+    // Збирає на кулі точки стикання від ударів по зв'язкам
     dotsAboutLinks()
     {
-        for (let b of this.balls) {
-            for (let l of this.links) {
-                if (b === l.b1 || b === l.b2 || l.transparent)
+        for (let ball of this.balls) {
+            for (let link of this.links) {
+                if (ball === link.b1 || ball === link.b2 || link.transparent)
                     continue;
-                let line = new Line(l.x1, l.y1, l.x2, l.y2);
-                let d = G.distToInfiniteLine(b, line);
-                if (d > b.radius)
+                let line = new Line(link.x1, link.y1, link.x2, link.y2);
+                let d = G.distToInfiniteLine(ball, line);
+                if (d > ball.radius)
                     continue;
-                let p = G.cross(b, line);  // на самом деле отрезок короче
+                let p = G.cross(ball, line);  // на самом деле отрезок короче
                 // точка пересечения за пределами связи
                 if (!p)
                     continue;
 
                 // общий размер области деформации
-                let delta = b.radius - d;
-                // доля деформации для шара и для гантели (dumbbell)
-                let M = l.b1.m + l.b2.m;
-                let deltaB = delta * M / (b.m + M);
-                let deltaD = delta - deltaB;
-                let len1 = G.distance(l.b1, p), len2 = l.len0 - len1;
-                // распределение деформации гантели по шарам
-                let delta1 = deltaD * len2 / l.len0;
-                let delta2 = deltaD * len1 / l.len0;
+                let delta = ball.radius - d;
+                let len1 = G.distance(link.b1, p), len2 = link.len0 - len1;
+                // распределение деформации гантели по ее шарам
+                let common = delta / 2 / link.len0;
+                let delta1 = len2 * common;
+                let delta2 = len1 * common;
                 // точка касания для шара
-                let k = d / (b.radius - deltaB);
-                let x = (p.x - b.x) / k + b.x;
-                let y = (p.y - b.y) / k + b.y;
-                b.dots.push({x, y, fromLink: false});
+                let k = d / (ball.radius - delta / 2);
+                let x = (p.x - ball.x) / k + ball.x;
+                let y = (p.y - ball.y) / k + ball.y;
+                ball.dots.push({x, y, fromLink: false});
 
                 // точки касания для шаров гантели
                 // u - единичный векор перпедикуляра к связи
-                let u = G.unit(p, b, d);
+                let u = G.unit(p, ball, d);
                 // b1
-                let r1 = l.b1.radius - delta1;
-                let dot = new Dot(l.b1.x + r1 * u.x, l.b1.y + r1 * u.y);
-                l.b1.dots.push(dot);
+                let r1 = link.b1.radius - delta1;
+                let dot = new Dot(link.b1.x + r1 * u.x, link.b1.y + r1 * u.y);
+                link.b1.dots.push(dot);
                 // b2
-                let r2 = l.b2.radius - delta2;
-                dot = new Dot(l.b2.x + r2 * u.x, l.b2.y + r2 * u.y);
-                l.b2.dots.push(dot);
+                let r2 = link.b2.radius - delta2;
+                dot = new Dot(link.b2.x + r2 * u.x, link.b2.y + r2 * u.y);
+                link.b2.dots.push(dot);
             }
         }
     }
@@ -324,7 +321,6 @@ export class Box {
 //#endregion
 
 //#region Json
-
 
     toJson() {
         this.balls.forEach(b => b.box = null);
