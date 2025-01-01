@@ -225,18 +225,20 @@ export class Box {
         // шары далеко
         if (dist > b1.radius + b2.radius)
             return null;
+        
         // ширина области деформации (области пересечения окружностей)
         let delta = b1.radius + b2.radius - dist;
-        // доля деформации для шара b2
-        let delta2 = delta * b1.m / (b1.m + b2.m);
 
         // отношение расстояние от b1 до точки касания к расстоянию между шарами
-        let k = (dist - b2.radius + delta2) / dist;
+        let k = (dist - b2.radius + delta / 2) / dist;
 
         // координаты точки касания
         let x = b1.x + (b2.x - b1.x) * k;
         let y = b1.y + (b2.y - b1.y) * k;
+
         return new Dot(new Point (x, y));
+
+
     }
 
     // собирает на шары виртуальные точки касания, обусловленные своей связью
