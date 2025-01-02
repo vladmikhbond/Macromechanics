@@ -290,15 +290,16 @@ export class Box {
                 if (!p)
                     continue;
 
-                // общий размер области деформации
+                // загальний розмір деформції 
                 let delta = ball.radius - d;
+                
+                // розподіл деформації між шарами гантелі
                 let len1 = G.distance(link.b1, p), len2 = link.len0 - len1;
-                // распределение деформации гантели по ее шарам
-                let common = delta / 2 / link.len0;
+                let common = delta / link.len0;
                 let delta1 = len2 * common;
                 let delta2 = len1 * common;
                 // точка касания для шара
-                let k = d / (ball.radius - delta / 2);
+                let k = d / (ball.radius - delta);
                 let x = (p.x - ball.x) / k + ball.x;
                 let y = (p.y - ball.y) / k + ball.y;
                 ball.dots.push({x, y, fromLink: false});
