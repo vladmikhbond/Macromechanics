@@ -157,6 +157,17 @@ export class Controller
                     : CreateMode.Ball;
         });
 
+        doc.traceModeButton.addEventListener("click", () => {
+            if (this.view.traceMode === TraceMode.No) {
+                this.view.traceMode = TraceMode.Yes;
+                doc.traceModeButton.innerHTML = "T"
+            } else {
+                this.view.traceMode = TraceMode.No;
+                this.view.clearTrace();
+                doc.traceModeButton.innerHTML = "N"
+            }
+        });
+
         // play-stop toggle
         doc.modeButton.addEventListener("click", () => {
             this.mode = this.mode == Mode.Stop ? Mode.Play : Mode.Stop
@@ -316,10 +327,11 @@ export class Controller
 
                 // trace mode
                 case 't': case 'T': case 'е': case 'Е':
-                    this.view.traceMode = this.view.traceMode === TraceMode.No ? TraceMode.Yes : TraceMode.No;
-                    if (this.view.traceMode === TraceMode.No) {
-                        this.view.clearTrace();
-                    }
+                    doc.traceModeButton.dispatchEvent(new Event('click'));
+                    // this.view.traceMode = this.view.traceMode === TraceMode.No ? TraceMode.Yes : TraceMode.No;
+                    // if (this.view.traceMode === TraceMode.No) {
+                    //     this.view.clearTrace();
+                    // }
                     break;
 
                 // balls

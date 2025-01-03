@@ -86,7 +86,8 @@ export class Box {
     // find a ball under point
     ballUnderPoint(p: Point) {
         for (let b of this.balls) {
-            if (G.distance(p, b) < b.radius) {
+            let d = G.distance(p, b);
+            if (d < Math.max(5, b.radius) ) {
                 return b;
             }
         }
@@ -97,7 +98,7 @@ export class Box {
     ballVeloUnderPoint(p: Point) {
         for (let b of this.balls) {
             let q = {x: b.x + b.vx * glo.Kvelo, y: b.y + b.vy * glo.Kvelo};
-            if (G.distance(p, q ) < 3) {
+            if (G.distance(p, q ) <= 3) {
                 return b;
             }
         }
