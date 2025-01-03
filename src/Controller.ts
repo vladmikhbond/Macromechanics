@@ -227,8 +227,7 @@ export class Controller
         doc.applyLineButton.addEventListener("click", () => {
             const line = this.selected as Line;
             if (line) {
-                line.x1 = +read('x1Text'); line.y1 = +read('y1Text');
-                line.x2 = +read('x2Text'); line.y2 = +read('v2Text');
+                line.setInvariant(+read('x1Text'), +read('y1Text'), +read('x2Text'), +read('v2Text'));
             }
             this.view.drawAll();
         });

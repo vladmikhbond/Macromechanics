@@ -1,4 +1,5 @@
 import { Line } from "./Line.js";
+import {Ball} from "./Ball.js";
 
 export class Point {
     x: number;
@@ -95,5 +96,44 @@ export class Geometry {
         }    
         return { x: dx / dist, y: dy / dist };
     }
+
+    static lineBallIntersect(line:Line, ball: Ball) {
+        let lk = line.k;
+        let lb = line.b;
+        let x_1:number, y_1:number, x_2:number, y_2:number;
+
+        if (line.x1 == line.x2) {
+            // лінія вертикальна
+            let discr = ball.radius**2 - (line.x1 - ball.x)**2;
+            if (discr < 0) return null;
+            x_1 = x_2 = line.x1;
+            y_1 = ball.y - Math.sqrt(discr);
+            y_2 = ball.y + Math.sqrt(discr);
+        } else {
+            // лінія похила або горизонтальна
+            let a = 1 + lk**2;
+            let b = 2 * (-ball.x + lk * (lb - ball.y));
+            let c = ball.x**2 + (lb - ball.y)**2 - ball.radius**2;
+            let discr = b**2 - 4*a*c;
+            if (discr < 0) return null;
+            x_1 = (-b - Math.sqrt(discr))/(2*a);
+            x_2 = (-b + Math.sqrt(discr))/(2*a);
+            y_1 = lk * x_1 + lb;
+            y_2 = lk * x_2 + lb;
+            // врахування кінців лінії
+            if (x_1 > line.x2 || x_2 < line.x1) return null;
+            if (line.x1 > x_1) {
+                x_1 = line.x1;
+                y_1 = line.y1;     
+            }
+            if (line.x2 < x_2) {
+                x_2 = line.x2;
+                y_2 = line.y2;     
+            }
+        }
+        return [x_1, y_1, x_2, y_2];
+    }
+
+
 
 }

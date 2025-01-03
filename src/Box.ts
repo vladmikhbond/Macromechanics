@@ -178,25 +178,37 @@ export class Box {
     }
 
     // собирает на шары точки касания с отрезками (в т.ч. с границами)
+    // dotsFromLines() {
+    //     for (let ball of this.balls) {
+    //         for (let line of this.lines.concat(this.border)) {
+    //             if (G.distToInfiniteLine(ball, line) < ball.radius) {
+    //                 let point = G.cross(ball, line);
+    //                 if (point) {
+    //                     // точка пересечения перпендикуляра лежит на отрезке
+    //                     ball.dots.push(new Dot(point.x, point.y));
+    //                 } else {
+    //                     // точка пересечения за пределами отрезка
+    //                     if (G.distance(ball, line.p1) < ball.radius) {
+    //                         // касание 1-го конца отрезка
+    //                         ball.dots.push(new Dot(line.p1.x, line.p1.y));
+    //                     }
+    //                     if (G.distance(ball, line.p2) < ball.radius) {
+    //                         // касание 2-го конца отрезка
+    //                         ball.dots.push(new Dot(line.p2.x, line.p2.y));
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
     dotsFromLines() {
         for (let ball of this.balls) {
             for (let line of this.lines.concat(this.border)) {
-                if (G.distToInfiniteLine(ball, line) < ball.radius) {
-                    let point = G.cross(ball, line);
-                    if (point) {
-                        // точка пересечения перпендикуляра лежит на отрезке
-                        ball.dots.push(new Dot(point.x, point.y));
-                    } else {
-                        // точка пересечения за пределами отрезка
-                        if (G.distance(ball, line.p1) < ball.radius) {
-                            // касание 1-го конца отрезка
-                            ball.dots.push(new Dot(line.p1.x, line.p1.y));
-                        }
-                        if (G.distance(ball, line.p2) < ball.radius) {
-                            // касание 2-го конца отрезка
-                            ball.dots.push(new Dot(line.p2.x, line.p2.y));
-                        }
-                    }
+                let r = G.lineBallIntersect(line, ball);
+                if (r) {
+                    let [x1, y1, x2, y2] = r;
+                    ball.dots.push(new Dot((x1 + x2) / 2, (y1 + y2) / 2));
                 }
             }
         }
@@ -217,9 +229,7 @@ export class Box {
         }
     }
 
-    // деформация  шара тем больше, чем больше масса противоположного шара
-    // деформации задают не силы (силы должны быть равны), а ускорения шаров
-    //
+
     private static touchBallDot(b1: Ball, b2: Ball): Dot | null
     {
         let dist = G.distance(b1, b2);
