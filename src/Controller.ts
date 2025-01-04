@@ -5,6 +5,7 @@ import { Line } from "./Line.js";
 import { Link } from "./Link.js";
 import { Box, Mode, CreateMode } from "./Box.js";
 import { PrettyMode, TraceMode, View } from "./View.js";
+import { ControllerStore } from "./ControllerStore.js";
 
 export class Controller 
 {
@@ -14,12 +15,13 @@ export class Controller
     private sceneJson = "";
     private _mousePos = new Point(0, 0);
     private _createMode = CreateMode.Ball;
-    
+    private controllerStore: ControllerStore;
 
 
     constructor(box: Box, view: View) {
         this.box = box;
         this.view = view;
+        this.controllerStore = new ControllerStore(box, view, this);
 
         // set state of UI
         this.mode = Mode.Stop;
@@ -27,7 +29,7 @@ export class Controller
         this.addButtonClickListeners();
         this.addChangeListeners();
         this.addKeyboardListeners();
-        this.resetUI();  // last action
+        this.resetUI();  // last action of constructor
     }
 
     step() { 
@@ -37,8 +39,7 @@ export class Controller
             let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(0);
             let [ek, ep] = this.box.sumEnergy;
             // let impulse = this.box.sumImpulse.toFixed(2);
-            doc.infoSpan.innerHTML = `Time: ${seconds}    
-            Ek + Ep: ${ek.toFixed(2)} + ${ep.toFixed(2)} = ${(ek + ep).toFixed()}  `;
+            doc.infoSpan.innerHTML = `T=${seconds}  E=${(ek + ep).toFixed()}`;
 
         }   
     }
@@ -91,7 +92,7 @@ export class Controller
             this.intervalId = setInterval(() => {
                 this.step();
             }, glo.INTERVAL);
-            this.sceneJson = this.box.toJson();
+            this.sceneJson = ControllerStore.boxToJson(this.box);
         } else {
             clearInterval(this.intervalId);
             this.intervalId = 0;
@@ -176,7 +177,7 @@ export class Controller
         // restart button
         doc.restartButton.addEventListener("click", () => {
             if (this.sceneJson) {
-                this.box.fromJson(this.sceneJson);
+                ControllerStore.restoreSceneFromJson(this.sceneJson, this.box);
                 this.resetUI();
             }
             this.mode = Mode.Stop;
@@ -230,18 +231,6 @@ export class Controller
                 line.setInvariant(+read('x1Text'), +read('y1Text'), +read('x2Text'), +read('v2Text'));
             }
             this.view.drawAll();
-        });
-
-        doc.saveSceneButton.addEventListener("click", () => {
-            doc.savedSceneArea.value = this.box.toJson();
-        });
-
-
-        doc.loadSceneButton.addEventListener("click", () => {
-            this.box.fromJson(doc.savedSceneArea.value);
-            // view 
-            this.resetUI()
-            this.mode = Mode.Stop;
         });
 
     }
