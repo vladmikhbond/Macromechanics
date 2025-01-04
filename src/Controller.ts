@@ -15,13 +15,12 @@ export class Controller
     private sceneJson = "";
     private _mousePos = new Point(0, 0);
     private _createMode = CreateMode.Ball;
-    private controllerStore: ControllerStore;
 
 
     constructor(box: Box, view: View) {
         this.box = box;
         this.view = view;
-        this.controllerStore = new ControllerStore(box, view, this);
+        new ControllerStore(box, this);
 
         // set state of UI
         this.mode = Mode.Stop;
@@ -45,7 +44,7 @@ export class Controller
     }
 
 
-    // Встановлює поле box.selected і відкриває панель параметрів для обраної кулі або лінії.
+    // Встановлює поле box.selected і показує панель параметрів для обраної кулі або лінії.
     set selected(obj: Ball | Line | Link | null) {
         // inner function
         function show(val: number | string, id: string) {
@@ -92,7 +91,7 @@ export class Controller
             this.intervalId = setInterval(() => {
                 this.step();
             }, glo.INTERVAL);
-            this.sceneJson = ControllerStore.boxToJson(this.box);
+            this.sceneJson = ControllerStore.sceneToJson(this.box);
         } else {
             clearInterval(this.intervalId);
             this.intervalId = 0;

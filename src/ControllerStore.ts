@@ -1,7 +1,6 @@
 import { glo, doc } from "./globals.js";
 
 import { Box, Mode, CreateMode } from "./Box.js";
-import { PrettyMode, TraceMode, View } from "./View.js";
 import { Controller } from "./Controller.js";
 import { Ball } from "./Ball.js";
 import { Line } from "./Line.js";
@@ -10,23 +9,40 @@ import { Link } from "./Link.js";
 export class ControllerStore 
 {
     box: Box;
-    view: View;
     controller: Controller;
     
-    constructor(box: Box, view: View, controller: Controller) {
+    constructor(box: Box, controller: Controller) {
         this.box = box;
-        this.view = view;
+
         this.controller = controller;
-        this.addButtonClickListeners(); 
+        this.addEventListeners(); 
+        this.loadStore();
     }
 
-    addButtonClickListeners() 
+    async loadStore() {
+        try {
+            const response = await fetch("./store.txt");
+            if (!response.ok) {
+                throw new Error(`Помилка завантаження файлу: ${response.statusText}`);
+            }
+            const text = await response.text();
+            const regex = /^---(.*)\r\n(.*)/gm;        // 1gr - text, 2gr - value
+            const matches = [...text.matchAll(regex)];
+            const options: HTMLOptionElement[] = matches.map(m => new Option(m[1], m[2]));
+            doc.sceneSelect.innerHTML = '';
+            doc.sceneSelect.append(...options);  
+        } 
+        catch (error: any) {
+            console.error('Помилка:', error.message);
+        }
+    }
+
+    addEventListeners() 
     {      
 
         doc.saveSceneButton.addEventListener("click", () => {
-            doc.savedSceneArea.value = ControllerStore.boxToJson(this.box);
+            doc.savedSceneArea.value = ControllerStore.sceneToJson(this.box);
         });
-
 
         doc.loadSceneButton.addEventListener("click", () => {
             ControllerStore.restoreSceneFromJson(doc.savedSceneArea.value, this.box);
@@ -34,10 +50,17 @@ export class ControllerStore
             this.controller.resetUI()
             this.controller.mode = Mode.Stop;
         });
+
+        doc.sceneSelect.addEventListener("change", () => {
+            ControllerStore.restoreSceneFromJson(doc.sceneSelect.value, this.box);
+            // view 
+            this.controller.resetUI()
+            this.controller.mode = Mode.Stop;
+        });
     }
 
-    static boxToJson(box: Box): string {
-        //const box = this.box;
+    static sceneToJson(box: Box): string 
+    {
         box.balls.forEach(b => b.box = null);
         let o = {
             balls: box.balls,
@@ -50,7 +73,8 @@ export class ControllerStore
         return json;  
     }
 
-    static restoreSceneFromJson(json: string, box: Box): void {
+    static restoreSceneFromJson(json: string, box: Box): void 
+    {
         const o = JSON.parse(json);
         // restore balls
         box.balls = o.balls.map((b: any) => new Ball(b.x, b.y, b.radius, b.color, b.vx, b.vy, b.m));
@@ -72,6 +96,5 @@ export class ControllerStore
         glo.Wl = o.Wl;
         glo.K = o.K;
     }
-
 
 }

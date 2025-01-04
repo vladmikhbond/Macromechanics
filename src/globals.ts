@@ -39,6 +39,7 @@ export const doc =
     waistLinkValue: <HTMLLabelElement>document.getElementById("waistLinkValue"),
     rigidValue: <HTMLLabelElement>document.getElementById("rigidValue"),
     scenesDiv: <HTMLDivElement>document.getElementById("scenesDiv"),
+    sceneSelect: <HTMLSelectElement>document.getElementById("sceneSelect"),
     
     modeGlif: <HTMLSpanElement>document.getElementById("modeGlif"),
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
