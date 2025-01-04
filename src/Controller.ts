@@ -11,7 +11,7 @@ export class Controller
 {
     box: Box;
     view: View;
-    private intervalId = 0;   // base field for mode
+    private intervalId = 0;   // base field for mode property
     private sceneJson = "";
     private _mousePos = new Point(0, 0);
     private _createMode = CreateMode.Ball;
@@ -227,7 +227,7 @@ export class Controller
         doc.applyLineButton.addEventListener("click", () => {
             const line = this.selected as Line;
             if (line) {
-                line.setInvariant(+read('x1Text'), +read('y1Text'), +read('x2Text'), +read('v2Text'));
+                line.setInvariant(+read('x1Text'), +read('y1Text'), +read('x2Text'), +read('y2Text'));
             }
             this.view.drawAll();
         });
