@@ -177,31 +177,7 @@ export class Box {
         glo.chronos++;
     }
 
-    // собирает на шары точки касания с отрезками (в т.ч. с границами)
-    // dotsFromLines() {
-    //     for (let ball of this.balls) {
-    //         for (let line of this.lines.concat(this.border)) {
-    //             if (G.distToInfiniteLine(ball, line) < ball.radius) {
-    //                 let point = G.cross(ball, line);
-    //                 if (point) {
-    //                     // точка пересечения перпендикуляра лежит на отрезке
-    //                     ball.dots.push(new Dot(point.x, point.y));
-    //                 } else {
-    //                     // точка пересечения за пределами отрезка
-    //                     if (G.distance(ball, line.p1) < ball.radius) {
-    //                         // касание 1-го конца отрезка
-    //                         ball.dots.push(new Dot(line.p1.x, line.p1.y));
-    //                     }
-    //                     if (G.distance(ball, line.p2) < ball.radius) {
-    //                         // касание 2-го конца отрезка
-    //                         ball.dots.push(new Dot(line.p2.x, line.p2.y));
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
+    // Збирає на кулі точки стикання з лініями (в т.ч. із межами).
     dotsFromLines() {
         for (let ball of this.balls) {
             for (let line of this.lines.concat(this.border)) {
@@ -214,7 +190,7 @@ export class Box {
         }
     }
 
-    // собирает на шары точки касания с шарами
+    // Збирає на кулі точки стикання з іншими кулями.
     dotsFromBalls() {
         let balls = this.balls;
         for (let i = 0; i < balls.length - 1; i++) {

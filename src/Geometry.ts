@@ -97,6 +97,9 @@ export class Geometry {
         return { x: dx / dist, y: dy / dist };
     }
 
+    // Перетин кола і відрізка прямої
+    // Повертає масив [x1, y1, x2, y2] - координати точок перетину або null, якщо перетину немає
+    // Якщо границя відрізка лежить в колі, то точка перетину - це границя відрізка.
     static lineBallIntersect(line:Line, ball: Ball) {
         let lk = line.k;
         let lb = line.b;
@@ -109,6 +112,17 @@ export class Geometry {
             x_1 = x_2 = line.x1;
             y_1 = ball.y - Math.sqrt(discr);
             y_2 = ball.y + Math.sqrt(discr);
+            // врахування кінців лінії
+            if (y_1 > line.y2 || y_2 < line.y1) 
+                return null;
+            if (line.y1 > y_1) {
+                x_1 = line.x1;
+                y_1 = line.y1;     
+            }
+            if (line.y2 < y_2) {
+                x_2 = line.x2;
+                y_2 = line.y2;     
+            }
         } else {
             // лінія похила або горизонтальна
             let a = 1 + lk**2;
@@ -121,7 +135,8 @@ export class Geometry {
             y_1 = lk * x_1 + lb;
             y_2 = lk * x_2 + lb;
             // врахування кінців лінії
-            if (x_1 > line.x2 || x_2 < line.x1) return null;
+            if (x_1 > line.x2 || x_2 < line.x1) 
+                return null;
             if (line.x1 > x_1) {
                 x_1 = line.x1;
                 y_1 = line.y1;     
