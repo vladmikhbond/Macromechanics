@@ -213,15 +213,15 @@ export class Box {
         if (dist > b1.radius + b2.radius)
             return null;
         
-        // ширина области деформации (области пересечения окружностей)
-        let intersection = b1.radius + b2.radius - dist;
+        // ширина області деформації 
+        let deform = (b1.radius + b2.radius - dist) / 2;
 
-        // отношение расстояние от b1 до точки касания к расстоянию между шарами
-        let k = (dist - b2.radius + intersection / 2) / dist;
+        // співвідношення відстані від b1 до точки дотику до відстані між кулями
+        let ratio = (b1.radius - deform) / dist;
 
-        // координаты точки касания
-        let x = b1.x + (b2.x - b1.x) * k;
-        let y = b1.y + (b2.y - b1.y) * k;
+        // координати спільної точки стикання двох куль
+        let x = b1.x + (b2.x - b1.x) * ratio;
+        let y = b1.y + (b2.y - b1.y) * ratio;
 
         return new Dot(x, y);
     }

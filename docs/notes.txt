@@ -2,6 +2,6 @@ https://getbootstrap.com/docs/5.3/getting-started/introduction/
 
 https://icons.getbootstrap.com/
 
-на концах линии маленький неподвиж шар
-
+коли завантаж нова сцена, прибирати траекторії и копіювати її в підвал.
+ctrl-C конфліктує з копіюванням кулі
 

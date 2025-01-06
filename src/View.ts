@@ -36,12 +36,6 @@ export class View
         ctx.strokeStyle = "black";
         ctx.strokeRect(this.box.x, this.box.y, this.box.width, this.box.height);
     
-        // draw scale
-        // for (let y = this.box.height, n = 0; y >= 0; y -= glo.pixInMeter, n++) {
-        //     ctx.fillText(n.toString(), 0, y + this.box.y );
-        // }
-        //ctx.stroke();
-    
         // draw balls
         for (let b of this.box.balls) {
             ctx.lineWidth = this.box.selected === b ? 3 * lineWidth : lineWidth;
@@ -52,7 +46,7 @@ export class View
                 let dot = b.dots[0];
                 // show the deformation of the ball
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
-                let kr = (G.distance(dot, b) / b.radius) ** 0.5; // зведення **0.5 наближає kr до 1 
+                let kr = (G.distance(dot, b) / b.radius);    // ** 0.5; // зведення **0.5 наближає kr до 1 
                 ctx.save();
                 ctx.translate(x, y);
                 ctx.rotate(alpha);
