@@ -3,7 +3,7 @@ export let glo =
     W: 0.5,     // conservation of energу when two balls strikes ( 1 - no loss)
     Wl: 0.95,   // conservation of energу when link reacts ( 1 - no loss)
 
-    K: 100,     // modulus of elasticity of a ball 
+    K: 128,     // modulus of elasticity of a ball 
     
     g: 0.0005,  // acceleration of gravity  
     
@@ -13,7 +13,6 @@ export let glo =
     REPEATER: 2,
 
     Kvelo: 100,      // for velocity drawing
-    // pixInMeter: 1000,
     Kg: 1000,        // for gravity range
 }
 

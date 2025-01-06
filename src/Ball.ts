@@ -47,7 +47,8 @@ export class Ball
 
 
     // вызывается, когда собраны точки касания
-    move(ax: number, ay: number) {
+    move() {
+        let ax = 0, ay = glo.g;
         let ball = this;
         if (ball.color === "blue")
             return;
@@ -61,12 +62,11 @@ export class Ball
             let u = G.unit(dot, ball, ballDotDistance);
 
             // coeff. conservation energy for link or for ball/line 
-            // let w = dot.fromLink ? glo.Wl : glo.W; 
-            let w = glo.W;
+            let w = dot.fromLink ? glo.Wl : glo.W; 
 
-            // потери зависят от фазы - сжатие или расжатие шара (scalar < 0 - сжатие)
+            // потери зависят от фазы - сжатие или расжатие шара (scalar > 0 - расжатие)
             let scalar = G.scalar(new Point(ball.vx, ball.vy), u);
-            w = scalar > 0 ? w : 1;
+            w = scalar > 0 ? w : 1;   
  
             let common = glo.K * w * dr / ball.m;     
             ax += common * u.x;

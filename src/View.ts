@@ -78,7 +78,7 @@ export class View
         for (let b of this.box.balls) {
             if (!b.dots) continue;
             for (let d of b.dots) {
-                if (!d) continue;
+                //if (!d) continue;
                 ctx.strokeStyle = 'black';
                 let x = this.box.x + d.x, y = this.box.y + d.y;
                 ctx.strokeRect(x-0.5, y-0.5, 1, 1);

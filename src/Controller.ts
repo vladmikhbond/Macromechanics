@@ -142,8 +142,8 @@ export class Controller
         doc.waistRange.value = v;
     }
     set K(v: string) {
-        glo.K = +v;
-        doc.rigidValue.innerHTML = "K = " + v;
+        glo.K = 2**+v;
+        doc.rigidValue.innerHTML = "K = " + glo.K;
         doc.rigidRange.value = v;
     }
 
@@ -239,7 +239,7 @@ export class Controller
         doc.graviRange.value = glo.g.toString();
         doc.waistRange.value = glo.W.toString();
         doc.waistLinkRange.value = glo.Wl.toString();
-        doc.rigidRange.value = glo.K.toString();
+        doc.rigidRange.value = Math.log2(glo.K).toString();
 
         doc.graviRange.dispatchEvent(new Event("change"));
         doc.waistRange.dispatchEvent(new Event("change"));
@@ -267,8 +267,8 @@ export class Controller
         });
 
         doc.rigidRange.addEventListener("change", () => {
-            glo.K = +doc.rigidRange.value;
-            doc.rigidValue.innerHTML = "K = " + doc.rigidRange.value;
+            glo.K = 2**+doc.rigidRange.value;
+            doc.rigidValue.innerHTML = "K = " + glo.K;
         });
 
         //----------------------------- document_keydown ----------------------------

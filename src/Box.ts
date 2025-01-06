@@ -172,7 +172,7 @@ export class Box {
             this.dotsAboutLinks();
             this.dotsFromLinks();
 
-            this.balls.forEach( b => b.move(0, glo.g) )
+            this.balls.forEach( b => b.move() )
         }
         glo.chronos++;
     }
