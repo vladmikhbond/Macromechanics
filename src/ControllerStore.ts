@@ -51,12 +51,19 @@ export class ControllerStore
             this.controller.mode = Mode.Stop;
         });
 
-        doc.sceneSelect.addEventListener("change", () => {
+        const saveScene = () => {
             ControllerStore.restoreSceneFromJson(doc.sceneSelect.value, this.box);
             // view 
             this.controller.resetUI()
             this.controller.mode = Mode.Stop;
-        });
+            this.controller.view.clearTrace();
+        }
+
+        doc.sceneSelect.addEventListener("change", saveScene);
+
+        doc.sceneSelect.addEventListener("click", saveScene);
+
+    
     }
 
     static sceneToJson(box: Box): string 

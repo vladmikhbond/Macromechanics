@@ -169,8 +169,8 @@ export class Box {
 
             this.dotsFromLines();
             this.dotsFromBalls();
-            this.dotsAboutLinks();
-            this.dotsFromLinks();
+            this.dotsFromLinksStrikes();
+            this.dotsFromLinksReactions();
 
             this.balls.forEach( b => b.move() )
         }
@@ -196,7 +196,7 @@ export class Box {
         for (let i = 0; i < balls.length - 1; i++) {
             for (let j = i + 1; j < balls.length; j++) {
                 let b1 = balls[i], b2 = balls[j];
-                let dot = Box.touchBallDot(b1, b2);
+                let dot = Box.getStrikeTwoBallsDot(b1, b2);
                 if (dot) {
                     b1.dots.push(dot);
                     b2.dots.push(dot);
@@ -206,7 +206,7 @@ export class Box {
     }
 
 
-    private static touchBallDot(b1: Ball, b2: Ball): Dot | null
+    private static getStrikeTwoBallsDot(b1: Ball, b2: Ball): Dot | null
     {
         let dist = G.distance(b1, b2);
         // шары далеко
@@ -226,43 +226,44 @@ export class Box {
         return new Dot(x, y);
     }
 
-    setLinkDots(link: Link, currentLen: number) 
+    private setLinkReactionDots(link: Link, currentLen: number) 
     {    
         let b1 = link.b1, b2 = link.b2;
         let u = G.unit(b2, b1, currentLen);
         
         let shift = currentLen < link.len0 
-            ? link.len0 - b1.radius - b2.radius  // compression
-            : link.len0 + b1.radius + b2.radius; // extention
+            ? link.len0 - b1.radius - b2.radius  // link compression
+            : link.len0 + b1.radius + b2.radius; // link extention
 
-        // shift second ball
+        // shift second ball forward
         b2.x += shift * u.x;
         b2.y += shift * u.y;
-
-        let dot1 = Box.touchBallDot(b1, b2)!;
+        // create dot for first ball
+        let dot1 = Box.getStrikeTwoBallsDot(b1, b2)!;
         dot1.fromLink = true;
         b1.dots.push(dot1);
 
         // shift second ball back
         b2.x -= shift * u.x;
         b2.y -= shift * u.y;
+        // create dot for second ball
         let dot2 = new Dot(dot1.x - shift * u.x, dot1.y - shift * u.y, true)
         b2.dots.push(dot2);
     }
 
     // Збирає на кулі віртуальні точки стикання, зумовлені зв'язками
     // точки зв'язків мають властивість fromLink = true
-    dotsFromLinks() {
+    dotsFromLinksReactions() {
         for (let link of this.links) {
             let currentLen = link.len;
             if (Math.abs(currentLen - link.len0) > 0.000001) {
-                this.setLinkDots(link, currentLen);
+                this.setLinkReactionDots(link, currentLen);
             }
         }
     }
 
     // Збирає на кулі точки стикання від ударів по зв'язкам
-    dotsAboutLinks()
+    dotsFromLinksStrikes()
     {
         for (let ball of this.balls) {
             for (let link of this.links) {

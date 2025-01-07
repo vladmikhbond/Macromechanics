@@ -13,6 +13,7 @@ export class Controller
     view: View;
     private intervalId = 0;   // base field for mode property
     private sceneJson = "";
+    private _mousePos0 = new Point(0, 0);    
     private _mousePos = new Point(0, 0);
     private _createMode = CreateMode.Ball;
 
@@ -29,6 +30,12 @@ export class Controller
         this.addChangeListeners();
         this.addKeyboardListeners();
         this.resetUI();  // last action of constructor
+
+        // mouse handler
+        doc.canvas.addEventListener('click',  (e) => {
+            this._mousePos0 = this.cursorPoint(e);
+            this.mousePos = this._mousePos0;
+        });
     }
 
     step() { 
@@ -125,7 +132,10 @@ export class Controller
 
     set mousePos(point: Point) {
         this._mousePos = point;
-        doc.mousePosSpan.innerHTML = `x=${point.x.toFixed(0)} y=${point.y.toFixed(0)}`;
+        // show metering
+        let x = point.x - this._mousePos0.x;
+        let y = point.y - this._mousePos0.y;
+        doc.mousePosSpan.innerHTML = `x=${x.toFixed(0)} y=${y.toFixed(0)}`;
     }
     get mousePos(): Point {
         return this._mousePos
@@ -273,6 +283,7 @@ export class Controller
 
         //----------------------------- document_keydown ----------------------------
     }
+
     addKeyboardListeners() {
         document.addEventListener("keydown", (e) => {
             switch (e.key) {
