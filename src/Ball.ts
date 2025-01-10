@@ -11,6 +11,8 @@ export class Dot extends Point {
     }     
 }
 
+// Ball - куля.
+// move() - переміщення кулі. Викликається, коли зібрані усі точки дотику
 export class Ball 
 {
     x: number; y: number; radius: number; color: string; vx: number; vy: number; m: number;
@@ -26,7 +28,7 @@ export class Ball
         this.color = c;
         this.vx = vx;
         this.vy = vy;
-        // если масса не задана, она равна квадрату радиуса
+        // якщо маса не задана, то вона пропорційна площа кулі
         this.m = m ? m : r * r;
     }
 
@@ -46,37 +48,44 @@ export class Ball
     }
 
 
-    // вызывается, когда собраны точки касания
+    // Переміщення кулі. 
+    // Викликається, коли зібрані усі точки дотику
     move() {
+        // сумарне прискорення
         let ax = 0, ay = glo.g;
         let ball = this;
         if (ball.color === "blue")
             return;
 
-        // суммируем ускорения от реакций точек касания
+        // складаємо прискорення від кожної точки дотику
         for (let dot of ball.dots) {
             let ballDotDistance = G.distance(ball, dot);
-            // differential of radius
-            let dr = ball.radius - ballDotDistance;
-            // единичный вектор от точки  касания к центру шара
+            // деформація кулі
+            let deform = ball.radius - ballDotDistance;
+            // одиничный вектор напряму від точки дотику до центру кулі
             let u = G.unit(dot, ball, ballDotDistance);
-
-            // coeff. conservation energy for link or for ball/line 
+            
+            // коєфіцієнт збереження енергії при дотику від ланки або від кулі
             let w = dot.fromLink ? glo.Wl : glo.W; 
 
-            // потери зависят от фазы - сжатие или расжатие шара (scalar > 0 - расжатие)
-            let scalar = G.scalar(new Point(ball.vx, ball.vy), u);
-            w = scalar > 0 ? w : 1;   
- 
-            let common = glo.K * w * dr / ball.m;     
-            ax += common * u.x;
-            ay += common * u.y;
+            // втрата енергії при дотику 
+            let scalarProduct = G.scalar(new Point(ball.vx, ball.vy), u);
+            let k = scalarProduct > 0 ? w : 1;   // у фазі зменшення деформації
+
+            // w = scalarProduct < 0 ? 1/w : 1;   // у фазі збільшення деформації
+            // w = scalarProduct > 0 ? w : 1;     // у фазі зменшення деформації
+           
+
+            // прискорення від точки дотику
+            let a = glo.K * w * k * deform / ball.m; 
+            ax += a * u.x;
+            ay += a * u.y;
         }
 
-        // изменение скорости
+        // зміна швидкості
         ball.vx += ax;
         ball.vy += ay;
-        // изменение координат
+        // зміна координат
         ball.x += ball.vx;
         ball.y += ball.vy;
     }

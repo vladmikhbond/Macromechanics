@@ -42,11 +42,7 @@ export class Controller
         this.box.step(); 
         this.view.drawAll(); 
         if (glo.chronos % 100 === 0) {
-            let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(0);
-            let [ek, ep] = this.box.sumEnergy;
-            // let impulse = this.box.sumImpulse.toFixed(2);
-            doc.infoSpan.innerHTML = `T=${seconds}  E=${(ek + ep).toFixed()}`;
-
+            this.view.showEnergy();
         }   
     }
 
@@ -295,6 +291,7 @@ export class Controller
                 // step execution
                 case 's': case 'S': case 'ы': case 'Ы':
                     this.step();
+                    this.view.showEnergy();
                     this.mode = Mode.Stop;
                     break;
 
