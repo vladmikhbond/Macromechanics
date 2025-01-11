@@ -10,7 +10,7 @@ export let glo =
     INTERVAL: 10,
     chronos: 0,      // in ticks (1 sec = 1000/INTERVAL ticks)
 
-    REPEATER: 2,
+    REPEATER: 1,
 
     Kvelo: 100,      // for velocity drawing
     Kg: 1000,        // for gravity range
