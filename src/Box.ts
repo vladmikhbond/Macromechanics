@@ -162,18 +162,15 @@ export class Box {
 
 //#region Mechanics
 
-    step() {
-        
-        for (let i = 0; i < glo.REPEATER; i++) {
-            this.balls.forEach(b => b.dots = []);
+    step() {        
+        this.balls.forEach(b => b.dots = []);
 
-            this.dotsFromLines();
-            this.dotsFromBalls();
-            this.dotsFromLinksStrikes();
-            this.dotsFromLinksReactions();
+        this.dotsFromLines();
+        this.dotsFromBalls();
+        this.dotsFromLinksStrikes();
+        this.dotsFromLinksReactions();
 
-            this.balls.forEach( b => b.move() )
-        }
+        this.balls.forEach( b => b.move() )
         glo.chronos++;
     }
 

@@ -8,10 +8,9 @@ export let glo =
     g: 0.0005,  // acceleration of gravity  
     
     INTERVAL: 10,
-    chronos: 0,      // in ticks (1 sec = 1000/INTERVAL ticks)
+    chronos: 0,      // time in ticks (1 sec = 1000/INTERVAL ticks)
 
-    REPEATER: 1,
-
+    viewDeform: false,  // show the deformation of the ball
     Kvelo: 100,      // for velocity drawing
     Kg: 1000,        // for gravity range
 }

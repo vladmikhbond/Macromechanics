@@ -42,22 +42,22 @@ export class View
             ctx.strokeStyle = b.color;
             ctx.beginPath();
             let x = this.box.x + b.x, y = this.box.y + b.y;
-            // if (b.dots && b.dots.length > 0) {
-            //     let dot = b.dots[0];
-            //     // show the deformation of the ball
-            //     let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
-            //     let kr = (G.distance(dot, b) / b.radius);    // ** 0.5; // зведення **0.5 наближає kr до 1 
-            //     ctx.save();
-            //     ctx.translate(x, y);
-            //     ctx.rotate(alpha);
-            //     ctx.scale(kr, 1/kr);
-            //     ctx.rotate(-alpha);
-            //     ctx.arc(0, 0, b.radius, 0, Math.PI * 2);
-            //     ctx.restore();        }
-            // else
-            // {
+            if (glo.viewDeform && b.dots && b.dots.length > 0) {
+                let dot = b.dots[0];
+                // show the deformation of the ball
+                let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
+                let kr = (G.distance(dot, b) / b.radius);    // ** 0.5; // зведення **0.5 наближає kr до 1 
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(alpha);
+                ctx.scale(kr, 1/kr);
+                ctx.rotate(-alpha);
+                ctx.arc(0, 0, b.radius, 0, Math.PI * 2);
+                ctx.restore();        }
+            else
+            {
                 ctx.arc(x, y, b.radius, 0, Math.PI * 2);
-            // }
+            }
 
             // draw velocity
             ctx.strokeRect(x + b.vx * glo.Kvelo - 0.5, y + b.vy * glo.Kvelo - 0.5, 1, 1);
@@ -139,7 +139,7 @@ export class View
                       doc.greenBallImg;
             let x = this.box.x + b.x, y = this.box.y + b.y;
 
-            if (b.dots && b.dots.length > 0) {
+            if (glo.viewDeform && b.dots && b.dots.length > 0) {
                 let dot = b.dots[0];
                 // show the deformation of the ball
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
@@ -199,7 +199,7 @@ export class View
     }
 
     // -----------------------------------------------------
-    showEnergy() {
+    showTime_n_Energy() {
         let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(0);
         let [ek, ep] = this.box.sumEnergy;
         doc.infoSpan.innerHTML = `T=${seconds}  E=${(ek + ep).toFixed()}`;

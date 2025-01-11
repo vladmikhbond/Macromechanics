@@ -17,8 +17,8 @@ export class Ball
 {
     x: number; y: number; radius: number; color: string; vx: number; vy: number; m: number;
     box: Box | null = null;
-    fx = 0;
-    fy = 0;
+    ax = 0;
+    ay = 0;
     dots: Dot[] = []
 
     constructor(x:number, y:number, r:number, c:string, vx:number, vy:number, m=0) {
@@ -82,6 +82,10 @@ export class Ball
         // зміна швидкості
         ball.vx += ax;
         ball.vy += ay;
+
+        // ball.ax = ax;
+        // ball.ay = ay;
+
         // зміна координат
         ball.x += ball.vx;
         ball.y += ball.vy;

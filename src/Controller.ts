@@ -42,7 +42,7 @@ export class Controller
         this.box.step(); 
         this.view.drawAll(); 
         if (glo.chronos % 100 === 0) {
-            this.view.showEnergy();
+            this.view.showTime_n_Energy();
         }   
     }
 
@@ -98,6 +98,7 @@ export class Controller
         } else {
             clearInterval(this.intervalId);
             this.intervalId = 0;
+            this.view.showTime_n_Energy();
         }
         // UI
         let icon = mode === Mode.Play ? "stop-fill.svg" : "play-fill.svg";
@@ -291,7 +292,7 @@ export class Controller
                 // step execution
                 case 's': case 'S': case 'ы': case 'Ы':
                     this.step();
-                    this.view.showEnergy();
+                    this.view.showTime_n_Energy();
                     this.mode = Mode.Stop;
                     break;
 
