@@ -42,7 +42,7 @@ export class View
             ctx.strokeStyle = b.color;
             ctx.beginPath();
             let x = this.box.x + b.x, y = this.box.y + b.y;
-            if (glo.viewDeform && b.dots && b.dots.length > 0) {
+            if (glo.showBallDeform && b.dots && b.dots.length > 0) {
                 let dot = b.dots[0];
                 // show the deformation of the ball
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
@@ -139,7 +139,7 @@ export class View
                       doc.greenBallImg;
             let x = this.box.x + b.x, y = this.box.y + b.y;
 
-            if (glo.viewDeform && b.dots && b.dots.length > 0) {
+            if (glo.showBallDeform && b.dots && b.dots.length > 0) {
                 let dot = b.dots[0];
                 // show the deformation of the ball
                 let alpha = Math.atan2(dot.y - b.y, dot.x - b.x);
@@ -199,7 +199,7 @@ export class View
     }
 
     // -----------------------------------------------------
-    showTime_n_Energy() {
+    showTimeAndEnergy() {
         let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(0);
         let [ek, ep] = this.box.sumEnergy;
         doc.infoSpan.innerHTML = `T=${seconds}  E=${(ek + ep).toFixed()}`;

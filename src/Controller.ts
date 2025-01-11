@@ -42,7 +42,7 @@ export class Controller
         this.box.step(); 
         this.view.drawAll(); 
         if (glo.chronos % 100 === 0) {
-            this.view.showTime_n_Energy();
+            this.view.showTimeAndEnergy();
         }   
     }
 
@@ -98,7 +98,7 @@ export class Controller
         } else {
             clearInterval(this.intervalId);
             this.intervalId = 0;
-            this.view.showTime_n_Energy();
+            this.view.showTimeAndEnergy();
         }
         // UI
         let icon = mode === Mode.Play ? "stop-fill.svg" : "play-fill.svg";
@@ -246,7 +246,7 @@ export class Controller
         doc.graviRange.value = glo.g.toString();
         doc.waistRange.value = glo.W.toString();
         doc.waistLinkRange.value = glo.Wl.toString();
-        doc.rigidRange.value = Math.log2(glo.K).toString();
+        doc.rigidRange.value = Math.log10(glo.K).toString();
 
         doc.graviRange.dispatchEvent(new Event("change"));
         doc.waistRange.dispatchEvent(new Event("change"));
@@ -274,7 +274,7 @@ export class Controller
         });
 
         doc.rigidRange.addEventListener("change", () => {
-            glo.K = 2**+doc.rigidRange.value;
+            glo.K = 10**+doc.rigidRange.value;
             doc.rigidValue.innerHTML = "K = " + glo.K;
         });
 
@@ -292,7 +292,7 @@ export class Controller
                 // step execution
                 case 's': case 'S': case 'ы': case 'Ы':
                     this.step();
-                    this.view.showTime_n_Energy();
+                    this.view.showTimeAndEnergy();
                     this.mode = Mode.Stop;
                     break;
 

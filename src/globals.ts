@@ -3,14 +3,14 @@ export let glo =
     W: 0.5,     // conservation of energу when two balls strikes ( 1 - no loss)
     Wl: 0.95,   // conservation of energу when link reacts ( 1 - no loss)
 
-    K: 128,     // modulus of elasticity of a ball 
+    K: 100,     // modulus of elasticity of a ball 
     
     g: 0.0005,  // acceleration of gravity  
     
     INTERVAL: 10,
     chronos: 0,      // time in ticks (1 sec = 1000/INTERVAL ticks)
 
-    viewDeform: false,  // show the deformation of the ball
+    showBallDeform: true,  // show the deformation of a ball
     Kvelo: 100,      // for velocity drawing
     Kg: 1000,        // for gravity range
 }
