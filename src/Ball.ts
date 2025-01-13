@@ -79,12 +79,25 @@ export class Ball
             ay += a * u.y;
         }
 
+        
+
+        let vx = ball.vx, vy = ball.vy;
+
         // зміна швидкості
         ball.vx += ax;
         ball.vy += ay;
-
-        // ball.ax = ax;
-        // ball.ay = ay;
+        
+        //================================================== test1
+        // ball.ax - кількість змін напрямку руху,  
+        // ball.ay - час публікації швидкості
+        if (ball.vx * vx < 0 || ball.vy * vy < 0) {
+            ball.ay = glo.chronos + 10;   
+        }
+        if (glo.chronos == ball.ay) {
+            ball.ax++;
+            console.log("opposite direction", ball.ax, ball.impulse / ball.m );
+        }
+        //__________________________________________________
 
         // зміна координат
         ball.x += ball.vx;

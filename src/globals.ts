@@ -10,7 +10,7 @@ export let glo =
     INTERVAL: 10,
     chronos: 0,      // time in ticks (1 sec = 1000/INTERVAL ticks)
 
-    showBallDeform: true,  // show the deformation of a ball
+    showBallDeform: false,  // show the deformation of a ball
     Kvelo: 100,      // for velocity drawing
     Kg: 1000,        // for gravity range
 }

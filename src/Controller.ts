@@ -11,6 +11,7 @@ export class Controller
 {
     box: Box;
     view: View;
+    controllerStore: ControllerStore;
     private intervalId = 0;   // base field for mode property
     private sceneJson = "";
     private _mousePos0 = new Point(0, 0);    
@@ -21,7 +22,7 @@ export class Controller
     constructor(box: Box, view: View) {
         this.box = box;
         this.view = view;
-        new ControllerStore(box, this);
+        this.controllerStore = new ControllerStore(box, this);
 
         // set state of UI
         this.mode = Mode.Stop;
