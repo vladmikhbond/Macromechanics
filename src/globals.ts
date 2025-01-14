@@ -1,7 +1,8 @@
 export let glo = 
 {
-    W: 0.5,     // conservation of energу when two balls strikes ( 1 - no loss)
-    Wl: 0.95,   // conservation of energу when link reacts ( 1 - no loss)
+    W: 0.5,      // conservation of energу when two balls strikes ( 1 - no loss)
+    Wl: 0.95,    // conservation of energу when link reacts ( 1 - no loss)
+    Wf: 0.999,   // conservation of energу when ball moves ( 1 - no loss)
 
     K: 100,     // modulus of elasticity of a ball 
     
@@ -31,10 +32,12 @@ export const doc =
     graviRange: <HTMLInputElement>document.getElementById("graviRange"),  
     waistRange: <HTMLInputElement>document.getElementById("waistRange"),
     waistLinkRange: <HTMLInputElement>document.getElementById("waistLinkRange"),
+    waistFrictRange: <HTMLInputElement>document.getElementById("waistFrictRange"),
     rigidRange: <HTMLInputElement>document.getElementById("rigidRange"),
     graviValue: <HTMLLabelElement>document.getElementById("graviValue"),
     waistValue: <HTMLLabelElement>document.getElementById("waistValue"),
     waistLinkValue: <HTMLLabelElement>document.getElementById("waistLinkValue"),
+    waistFrictValue: <HTMLLabelElement>document.getElementById("waistFrictValue"),
     rigidValue: <HTMLLabelElement>document.getElementById("rigidValue"),
     scenesDiv: <HTMLDivElement>document.getElementById("scenesDiv"),
     sceneSelect: <HTMLSelectElement>document.getElementById("sceneSelect"),

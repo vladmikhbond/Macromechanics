@@ -247,11 +247,13 @@ export class Controller
         doc.graviRange.value = glo.g.toString();
         doc.waistRange.value = glo.W.toString();
         doc.waistLinkRange.value = glo.Wl.toString();
+        doc.waistFrictRange.value = glo.Wf.toString();
         doc.rigidRange.value = Math.log10(glo.K).toString();
 
         doc.graviRange.dispatchEvent(new Event("change"));
         doc.waistRange.dispatchEvent(new Event("change"));
         doc.waistLinkRange.dispatchEvent(new Event("change"));
+        doc.waistFrictRange.dispatchEvent(new Event("change"));
         doc.rigidRange.dispatchEvent(new Event("change"));           
     }
 
@@ -260,23 +262,27 @@ export class Controller
 
         doc.graviRange.addEventListener("change", () => {
             glo.g = +doc.graviRange.value;
-            doc.graviValue.innerHTML = "G = " + (glo.g * glo.Kg).toFixed(1);
-
+            doc.graviValue.innerHTML = "G=" + (glo.g * glo.Kg).toFixed(1);
         });
 
         doc.waistRange.addEventListener("change", () => {
             glo.W = +doc.waistRange.value;
-            doc.waistValue.innerHTML = "W = " + doc.waistRange.value;
+            doc.waistValue.innerHTML = "W=" + doc.waistRange.value;
         });
 
         doc.waistLinkRange.addEventListener("change", () => {
             glo.Wl = +doc.waistLinkRange.value;
-            doc.waistLinkValue.innerHTML = "Wl = " + doc.waistLinkRange.value;
+            doc.waistLinkValue.innerHTML = "W<sub>L</sub>=" + doc.waistLinkRange.value;
+        });
+
+        doc.waistFrictRange.addEventListener("change", () => {
+            glo.Wf = +doc.waistFrictRange.value;
+            doc.waistFrictValue.innerHTML = "W<sub>F</sub>=" + doc.waistFrictRange.value;
         });
 
         doc.rigidRange.addEventListener("change", () => {
             glo.K = 10**+doc.rigidRange.value;
-            doc.rigidValue.innerHTML = "K = " + glo.K;
+            doc.rigidValue.innerHTML = "K=" + glo.K;
         });
 
         //----------------------------- document_keydown ----------------------------

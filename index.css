@@ -15,15 +15,15 @@
 
 input[type=range]
 {
-    width: 100px;
+    width: 80px;
     height: 14px;
     display: inline;
-    margin: 5px 0px 0px 5px;
+    margin: 4px 0px 0px 4px;
 }
 
 input[type=range]+label
 {
-    width: 80px;
+    width: 64px;
 }
 
 .panel-button {

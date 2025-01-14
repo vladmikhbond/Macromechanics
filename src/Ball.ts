@@ -17,8 +17,13 @@ export class Ball
 {
     x: number; y: number; radius: number; color: string; vx: number; vy: number; m: number;
     box: Box | null = null;
-    ax = 0;
+    ax = 0; 
     ay = 0;
+    
+    testC = 0;
+    testT = 0;
+    
+
     dots: Dot[] = []
 
     constructor(x:number, y:number, r:number, c:string, vx:number, vy:number, m=0) {
@@ -81,21 +86,27 @@ export class Ball
 
         
 
+        //================================================== test1
         let vx = ball.vx, vy = ball.vy;
+        //________________________________________________
 
         // зміна швидкості
         ball.vx += ax;
         ball.vy += ay;
+
+        // втрата енергії від тертя
+        ball.vx *= glo.Wf;
+        ball.vy *= glo.Wf;
         
         //================================================== test1
-        // ball.ax - кількість змін напрямку руху,  
-        // ball.ay - час публікації швидкості
+        // ball.testC - кількість змін напрямку руху,  
+        // ball.testT - час публікації швидкості
         if (ball.vx * vx < 0 || ball.vy * vy < 0) {
-            ball.ay = glo.chronos + 10;   
+            ball.testT = glo.chronos + 10;   
         }
-        if (glo.chronos == ball.ay) {
-            ball.ax++;
-            console.log("opposite direction", ball.ax, ball.impulse / ball.m );
+        if (glo.chronos == ball.testT) {
+            ball.testC++;
+            console.log("opposite direction", ball.testC, ball.impulse / ball.m );
         }
         //__________________________________________________
 
