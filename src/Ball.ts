@@ -98,9 +98,14 @@ export class Ball
         ball.vx *= glo.Wf;
         ball.vy *= glo.Wf;
         
+        // зміна координат
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+
         //================================================== test1
         // ball.testC - кількість змін напрямку руху,  
         // ball.testT - час публікації швидкості
+
         if (ball.vx * vx < 0 || ball.vy * vy < 0) {
             ball.testT = glo.chronos + 10;   
         }
@@ -108,11 +113,10 @@ export class Ball
             ball.testC++;
             console.log("opposite direction", ball.testC, ball.impulse / ball.m );
         }
+
+        //console.log(`\t${ax}\t${ay}\t${ball.vx}\t${ball.vy}\t${ball.x}\t${ball.y}\t`);
         //__________________________________________________
 
-        // зміна координат
-        ball.x += ball.vx;
-        ball.y += ball.vy;
 
     }
 

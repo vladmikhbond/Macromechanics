@@ -73,7 +73,7 @@ export class ControllerStore
             balls: box.balls,
             lines: box.lines,
             links: box.links.map(l => [l.b1.x, l.b1.y, l.b2.x, l.b2.y]),
-            g: glo.g, W: glo.W,  Wl: glo.Wl, K: glo.K, 
+            g: glo.g, W: glo.W, Wl: glo.Wl, Wf: glo.Wf, K: glo.K, 
         };
         let json = JSON.stringify(o);
         box.balls.forEach(b => b.box = box);  
@@ -101,6 +101,7 @@ export class ControllerStore
         glo.g = o.g;
         glo.W = o.W;
         glo.Wl = o.Wl;
+        glo.Wf = o.Wf;
         glo.K = o.K;
     }
 
