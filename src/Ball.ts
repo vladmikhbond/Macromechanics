@@ -6,7 +6,7 @@ import { Line } from "./Line.js";
 
 export class Dot extends Point {
 
-    from: Ball | Line | Link; // від якого об'єкта виходить точка 
+    from: Ball | Line | Link; // від якого об'єкта створена точка 
 
     constructor (x: number, y: number, from: Ball | Line | Link) {
         super(x, y);
@@ -47,6 +47,11 @@ export class Ball
     get potEnergy() {
         const b = this, h = b.box!.height - b.radius - b.y;   
         return b.m * glo.g * h;    
+    }
+
+    addDot(x: number, y: number, from: Ball | Line | Link ) {
+        let dot = new Dot(x, y, from);
+        this.dots.push(dot);
     }
 
     // m*|v| 
