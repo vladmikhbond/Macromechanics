@@ -181,7 +181,7 @@ export class Box {
                 let r = G.lineBallIntersect(line, ball);
                 if (r) {
                     let [x1, y1, x2, y2] = r;
-                    ball.dots.push(new Dot((x1 + x2) / 2, (y1 + y2) / 2));
+                    ball.dots.push(new Dot((x1 + x2) / 2, (y1 + y2) / 2, line));
                 }
             }
         }
@@ -193,17 +193,17 @@ export class Box {
         for (let i = 0; i < balls.length - 1; i++) {
             for (let j = i + 1; j < balls.length; j++) {
                 let b1 = balls[i], b2 = balls[j];
-                let dot = Box.getStrikeTwoBallsDot(b1, b2);
+                let dot = Box.getStrikeTwoBallsPoint(b1, b2);
                 if (dot) {
-                    b1.dots.push(dot);
-                    b2.dots.push(dot);
+                    b1.dots.push(new Dot(dot.x, dot.y, b2));
+                    b2.dots.push(new Dot(dot.x, dot.y, b1));
                 }
             }
         }
     }
 
 
-    private static getStrikeTwoBallsDot(b1: Ball, b2: Ball): Dot | null
+    private static getStrikeTwoBallsPoint(b1: Ball, b2: Ball): Point | null
     {
         let dist = G.distance(b1, b2);
         // шары далеко
@@ -220,7 +220,7 @@ export class Box {
         let x = b1.x + (b2.x - b1.x) * ratio;
         let y = b1.y + (b2.y - b1.y) * ratio;
 
-        return new Dot(x, y);
+        return new Point(x, y);
     }
 
     private setLinkReactionDots(link: Link, currentLen: number) 
@@ -236,15 +236,15 @@ export class Box {
         b2.x += shift * u.x;
         b2.y += shift * u.y;
         // create dot for first ball
-        let dot1 = Box.getStrikeTwoBallsDot(b1, b2)!;
-        dot1.fromLink = true;
+        let point = Box.getStrikeTwoBallsPoint(b1, b2)!;
+        let dot1 = new Dot(point.x, point.y, link);
         b1.dots.push(dot1);
 
         // shift second ball back
         b2.x -= shift * u.x;
         b2.y -= shift * u.y;
         // create dot for second ball
-        let dot2 = new Dot(dot1.x - shift * u.x, dot1.y - shift * u.y, true)
+        let dot2 = new Dot(dot1.x - shift * u.x, dot1.y - shift * u.y, link)
         b2.dots.push(dot2);
     }
 
@@ -278,7 +278,7 @@ export class Box {
                 // загальний розмір деформції 
                 let delta = ball.radius - d;
                 
-                // розподіл деформації між шарами гантелі
+                // розподіл деформації між кулями гантелі
                 let len1 = G.distance(link.b1, p), len2 = link.len0 - len1;
                 let common = delta / link.len0;
                 let delta1 = len2 * common;
@@ -287,18 +287,18 @@ export class Box {
                 let k = d / (ball.radius - delta);
                 let x = (p.x - ball.x) / k + ball.x;
                 let y = (p.y - ball.y) / k + ball.y;
-                ball.dots.push({x, y, fromLink: false});
+                ball.dots.push({x, y, from: link});
 
-                // точки касания для шаров гантели
+                // точки дотику на кулях гантелі
                 // u - единичный векор перпедикуляра к связи
                 let u = G.unit(p, ball, d);
                 // b1
                 let r1 = link.b1.radius - delta1;
-                let dot = new Dot(link.b1.x + r1 * u.x, link.b1.y + r1 * u.y);
+                let dot = new Dot(link.b1.x + r1 * u.x, link.b1.y + r1 * u.y, ball);
                 link.b1.dots.push(dot);
                 // b2
                 let r2 = link.b2.radius - delta2;
-                dot = new Dot(link.b2.x + r2 * u.x, link.b2.y + r2 * u.y);
+                dot = new Dot(link.b2.x + r2 * u.x, link.b2.y + r2 * u.y, ball);
                 link.b2.dots.push(dot);
             }
         }

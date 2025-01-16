@@ -1,6 +1,6 @@
 import { glo, doc } from "./globals.js";
 
-import { Box, Mode, CreateMode } from "./Box.js";
+import { Box, Mode} from "./Box.js";
 import { Controller } from "./Controller.js";
 import { Ball } from "./Ball.js";
 import { Line } from "./Line.js";
@@ -68,7 +68,7 @@ export class ControllerStore
 
     static sceneToJson(box: Box): string 
     {
-        box.balls.forEach(b => b.box = null);
+        box.balls.forEach(b => {b.box = null; b.dots = [];});
         let o = {
             balls: box.balls,
             lines: box.lines,

@@ -1,13 +1,16 @@
 import { glo } from "./globals.js"; 
 import { Geometry as G, Point} from "./Geometry.js"; 
 import {Box} from "./Box.js";  
+import { Link } from "./Link.js";
+import { Line } from "./Line.js";
 
 export class Dot extends Point {
-    fromLink: boolean; // 
 
-    constructor (x: number, y: number, fromLink = false) {
+    from: Ball | Line | Link; // від якого об'єкта виходить точка 
+
+    constructor (x: number, y: number, from: Ball | Line | Link) {
         super(x, y);
-        this.fromLink = fromLink;
+        this.from = from;
     }     
 }
 
@@ -71,7 +74,7 @@ export class Ball
             let u = G.unit(dot, ball, ballDotDistance);
             
             // коєфіцієнт збереження енергії при дотику від ланки або від кулі
-            let w = dot.fromLink ? glo.Wl : glo.W; 
+            let w = dot.from instanceof Link? glo.Wl : glo.W; 
 
             // втрата енергії при дотику 
             let scalarProduct = G.scalar(new Point(ball.vx, ball.vy), u);
