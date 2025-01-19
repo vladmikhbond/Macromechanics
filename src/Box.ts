@@ -163,7 +163,7 @@ export class Box {
 //#region Mechanics
 
     step() {        
-        this.balls.forEach(b => b.dots = []);
+        this.balls.forEach(b => b.clearDots());
 
         this.dotsFromLines();
         this.dotsFromBalls();

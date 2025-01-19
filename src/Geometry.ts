@@ -17,7 +17,8 @@ export class Geometry {
     static distance (a: Point, b: Point) {
         let dx = b.x - a.x;
         let dy = b.y - a.y;
-        return Math.sqrt(dx * dx + dy * dy);
+        let res = Math.sqrt(dx * dx + dy * dy);
+        return res;
     }
 
     // Скалярное произведение векторов

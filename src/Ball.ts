@@ -27,7 +27,9 @@ export class Ball
     testT = 0;
     
 
-    dots: Dot[] = []
+    dots: Dot[] = [];
+    dotShadows: (Ball|Line|Link) [] = [];
+    
 
     constructor(x:number, y:number, r:number, c:string, vx:number, vy:number, m=0) {
         this.x = x;
@@ -50,8 +52,20 @@ export class Ball
     }
 
     addDot(x: number, y: number, from: Ball | Line | Link ) {
+        //  
+        if (this.dotShadows.indexOf(from)== -1) {
+            glo.strikeCounter++;
+            //console.log("STRIKE");
+        }
+            
+        //
         let dot = new Dot(x, y, from);
         this.dots.push(dot);
+    }
+
+    clearDots() {
+        this.dotShadows = this.dots.map(d => d.from);
+        this.dots = [];
     }
 
     // m*|v| 
@@ -92,16 +106,10 @@ export class Ball
             ay += a * u.y;
         }
 
-        
-
-        //================================================== test1
-        let vx = ball.vx, vy = ball.vy;
-        //________________________________________________
-
         // зміна швидкості
         ball.vx += ax;
         ball.vy += ay;
-
+  
         // втрата енергії від тертя
         ball.vx *= glo.Wf;
         ball.vy *= glo.Wf;
@@ -109,23 +117,6 @@ export class Ball
         // зміна координат
         ball.x += ball.vx;
         ball.y += ball.vy;
-
-        //================================================== test1
-        // ball.testC - кількість змін напрямку руху,  
-        // ball.testT - час публікації швидкості
-
-        if (ball.vx * vx < 0 || ball.vy * vy < 0) {
-            ball.testT = glo.chronos + 10;   
-        }
-        if (glo.chronos == ball.testT) {
-            ball.testC++;
-            console.log("opposite direction", ball.testC, ball.impulse / ball.m );
-        }
-
-        //console.log(`\t${ax}\t${ay}\t${ball.vx}\t${ball.vy}\t${ball.x}\t${ball.y}\t`);
-        //__________________________________________________
-
-
     }
 
 }

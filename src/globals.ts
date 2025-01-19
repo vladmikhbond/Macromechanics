@@ -14,6 +14,8 @@ export let glo =
     showBallDeform: false,  // show the deformation of a ball
     Kvelo: 100,      // for velocity drawing
     Kg: 1000,        // for gravity range
+
+    strikeCounter: 0,
 }
 
 export const doc = 

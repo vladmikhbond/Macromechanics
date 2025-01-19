@@ -68,7 +68,7 @@ export class ControllerStore
 
     static sceneToJson(box: Box): string 
     {
-        box.balls.forEach(b => {b.box = null; b.dots = [];});
+        box.balls.forEach(b => {b.box = null; b.clearDots();});
         let o = {
             balls: box.balls,
             lines: box.lines,

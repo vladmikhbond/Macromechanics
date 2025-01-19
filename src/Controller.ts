@@ -50,7 +50,7 @@ export class Controller
 
     // Встановлює поле box.selected і показує панель параметрів для обраної кулі або лінії.
     set selected(obj: Ball | Line | Link | null) {
-        // inner function
+        // inner function - show a param
         function show(val: number | string, id: string) {
             if (typeof val == 'number')
                 val = val.toFixed(2);
@@ -144,11 +144,13 @@ export class Controller
         doc.graviValue.innerHTML = "G = " + glo.g.toFixed(3);
         doc.graviRange.value = v;
     }
+
     set W(v: string) {
         glo.W = +v;
         doc.waistValue.innerHTML = "W = " + v;
         doc.waistRange.value = v;
     }
+    
     set K(v: string) {
         glo.K = 2**+v;
         doc.rigidValue.innerHTML = "K = " + glo.K;
