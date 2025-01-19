@@ -250,7 +250,7 @@ export class Controller
         doc.waistRange.value = glo.W.toString();
         doc.waistLinkRange.value = glo.Wl.toString();
         doc.waistFrictRange.value = glo.Wf.toString();
-        doc.rigidRange.value = Math.log10(glo.K).toString();
+        doc.rigidRange.value = Math.log2(glo.K).toString();
 
         doc.graviRange.dispatchEvent(new Event("change"));
         doc.waistRange.dispatchEvent(new Event("change"));
@@ -269,7 +269,7 @@ export class Controller
 
         doc.waistRange.addEventListener("change", () => {
             glo.W = +doc.waistRange.value;
-            doc.waistValue.innerHTML = "W=" + doc.waistRange.value;
+            doc.waistValue.innerHTML = "W<sub>B</sub>=" + doc.waistRange.value;
         });
 
         doc.waistLinkRange.addEventListener("change", () => {
@@ -283,7 +283,7 @@ export class Controller
         });
 
         doc.rigidRange.addEventListener("change", () => {
-            glo.K = 10**+doc.rigidRange.value;
+            glo.K = 2**+doc.rigidRange.value;
             doc.rigidValue.innerHTML = "K=" + glo.K;
         });
 
@@ -299,7 +299,7 @@ export class Controller
                     break;
 
                 // step execution
-                case 's': case 'S': case 'ы': case 'Ы':
+                case 's': case 'S': case 'і': case 'І':
                     this.step();
                     this.view.showTimeAndEnergy();
                     this.mode = Mode.Stop;
@@ -307,6 +307,9 @@ export class Controller
 
                 // copy selected ball
                 case 'c': case 'C': case 'с': case 'С':
+                    if (e.ctrlKey) {
+                        break;
+                    }
                     if (this.selected instanceof Ball) {
                         let s = this.selected;
                         let ball = new Ball(this.mousePos.x, this.mousePos.y, s.radius, s.color, s.vx, s.vy, s.m);
