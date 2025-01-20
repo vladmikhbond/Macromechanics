@@ -201,7 +201,7 @@ export class View
     // -----------------------------------------------------
     showTimeAndEnergy() {
         let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(0);
-        let [ek, ep] = this.box.sumEnergy;
-        doc.infoSpan.innerHTML = `T=${seconds}  E=${(ek + ep).toFixed()}`;
+        let [ek, eg, ed] = this.box.energy;
+        doc.infoSpan.innerHTML = `T=${seconds}  E=${(ek + eg + ed).toFixed()}`;
     }   
 }

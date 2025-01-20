@@ -33,18 +33,15 @@ export class Box {
         ];
     }
 
-    get sumEnergy() {
-        let ek = 0, ep  =0;
-        this.balls.forEach( b => { ek += b.kinEnergy; ep += b.potEnergy; });
-        return [ek, ep]
+    get energy() {
+        let eKin = 0, ePot = 0, eDef = 0;
+        for(let b of this.balls) {
+            eKin += b.kinEnergy;
+            ePot += b.potEnergy;
+            eDef += b.defEnergy;
+        }
+        return [eKin, ePot, eDef];
     }
-
-    get sumImpulse() {
-        let e = 0;
-        this.balls.forEach( b => e += b.impulse);
-        return e | 0;
-    }
-
 
 //#region  Ball Suit
 

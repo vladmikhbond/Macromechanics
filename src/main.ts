@@ -62,7 +62,7 @@ function test_2(k: number, v: number, steps: number) {
     for (let s = 0; s < steps; s++) {
         controller.step();
     }
-    let newV = b1.impulse / b1.m;
+    let newV = Math.sqrt(2 * b1.kinEnergy / b1.m);
     let err = (newV - v) / glo.strikeCounter**0.5;
 
     console.log(err, glo.strikeCounter);
@@ -77,14 +77,14 @@ function test_3(k: number, steps: number) {
     view.drawAll();
     
     glo.strikeCounter = 0;
-    let Ek = box.sumEnergy[0];
+    let E = box.energy[0] + box.energy[1] + box.energy[2];
     for (let s = 0; s < steps; s++) {
         controller.step();
     }
-    let newEk = box.sumEnergy[0];
-    let err = (newEk - Ek) / Ek / glo.strikeCounter**0.5;
+    let newE = box.energy[0] + box.energy[1] + box.energy[2];;
+    let err = (newE - E) / E / Math.sqrt(glo.strikeCounter);
 
-    console.log(`${steps}\t ${Ek}\t ${newEk}\t ${err}\t ${glo.strikeCounter}`);
+    console.log(`${steps}\t ${E}\t ${newE}\t ${err}\t ${glo.strikeCounter}`);
     view.drawAll();
 }
 

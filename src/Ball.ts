@@ -50,6 +50,15 @@ export class Ball
         const b = this, h = b.box!.height - b.radius - b.y;   
         return b.m * glo.g * h;    
     }
+    get defEnergy() {
+        const b = this;
+        let e = 0;
+        b.dotShadows.forEach(d => {
+            let def = G.distance(d, b) - b.radius;
+            e += glo.K * def**2 / 2;
+        });
+        return e;   
+    }
 
     addDot(x: number, y: number, from: Ball | Line | Link ) {
         //  
@@ -66,12 +75,6 @@ export class Ball
     clearDots() {
         this.dotShadows = this.dots.map(d => d.from);
         this.dots = [];
-    }
-
-    // m*|v| 
-    get impulse() {
-        let ball = this;
-        return ball.m * Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
     }
 
 
