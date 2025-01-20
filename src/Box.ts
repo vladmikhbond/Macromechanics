@@ -160,6 +160,12 @@ export class Box {
 //#region Mechanics
 
     step() {        
+        this.collectDots();
+        this.balls.forEach( b => b.move() )
+        glo.chronos++;
+    }
+
+    collectDots() {
         this.balls.forEach(b => b.clearDots());
 
         this.dotsFromLines();
@@ -167,9 +173,8 @@ export class Box {
         this.dotsFromLinksStrikes();
         this.dotsFromLinksReactions();
 
-        this.balls.forEach( b => b.move() )
-        glo.chronos++;
     }
+
 
     // Збирає на кулі точки стикання з лініями (в т.ч. із межами).
     dotsFromLines() {

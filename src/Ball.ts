@@ -28,7 +28,7 @@ export class Ball
     
 
     dots: Dot[] = [];
-    dotShadows: (Ball|Line|Link) [] = [];
+    dotShadows: Dot[] = [];
     
 
     constructor(x:number, y:number, r:number, c:string, vx:number, vy:number, m=0) {
@@ -53,7 +53,7 @@ export class Ball
     get defEnergy() {
         const b = this;
         let e = 0;
-        b.dotShadows.forEach(d => {
+        b.dots.forEach(d => {
             let def = G.distance(d, b) - b.radius;
             e += glo.K * def**2 / 2;
         });
@@ -62,9 +62,9 @@ export class Ball
 
     addDot(x: number, y: number, from: Ball | Line | Link ) {
         //  
-        if (this.dotShadows.indexOf(from)== -1) {
+        if (!this.dotShadows.find(d => d.from === from)) {
             glo.strikeCounter++;
-            //console.log("STRIKE");
+            // console.log("STRIKE"); 
         }
             
         //
@@ -73,7 +73,7 @@ export class Ball
     }
 
     clearDots() {
-        this.dotShadows = this.dots.map(d => d.from);
+        this.dotShadows = this.dots;
         this.dots = [];
     }
 

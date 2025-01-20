@@ -17,10 +17,10 @@ let controller = new Controller(box, view);
 //    test_1(100, 345, 5)  // striking
 
 
-test_3(100, 1000)
-test_3(100, 10000)   
-test_3(100, 100000)   
-test_3(100, 1000010)   
+// test_3(100, 1000)
+// test_3(100, 10000)   
+// test_3(100, 100000)   
+// test_3(100, 1000010)   
     
    
 
