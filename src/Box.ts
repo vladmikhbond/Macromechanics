@@ -159,11 +159,11 @@ export class Box {
 
 //#region Mechanics
 
-    step() {        
-        this.collectDots();
-        this.balls.forEach( b => b.move() )
-        glo.chronos++;
-    }
+    // step() {        
+    //     this.collectDots();
+    //     this.balls.forEach( b => b.move() )
+    //     glo.chronos++;
+    // }
 
     collectDots() {
         this.balls.forEach(b => b.clearDots());

@@ -40,11 +40,15 @@ export class Controller
     }
 
     step() { 
-        this.box.step(); 
-        this.view.drawAll(); 
+        glo.chronos++;
+        this.box.collectDots();
+        this.box.balls.forEach( b => b.move() )
+        this.view.drawAll();
+        
         if (glo.chronos % 100 === 0) {
             this.view.showTimeAndEnergy();
-        }   
+        }
+
     }
 
 
@@ -104,7 +108,7 @@ export class Controller
         // UI
         let icon = mode === Mode.Play ? "stop-fill.svg" : "play-fill.svg";
         (doc.modeButton.children[0] as HTMLImageElement).src = "/assets/icons/" + icon;
-        this.view.drawAll();
+        //this.view.drawAll();
     }
     get mode(): Mode {
         return this.intervalId ? Mode.Play : Mode.Stop;

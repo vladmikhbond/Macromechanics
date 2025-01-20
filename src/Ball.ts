@@ -53,8 +53,8 @@ export class Ball
     get defEnergy() {
         const b = this;
         let e = 0;
-        b.dots.forEach(d => {
-            let def = G.distance(d, b) - b.radius;
+        b.dots.forEach(dot => {
+            let def = b.radius - G.distance(dot, b);
             e += glo.K * def**2 / 2;
         });
         return e;   
