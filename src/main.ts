@@ -17,10 +17,10 @@ let controller = new Controller(box, view);
 //    test_1(100, 345, 5)  // striking
 
 
-// test_3(100, 1000)
+//test_3(100, 1000)
 // test_3(100, 10000)   
-// test_3(100, 100000)   
-// test_3(100, 1000010)   
+//test_3(100, 100000)   
+test_3(100, 1000010)   
     
    
 
@@ -77,14 +77,16 @@ function test_3(k: number, steps: number) {
     view.drawAll();
     
     glo.strikeCounter = 0;
-    let E = box.energy[0] + box.energy[1] + box.energy[2];
+    let E = box.energy[0];
     for (let s = 0; s < steps; s++) {
         controller.step();
     }
-    let newE = box.energy[0] + box.energy[1] + box.energy[2];;
-    let err = (newE - E) / E / Math.sqrt(glo.strikeCounter);
+    let finalE = box.energy[0];
+    let errs = (finalE - E) / E ;
+    let err = errs / Math.sqrt(glo.strikeCounter);
 
-    console.log(`${steps}\t ${E}\t ${newE}\t ${err}\t ${glo.strikeCounter}`);
+    console.log(`${steps}\t ${E}\t ${finalE}\t ${errs}\t ${err}\t ${glo.strikeCounter}`);
+    
     view.drawAll();
 }
 

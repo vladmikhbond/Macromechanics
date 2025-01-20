@@ -51,9 +51,11 @@ export class Ball
         return b.m * glo.g * h;    
     }
     get defEnergy() {
+        return 0;
+        // do not undestand why 
         const b = this;
         let e = 0;
-        b.dots.forEach(dot => {
+        b.dotShadows.forEach(dot => {
             let def = b.radius - G.distance(dot, b);
             e += glo.K * def**2 / 2;
         });
@@ -63,7 +65,11 @@ export class Ball
     addDot(x: number, y: number, from: Ball | Line | Link ) {
         //  
         if (!this.dotShadows.find(d => d.from === from)) {
-            glo.strikeCounter++;
+            if (from instanceof Ball)
+                glo.strikeCounter += 0.5;
+            if (from instanceof Line)
+                glo.strikeCounter += 1;
+              
             // console.log("STRIKE"); 
         }
             

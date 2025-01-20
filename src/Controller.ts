@@ -41,8 +41,8 @@ export class Controller
 
     step() { 
         glo.chronos++;
-        this.box.collectDots();
         this.box.balls.forEach( b => b.move() )
+        this.box.collectDots();
         this.view.drawAll();
         
         if (glo.chronos % 100 === 0) {
