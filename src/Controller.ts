@@ -268,7 +268,7 @@ export class Controller
 
         doc.graviRange.addEventListener("change", () => {
             glo.g = +doc.graviRange.value;
-            doc.graviValue.innerHTML = "G=" + (glo.g * glo.Kg).toFixed(1);
+            doc.graviValue.innerHTML = "G=" + glo.g.toFixed(3);
         });
 
         doc.waistRange.addEventListener("change", () => {

@@ -61,7 +61,7 @@ export class Ball
         });
         return e;   
     }
-
+                        
     addDot(x: number, y: number, from: Ball | Line | Link ) {
         //  
         if (!this.dotShadows.find(d => d.from === from)) {

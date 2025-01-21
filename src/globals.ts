@@ -6,7 +6,7 @@ export let glo =
 
     K: 100,     // modulus of elasticity of a ball 
     
-    g: 0.0005,  // acceleration of gravity  
+    g: 0.005,  // acceleration of gravity  
     
     INTERVAL: 10,
     chronos: 0,      // time in ticks (1 sec = 1000/INTERVAL ticks)
