@@ -80,7 +80,7 @@ input[type=range]+label
 
 /* -----------------  Board Styles -------------------------- */
 
-#ballBoard, #lineBoard {
+#ballBoard, #lineBoard, #problemBoard {
     border: solid 1px;
     border-color: rgb(117 190 218 / 60%);
     font-family: monospace;
@@ -91,6 +91,10 @@ input[type=range]+label
     display: none; 
     z-index: 3;
 }
+#problemBoard {
+    left: 0;
+}
+
 #canvas {
     z-index: 2;
 }

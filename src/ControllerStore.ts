@@ -5,11 +5,13 @@ import { Controller } from "./Controller.js";
 import { Ball } from "./Ball.js";
 import { Line } from "./Line.js";
 import { Link } from "./Link.js";
+import { Problem } from "./Problem.js";
 
 export class ControllerStore 
 {
     box: Box;
     controller: Controller;
+    problems: Problem[] = [];
     
     constructor(box: Box, controller: Controller) {
         this.box = box;
@@ -21,16 +23,22 @@ export class ControllerStore
 
     async loadStore() {
         try {
-            const response = await fetch("./store.dat");
+            const response = await fetch("./problems.dat");
             if (!response.ok) {
                 throw new Error(`Помилка завантаження файлу: ${response.statusText}`);
             }
             const text = await response.text();
-            const regex = /^---(.*)\r\n(.*)/gm;        // 1gr - text, 2gr - value
+            //const regex = /^---(.*)\r\n(.*)/gm;        // 1gr - text, 2gr - value
+            const regex = /TITLE:((.|\r|\n)*?)COND:((.|\r|\n)*?)INIT:((.|\r|\n)*?)FINAL:((.|\r|\n)*?)---/gm
             const matches = [...text.matchAll(regex)];
-            const options: HTMLOptionElement[] = matches.map(m => new Option(m[1], m[2]));
+            this.problems = matches.map(m => new Problem(m));
+
+            // UI
+            const options: HTMLOptionElement[] = this.problems.map((p, i) => new Option(p.title, i.toString()));
             doc.sceneSelect.innerHTML = '';
-            doc.sceneSelect.append(...options);  
+            doc.sceneSelect.append(...options); 
+            doc.sceneSelect.selectedIndex = 0; 
+            doc.sceneSelect.dispatchEvent(new Event('change'));
         } 
         catch (error: any) {
             console.error('Помилка:', error.message);
@@ -51,17 +59,23 @@ export class ControllerStore
             this.controller.mode = Mode.Stop;
         });
 
-        const saveScene = () => {
-            ControllerStore.restoreSceneFromJson(doc.sceneSelect.value, this.box);
-            // view 
+        const loadProblemInitScene = () => {
+            // 
+            let idx = +doc.sceneSelect.value;
+            let problem = this.problems[idx];
+
+            ControllerStore.restoreSceneFromJson(this.problems[idx].init, this.box);
+            // UI & view 
             this.controller.resetUI()
             this.controller.mode = Mode.Stop;
             this.controller.view.clearTrace();
+            doc.problemBoard.innerHTML = problem.cond;
+            doc.problemBoard.style.display = problem.cond ? 'block' : 'none'; 
         }
 
-        doc.sceneSelect.addEventListener("change", saveScene);
+        doc.sceneSelect.addEventListener("change", loadProblemInitScene);
 
-        doc.sceneSelect.addEventListener("click", saveScene);
+        doc.sceneSelect.addEventListener("click", loadProblemInitScene);
 
     
     }

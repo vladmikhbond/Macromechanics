@@ -46,6 +46,7 @@ export const doc =
     
     modeGlif: <HTMLSpanElement>document.getElementById("modeGlif"),
     restartButton: <HTMLButtonElement>document.getElementById("restartButton"),
+    problemBoard: <HTMLDivElement>document.getElementById("problemBoard"),
     ballBoard: <HTMLDivElement>document.getElementById("ballBoard"),
     lineBoard: <HTMLDivElement>document.getElementById("lineBoard"),
     applyBallButton: <HTMLButtonElement>document.getElementById("applyBallButton"),
