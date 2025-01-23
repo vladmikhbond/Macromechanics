@@ -28,8 +28,7 @@ export class ControllerStore
                 throw new Error(`Помилка завантаження файлу: ${response.statusText}`);
             }
             const text = await response.text();
-            //const regex = /^---(.*)\r\n(.*)/gm;        // 1gr - text, 2gr - value
-            const regex = /TITLE:((.|\r|\n)*?)COND:((.|\r|\n)*?)INIT:((.|\r|\n)*?)FINAL:((.|\r|\n)*?)---/gm
+            const regex = /TITLE:((.|\r|\n)*?)COND:((.|\r|\n)*?)INIT:((.|\r|\n)*?)ANSWER:((.|\r|\n)*?)---/gm
             const matches = [...text.matchAll(regex)];
             this.problems = matches.map(m => new Problem(m));
 
@@ -69,7 +68,7 @@ export class ControllerStore
             this.controller.resetUI()
             this.controller.mode = Mode.Stop;
             this.controller.view.clearTrace();
-            doc.problemBoard.innerHTML = problem.cond;
+            (document.getElementById('condDiv') as HTMLDivElement).innerHTML= problem.cond;
             doc.problemBoard.style.display = problem.cond ? 'block' : 'none'; 
         }
 

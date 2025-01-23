@@ -92,6 +92,8 @@ input[type=range]+label
     z-index: 3;
 }
 #problemBoard {
+    background-color: rgba(241, 241, 10, 0.1);
+    width: 500px;
     left: 0;
 }
 
