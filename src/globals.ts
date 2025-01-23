@@ -49,6 +49,8 @@ export const doc =
     problemBoard: <HTMLDivElement>document.getElementById("problemBoard"),
     ballBoard: <HTMLDivElement>document.getElementById("ballBoard"),
     lineBoard: <HTMLDivElement>document.getElementById("lineBoard"),
+    answerButton: <HTMLButtonElement>document.getElementById("answerButton"),
+    answerText: <HTMLInputElement>document.getElementById("answerText"),
     applyBallButton: <HTMLButtonElement>document.getElementById("applyBallButton"),
     applyLineButton: <HTMLButtonElement>document.getElementById("applyLineButton"),
     redBallImg: <HTMLImageElement>document.getElementById("redBallImg"),

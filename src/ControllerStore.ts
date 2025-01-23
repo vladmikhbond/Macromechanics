@@ -76,6 +76,15 @@ export class ControllerStore
 
         doc.sceneSelect.addEventListener("click", loadProblemInitScene);
 
+        doc.answerButton.addEventListener("click", (e) => {
+            let idx = +doc.sceneSelect.value;
+            let problem = this.problems[idx];
+            let epsilon = Math.abs((+doc.answerText.value - +problem.answer) / +problem.answer);
+            doc.problemBoard.style.backgroundColor = 
+                doc.answerText.value == problem.answer || epsilon < 0.05 ?  'lightgreen' : 'rgba(241, 241, 10, 0.1)';   
+      });
+
+
     
     }
 
