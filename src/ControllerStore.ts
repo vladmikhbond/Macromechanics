@@ -7,6 +7,8 @@ import { Line } from "./Line.js";
 import { Link } from "./Link.js";
 import { Problem } from "./Problem.js";
 
+// Відповідає за збереження сцен і за задачі
+//
 export class ControllerStore 
 {
     box: Box;
@@ -77,12 +79,13 @@ export class ControllerStore
         doc.sceneSelect.addEventListener("click", loadProblemInitScene);
 
         doc.answerButton.addEventListener("click", (e) => {
+            const MAX_ERROR = 0.03;  // 3%
             let idx = +doc.sceneSelect.value;
             let problem = this.problems[idx];
             let epsilon = Math.abs((+doc.answerText.value - +problem.answer) / +problem.answer);
             doc.problemBoard.style.backgroundColor = 
-                doc.answerText.value == problem.answer || epsilon < 0.05 ?  'lightgreen' : 'rgba(241, 241, 10, 0.1)';   
-      });
+                doc.answerText.value == problem.answer || epsilon < MAX_ERROR ?  'lightgreen' : 'rgba(241, 241, 10, 0.1)';   
+        });
 
 
 
