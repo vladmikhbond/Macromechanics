@@ -71,17 +71,19 @@ export class Controller
             show(obj.m, 'massaText');
             show(obj.radius, 'radiusText'); 
             show(obj.x, 'xText'); 
-            show(obj.y, 'yText');
+            show(doc.canvas.height - obj.y, 'yText');
             show(obj.vx, 'vxText'); 
-            show(obj.vy, 'vyText');
+            show(-obj.vy, 'vyText');
             let el = document.getElementById('colorText') as HTMLSelectElement;
             el.value = obj.color;            
         }
         else if (obj instanceof Line) {
             doc.ballBoard.style.display = 'none';
             doc.lineBoard.style.display = 'block';
-            show(obj.x1, 'x1Text'); show(obj.y1, 'y1Text');
-            show(obj.x2, 'x2Text'); show(obj.y2, 'y2Text');
+            show(obj.x1, 'x1Text'); 
+            show(doc.canvas.height - obj.y1, 'y1Text');
+            show(obj.x2, 'x2Text'); 
+            show(doc.canvas.height - obj.y2, 'y2Text');
         }
         else 
         {
@@ -136,7 +138,7 @@ export class Controller
         this._mousePos = point;
         // show metering
         let x = point.x - this._mousePos0.x;
-        let y = point.y - this._mousePos0.y;
+        let y = -(point.y - this._mousePos0.y);
         doc.mousePosSpan.innerHTML = `x=${x.toFixed(0)} y=${y.toFixed(0)}`;
     }
     get mousePos(): Point {
@@ -232,8 +234,10 @@ export class Controller
             if (ball) {
                 ball.m = +read('massaText');
                 ball.radius = +read('radiusText'); ball.color = read('colorText');
-                ball.x = +read('xText'); ball.y = +read('yText');
-                ball.vx = +read('vxText'); ball.vy = +read('vyText');
+                ball.x = +read('xText'); 
+                ball.y = doc.canvas.height - +read('yText');
+                ball.vx = +read('vxText'); 
+                ball.vy = -read('vyText');
             }
             this.view.drawAll();
         });
@@ -241,7 +245,11 @@ export class Controller
         doc.applyLineButton.addEventListener("click", () => {
             const line = this.selected as Line;
             if (line) {
-                line.setInvariant(+read('x1Text'), +read('y1Text'), +read('x2Text'), +read('y2Text'));
+                line.setInvariant(
+                    +read('x1Text'), 
+                    doc.canvas.height - +read('yText'), 
+                    +read('x2Text'), 
+                    doc.canvas.height - +read('y2Text'));
             }
             this.view.drawAll();
         });
