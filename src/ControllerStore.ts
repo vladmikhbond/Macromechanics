@@ -85,7 +85,7 @@ export class ControllerStore
       });
 
 
-    
+
     }
 
     static sceneToJson(box: Box): string 
