@@ -1,3 +1,6 @@
+body {
+    background-color: darkgrey;
+}
 
 :root {
     --canvas-width: 800px;
@@ -66,11 +69,12 @@ input[type=range]+label
 }
 
 /* ----------------- Canvas Containeer -------------------------- */
+
 .canvas-cont {
     position: relative;
     width: var(--canvas-width);
     height: var(--canvas-height);
-    
+    background-color: white;
 }
 .canvas-item {
     position: absolute;
@@ -82,19 +86,24 @@ input[type=range]+label
 
 #ballBoard, #lineBoard, #problemBoard {
     border: solid 1px;
-    border-color: rgb(117 190 218 / 60%);
+    border-color: rgb(117 190 218 / 70%);
     font-family: monospace;
     font-weight: 800;
     color: gray;
     padding: 5px;
-    background-color: rgb(117 190 218 / 10%);  
+    background-color: rgb(117 190 218 / 20%);  
     display: none; 
-    z-index: 3;
+    z-index: 3;        
 }
 #problemBoard {
     background-color: rgba(241, 241, 10, 0.1);
     width: 500px;
     left: 0;
+}
+
+#answerText {
+    width: 100px; 
+    background-color: rgba(255,255,255, 0);
 }
 
 #canvas {
@@ -111,7 +120,6 @@ input[type=range]+label
     margin-bottom: 3px;
     background-color: rgb(117 190 218 / 0%); 
     border-color: rgb(117 190 218 / 60%);
-
 }
 
 .board-button {

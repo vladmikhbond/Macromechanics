@@ -225,19 +225,19 @@ export class Controller
     
 
         // inner function
-        function read(id: string): string {
+        function value(id: string): string {
             return (document.getElementById(id) as HTMLInputElement).value;
         }
 
         doc.applyBallButton.addEventListener("click", () => {
             const ball = this.selected as Ball;
             if (ball) {
-                ball.m = +read('massaText');
-                ball.radius = +read('radiusText'); ball.color = read('colorText');
-                ball.x = +read('xText'); 
-                ball.y = doc.canvas.height - +read('yText');
-                ball.vx = +read('vxText'); 
-                ball.vy = -read('vyText');
+                ball.m = +value('massaText');
+                ball.radius = +value('radiusText'); ball.color = value('colorText');
+                ball.x = +value('xText'); 
+                ball.y = doc.canvas.height - +value('yText');
+                ball.vx = +value('vxText'); 
+                ball.vy = -value('vyText');
             }
             this.view.drawAll();
         });
@@ -246,10 +246,10 @@ export class Controller
             const line = this.selected as Line;
             if (line) {
                 line.setInvariant(
-                    +read('x1Text'), 
-                    doc.canvas.height - +read('yText'), 
-                    +read('x2Text'), 
-                    doc.canvas.height - +read('y2Text'));
+                    +value('x1Text'), 
+                    doc.canvas.height - +value('y1Text'), 
+                    +value('x2Text'), 
+                    doc.canvas.height - +value('y2Text'));
             }
             this.view.drawAll();
         });

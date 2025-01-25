@@ -11,7 +11,7 @@ export class View
 
     private box: Box;
 
-    public prettyMode = PrettyMode.Draft;
+    public prettyMode = PrettyMode.Beauty;
     public traceMode = TraceMode.No;
 
     constructor(box: Box) {

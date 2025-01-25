@@ -6,6 +6,7 @@ import { Ball } from "./Ball.js";
 import { Line } from "./Line.js";
 import { Link } from "./Link.js";
 import { Problem } from "./Problem.js";
+import { PrettyMode } from "./View.js";
 
 // Відповідає за збереження сцен і за задачі
 //
@@ -72,6 +73,7 @@ export class ControllerStore
             this.controller.view.clearTrace();
             (document.getElementById('condDiv') as HTMLDivElement).innerHTML= problem.cond;
             doc.problemBoard.style.display = problem.cond ? 'block' : 'none'; 
+            this.controller.view.prettyMode = PrettyMode.Beauty;
         }
 
         doc.sceneSelect.addEventListener("change", loadProblemInitScene);
@@ -84,7 +86,7 @@ export class ControllerStore
             let problem = this.problems[idx];
             let epsilon = Math.abs((+doc.answerText.value - +problem.answer) / +problem.answer);
             doc.problemBoard.style.backgroundColor = 
-                doc.answerText.value == problem.answer || epsilon < MAX_ERROR ?  'lightgreen' : 'rgba(241, 241, 10, 0.1)';   
+                doc.answerText.value == problem.answer || epsilon < MAX_ERROR ?  'rgba(29, 252, 0, 0.256)' : 'rgba(241, 241, 10, 0.1)';   
         });
 
 

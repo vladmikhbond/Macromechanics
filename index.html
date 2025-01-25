@@ -16,7 +16,7 @@
 
 <body>
   <div class="container">
-    <h3 id="header">Macromechanics</h3>
+    <h3 id="header" style="color:aliceblue ;">Macromechanics</h3>
      
 
     <!---------------------- top panel ---------------------->
@@ -52,10 +52,9 @@
       S - step
       T - tracks show/hide
       Del - delete selected">
-        H
       </button>
       
-      <select class="form-select-sm" style="width: 100px;" id="sceneSelect" title="Select scene">
+      <select class="form-select-sm" style="width: 150px;" id="sceneSelect" title="Select scene">
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
@@ -94,21 +93,21 @@
       <!-- Problem Board -->
       <div id="problemBoard" class="canvas-item">
         <div id="condDiv" style="color: rgb(0 0 0 / 75%);"></div>
-        <input id="answerText" style="width: 100px; background-color: rgba(255,255,255, 0.1)" placeholder="відповідь">
-        <button id="answerButton">OK</button>
+        <input id="answerText"  placeholder="відповідь" autocomplete="off">
+        <button id="answerButton" class="board-button">OK</button>
       </div>
       <!-- Ball Board -->
       <div id="ballBoard" class="canvas-item">
         <div>
-          <span class="board-label">X </span> <input id="xText" class="board-text" />
-          <span class="board-label">Y </span> <input id="yText" class="board-text" />
+          <span class="board-label">X </span> <input id="xText" class="board-text" autocomplete="off"/>
+          <span class="board-label">Y </span> <input id="yText" class="board-text" autocomplete="off"/>
         </div>
         <div>
-          <span class="board-label">Vx </span> <input id="vxText" class="board-text" />
-          <span class="board-label">Vy </span> <input id="vyText" class="board-text" />
+          <span class="board-label">Vx </span> <input id="vxText" class="board-text" autocomplete="off"/>
+          <span class="board-label">Vy </span> <input id="vyText" class="board-text" autocomplete="off"/>
         </div>        <div>
-          <span class="board-label">Massa </span> <input id="massaText" class="board-text" />
-          <span class="board-label">Radius </span> <input id="radiusText" class="board-text"/>
+          <span class="board-label">Massa </span> <input id="massaText" class="board-text" autocomplete="off"/>
+          <span class="board-label">Radius </span> <input id="radiusText" class="board-text" autocomplete="off"/>
         </div>
         <div>
           <span class="board-label">Color </span> 
@@ -125,12 +124,12 @@
       <!-- Line Board -->
       <div id="lineBoard" class="canvas-item">
         <div>
-          <span class="board-label">X1 </span> <input id="x1Text" class="board-text" title="X1 coordinate" />
-          <span class="board-label">Y1 </span> <input id="y1Text" class="board-text" title="Y1 coordinate" />
+          <span class="board-label">X1 </span> <input id="x1Text" class="board-text" autocomplete="off" />
+          <span class="board-label">Y1 </span> <input id="y1Text" class="board-text" autocomplete="off" />
         </div>
         <div>
-          <span class="board-label">X2 </span> <input id="x2Text" class="board-text" title="X2 coordinate" />
-          <span class="board-label">Y2 </span> <input id="y2Text" class="board-text" title="Y2 coordinate" />
+          <span class="board-label">X2 </span> <input id="x2Text" class="board-text" autocomplete="off" />
+          <span class="board-label">Y2 </span> <input id="y2Text" class="board-text" autocomplete="off" />
         </div>
         <div>
           <button id="applyLineButton" class="board-button" style="float: right;">Apply</button>
