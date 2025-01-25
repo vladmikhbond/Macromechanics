@@ -97,7 +97,7 @@ export class ControllerStore
     {
         box.balls.forEach(b => {b.box = null; b.clearDots();});
         let o = {
-            balls: box.balls,
+            balls: box.balls.map(b =>{ return {x: b.x, y: b.y, vx: b.vx, vy: b.vy, m: b.m, radius: b.radius, color: b.color, } }),
             lines: box.lines,
             links: box.links.map(l => [l.b1.x, l.b1.y, l.b2.x, l.b2.y]),
             g: glo.g, W: glo.W, Wl: glo.Wl, Wf: glo.Wf, K: glo.K, 

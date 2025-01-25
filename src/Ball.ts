@@ -23,14 +23,9 @@ export class Ball
     ax = 0; 
     ay = 0;
     
-    testC = 0;
-    testT = 0;
-    
-
     dots: Dot[] = [];
     dotShadows: Dot[] = [];
     
-
     constructor(x:number, y:number, r:number, c:string, vx:number, vy:number, m=0) {
         this.x = x;
         this.y = y;
