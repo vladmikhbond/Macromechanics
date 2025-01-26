@@ -13,8 +13,7 @@ export class Controller
     view: View;
     controllerStore: ControllerStore;
     private intervalId = 0;   // base field for mode property
-    private sceneJson = "";
-    private _mousePos0 = new Point(0, 0);    
+    private sceneJson = ""; 
     private _mousePos = new Point(0, 0);
     private _createMode = CreateMode.Ball;
 
@@ -30,13 +29,13 @@ export class Controller
         this.addButtonClickListeners();
         this.addChangeListeners();
         this.addKeyboardListeners();
-        this.resetUI();  // last action of constructor
+        this.resetUI();  // last command of the constructor
 
         // mouse handler
-        doc.canvas.addEventListener('click',  (e) => {
-            this._mousePos0 = this.cursorPoint(e);
-            this.mousePos = this._mousePos0;
-        });
+        // doc.canvas.addEventListener('click',  (e) => {
+        //     this._mousePos0 = this.cursorPoint(e);
+        //     this.mousePos = this._mousePos0;
+        // });
     }
 
     step() { 
@@ -48,9 +47,17 @@ export class Controller
         if (glo.chronos % 100 === 0) {
             this.view.showTimeAndEnergy();
         }
-
     }
 
+    clearScene() {
+        this.box.balls = [];
+        this.box.lines = [];
+        this.box.links = [];
+        this.mode = Mode.Stop;
+        this.createMode = CreateMode.Ball;
+        glo.chronos = 0;
+        this.view.drawAll();
+    }
 
     // Встановлює поле box.selected і показує панель параметрів для обраної кулі або лінії.
     set selected(obj: Ball | Line | Link | null) {
@@ -102,6 +109,7 @@ export class Controller
                 this.step();
             }, glo.INTERVAL);
             this.sceneJson = ControllerStore.sceneToJson(this.box);
+            glo.chronos = 0;
         } else {
             clearInterval(this.intervalId);
             this.intervalId = 0;
@@ -137,9 +145,7 @@ export class Controller
     set mousePos(point: Point) {
         this._mousePos = point;
         // show metering
-        let x = point.x - this._mousePos0.x;
-        let y = -(point.y - this._mousePos0.y);
-        doc.mousePosSpan.innerHTML = `x=${x.toFixed(0)} y=${y.toFixed(0)}`;
+        doc.mousePosSpan.innerHTML = `x=${point.x.toFixed(0)} y=${(doc.canvas.height - point.y).toFixed(0)}`;
     }
     get mousePos(): Point {
         return this._mousePos
@@ -208,13 +214,7 @@ export class Controller
 
         // clear screen
         doc.eraseButton.addEventListener("click", () => {
-            this.box.balls = [];
-            this.box.lines = [];
-            this.box.links = [];
-            this.mode = Mode.Stop;
-            this.createMode = CreateMode.Ball;
-            glo.chronos = 0;
-            this.view.drawAll();
+            this.clearScene();
         });
 
         // help

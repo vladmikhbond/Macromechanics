@@ -64,15 +64,23 @@ export class ControllerStore
         const loadProblemInitScene = () => {
             // 
             let idx = +doc.sceneSelect.value;
+            if (idx == 0) {
+                // this.controller.resetUI();
+                this.controller.clearScene();
+                doc.problemBoard.style.display = 'none';
+                return;
+            }
+                
+            
             let problem = this.problems[idx];
+            ControllerStore.restoreSceneFromJson(problem.init, this.box);
 
-            ControllerStore.restoreSceneFromJson(this.problems[idx].init, this.box);
             // UI & view 
             this.controller.resetUI()
             this.controller.mode = Mode.Stop;
             this.controller.view.clearTrace();
-            (document.getElementById('condDiv') as HTMLDivElement).innerHTML= problem.cond;
-            doc.problemBoard.style.display = problem.cond ? 'block' : 'none'; 
+            (document.getElementById('condDiv') as HTMLDivElement).innerHTML = problem.cond;
+            doc.problemBoard.style.display = 'block'; 
             this.controller.view.prettyMode = PrettyMode.Beauty;
         }
 
