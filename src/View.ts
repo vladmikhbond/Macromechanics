@@ -162,6 +162,13 @@ export class View
             }
             ctx.drawImage(img, 0, 0);
             ctx.restore();
+
+            // draw trace
+            if (this.traceMode === TraceMode.Yes) {
+                const ctx2 = doc.canvas2.getContext("2d")!;
+                ctx2.fillStyle = "gray";
+                ctx2.fillRect(x-0.5, y-0.5, 1, 1);
+            }           
         }
 
         // draw lines
