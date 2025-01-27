@@ -150,6 +150,7 @@ export class ControllerStore
                 let y = Math.round(600 - b.y);
                 let vx = +b.vx.toFixed(2);
                 let vy = -b.vy.toFixed(2); 
+                let m = b.m;
                 return ${problem.answer}
             `);
             let sceneJson = ControllerStore.sceneToJson(this.controller.box);
