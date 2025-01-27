@@ -88,11 +88,18 @@ export class ControllerStore
 
         doc.sceneSelect.addEventListener("click", loadProblemInitScene);
 
-        doc.answerButton.addEventListener("click", (e) => {
+        doc.answerButton.addEventListener("click", (e) => {            
+            let sceneJson = ControllerStore.sceneToJson(this.controller.box);
             
             let idx = +doc.sceneSelect.value;
             let problem = this.problems[idx];
-            validation(this.controller, problem);
+            doc.problemBoard.style.backgroundColor = 
+                validation(this.controller, problem) ?
+                'rgba(29, 252, 0, 0.256)' : 
+                'rgba(241, 241, 10, 0.1)';
+
+            ControllerStore.restoreSceneFromJson(sceneJson, this.controller.box);
+            this.controller.view.drawAll();
 
             // const MAX_ERROR = 0.03;  // 3%           
             // 
@@ -148,22 +155,14 @@ export class ControllerStore
 function validation(controller: Controller, problem: Problem) {
     glo.chronos = 0;
     const test = new Function('t, b', 
-        `console.log(t, b.vy);
-        return ${problem.answer} `
+        `return ${problem.answer} `
     );
-
-    for (let s = 0; s < 100; s++) {
-        
+    for (let t = 0; t < 1000; t++) {
         controller.step();
         if (test(glo.chronos, controller.box.balls[0])) {
-            console.log(1111111111111);
-            break;
+            return true;
         }
-
     }
-    console.log(2222222222222);
-
-   
-
+    return false;
 }
 
