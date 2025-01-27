@@ -89,12 +89,16 @@ export class ControllerStore
         doc.sceneSelect.addEventListener("click", loadProblemInitScene);
 
         doc.answerButton.addEventListener("click", (e) => {
-            const MAX_ERROR = 0.03;  // 3%
+            
             let idx = +doc.sceneSelect.value;
             let problem = this.problems[idx];
-            let epsilon = Math.abs((+doc.answerText.value - +problem.answer) / +problem.answer);
-            doc.problemBoard.style.backgroundColor = 
-                doc.answerText.value == problem.answer || epsilon < MAX_ERROR ?  'rgba(29, 252, 0, 0.256)' : 'rgba(241, 241, 10, 0.1)';   
+            validation(this.controller, problem);
+
+            // const MAX_ERROR = 0.03;  // 3%           
+            // 
+            // let epsilon = Math.abs((+doc.answerText.value - +problem.answer) / +problem.answer);
+            // doc.problemBoard.style.backgroundColor = 
+            //     doc.answerText.value == problem.answer || epsilon < MAX_ERROR ?  'rgba(29, 252, 0, 0.256)' : 'rgba(241, 241, 10, 0.1)';   
         });
 
 
@@ -139,5 +143,27 @@ export class ControllerStore
         glo.Wf = o.Wf;
         glo.K = o.K;
     }
+}
+
+function validation(controller: Controller, problem: Problem) {
+    glo.chronos = 0;
+    const test = new Function('t, b', 
+        `console.log(t, b.vy);
+        return ${problem.answer} `
+    );
+
+    for (let s = 0; s < 100; s++) {
+        
+        controller.step();
+        if (test(glo.chronos, controller.box.balls[0])) {
+            console.log(1111111111111);
+            break;
+        }
+
+    }
+    console.log(2222222222222);
+
+   
 
 }
+
