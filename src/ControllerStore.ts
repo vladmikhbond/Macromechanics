@@ -78,6 +78,8 @@ export class ControllerStore
             doc.problemBoard.style.display = 'block'; 
             doc.problemBoard.style.backgroundColor = 'rgba(241, 241, 10, 0.1)';
             doc.answerText.style.display = problem.isAnswerNumber ? 'inline' : 'none';
+            doc.ballBoard.style.display = 'none';
+            doc.lineBoard.style.display = 'none';
         }
 
         doc.sceneSelect.addEventListener("change", loadProblemInitScene);
@@ -142,16 +144,21 @@ export class ControllerStore
         } 
         else 
         {
+            
             const testFunction = new Function('t, b', `
+                let x = Math.round(b.x);
+                let y = Math.round(600 - b.y);
+                let vx = +b.vx.toFixed(2);
+                let vy = -b.vy.toFixed(2); 
                 return ${problem.answer}
             `);
             let sceneJson = ControllerStore.sceneToJson(this.controller.box);
-            for (let t = 1; t <= 1000; t++) {
-                this.controller.step();
+            for (let t = 0; t <= 1000; t++) {
                 if (testFunction(t, this.controller.box.balls[0])) {
                     testOk = true;
                     break;
                 }
+                this.controller.step();
             }
             ControllerStore.restoreSceneFromJson(sceneJson, this.controller.box);
             this.controller.view.drawAll();
