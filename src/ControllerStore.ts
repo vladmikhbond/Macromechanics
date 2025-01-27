@@ -65,50 +65,28 @@ export class ControllerStore
             // 
             let idx = +doc.sceneSelect.value;
             if (idx == 0) {
-                // this.controller.resetUI();
                 this.controller.clearScene();
                 doc.problemBoard.style.display = 'none';
                 return;
-            }
-                
-            
+            }    
             let problem = this.problems[idx];
             ControllerStore.restoreSceneFromJson(problem.init, this.box);
 
             // UI & view 
-            this.controller.resetUI()
-            this.controller.mode = Mode.Stop;
-            this.controller.view.clearTrace();
-            (document.getElementById('condDiv') as HTMLDivElement).innerHTML = problem.cond;
+            this.controller.resetUI();
+            doc.condDiv.innerHTML = problem.cond;
             doc.problemBoard.style.display = 'block'; 
-            this.controller.view.prettyMode = PrettyMode.Beauty;
+            doc.problemBoard.style.backgroundColor = 'rgba(241, 241, 10, 0.1)';
+            doc.answerText.style.display = problem.isAnswerNumber ? 'inline' : 'none';
         }
 
         doc.sceneSelect.addEventListener("change", loadProblemInitScene);
 
         doc.sceneSelect.addEventListener("click", loadProblemInitScene);
 
-        doc.answerButton.addEventListener("click", (e) => {            
-            let sceneJson = ControllerStore.sceneToJson(this.controller.box);
-            
-            let idx = +doc.sceneSelect.value;
-            let problem = this.problems[idx];
-            doc.problemBoard.style.backgroundColor = 
-                validation(this.controller, problem) ?
-                'rgba(29, 252, 0, 0.256)' : 
-                'rgba(241, 241, 10, 0.1)';
-
-            ControllerStore.restoreSceneFromJson(sceneJson, this.controller.box);
-            this.controller.view.drawAll();
-
-            // const MAX_ERROR = 0.03;  // 3%           
-            // 
-            // let epsilon = Math.abs((+doc.answerText.value - +problem.answer) / +problem.answer);
-            // doc.problemBoard.style.backgroundColor = 
-            //     doc.answerText.value == problem.answer || epsilon < MAX_ERROR ?  'rgba(29, 252, 0, 0.256)' : 'rgba(241, 241, 10, 0.1)';   
+        doc.answerButton.addEventListener("click", (e) => {              
+            this.checkAnswer();    
         });
-
-
 
     }
 
@@ -150,19 +128,39 @@ export class ControllerStore
         glo.Wf = o.Wf;
         glo.K = o.K;
     }
-}
 
-function validation(controller: Controller, problem: Problem) {
-    glo.chronos = 0;
-    const test = new Function('t, b', 
-        `return ${problem.answer} `
-    );
-    for (let t = 0; t < 1000; t++) {
-        controller.step();
-        if (test(glo.chronos, controller.box.balls[0])) {
-            return true;
+    checkAnswer() {
+        let id = +doc.sceneSelect.value;
+        let problem = this.problems[id];
+        let testOk = false;
+        // 
+        if (problem.isAnswerNumber) 
+        {
+            const MAX_ERROR = 0.03;  // 3%               
+            let epsilon = Math.abs((+doc.answerText.value - +problem.answer) / +problem.answer);
+            testOk = doc.answerText.value == problem.answer || epsilon < MAX_ERROR
+        } 
+        else 
+        {
+            const testFunction = new Function('t, b', `
+                return ${problem.answer}
+            `);
+            let sceneJson = ControllerStore.sceneToJson(this.controller.box);
+            for (let t = 1; t <= 1000; t++) {
+                this.controller.step();
+                if (testFunction(t, this.controller.box.balls[0])) {
+                    testOk = true;
+                    break;
+                }
+            }
+            ControllerStore.restoreSceneFromJson(sceneJson, this.controller.box);
+            this.controller.view.drawAll();
         }
+
+        doc.problemBoard.style.backgroundColor = testOk ?
+            'rgba(29, 252, 0, 0.256)' : 
+            'rgba(241, 241, 10, 0.1)';
     }
-    return false;
+       
 }
 

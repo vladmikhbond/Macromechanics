@@ -49,8 +49,9 @@ export const doc =
     problemBoard: <HTMLDivElement>document.getElementById("problemBoard"),
     ballBoard: <HTMLDivElement>document.getElementById("ballBoard"),
     lineBoard: <HTMLDivElement>document.getElementById("lineBoard"),
-    answerButton: <HTMLButtonElement>document.getElementById("answerButton"),
+    condDiv: <HTMLDivElement>document.getElementById("condDiv"),
     answerText: <HTMLInputElement>document.getElementById("answerText"),
+    answerButton: <HTMLButtonElement>document.getElementById("answerButton"),
     applyBallButton: <HTMLButtonElement>document.getElementById("applyBallButton"),
     applyLineButton: <HTMLButtonElement>document.getElementById("applyLineButton"),
     redBallImg: <HTMLImageElement>document.getElementById("redBallImg"),
@@ -60,6 +61,7 @@ export const doc =
     saveSceneButton: <HTMLButtonElement>document.getElementById("saveSceneButton"),
     loadSceneButton: <HTMLButtonElement>document.getElementById("loadSceneButton"),
     savedSceneArea: <HTMLTextAreaElement>document.getElementById("savedSceneText"),  
+
     
-    header: <HTMLHeadingElement>document.getElementById("header"),
+    header: <HTMLHeadingElement>document.getElementById("header"),   // 
 }

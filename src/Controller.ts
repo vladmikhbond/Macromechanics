@@ -268,7 +268,10 @@ export class Controller
         doc.waistRange.dispatchEvent(new Event("change"));
         doc.waistLinkRange.dispatchEvent(new Event("change"));
         doc.waistFrictRange.dispatchEvent(new Event("change"));
-        doc.rigidRange.dispatchEvent(new Event("change"));           
+        doc.rigidRange.dispatchEvent(new Event("change"));
+        
+        this.mode = Mode.Stop;
+        this.view.clearTrace();
     }
 
     addChangeListeners() {

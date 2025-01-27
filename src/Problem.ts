@@ -10,4 +10,8 @@ export class Problem {
         this.init = a[5].trim();
         this.answer = a[7].trim();
     }
+
+    get isAnswerNumber() {
+        return !isNaN(+this.answer);
+    }
 }
