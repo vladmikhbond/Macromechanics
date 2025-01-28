@@ -96,7 +96,9 @@ input[type=range]+label
     padding: 5px;
     background-color: rgb(117 190 218 / 20%);  
     display: none; 
-    z-index: 3;        
+    z-index: 3;
+    left: auto;  
+    right: 0;      
 }
 #problemBoard {
     background-color: rgba(241, 241, 10, 0.1);

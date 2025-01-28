@@ -1,7 +1,7 @@
 export let glo = 
 {
     W: 0.5,      // conservation of energу when two balls strikes ( 1 - no loss)
-    Wl: 0.95,    // conservation of energу when link reacts ( 1 - no loss)
+    Wk: 0.95,    // conservation of energу when link reacts ( 1 - no loss)
     Wf: 0.999,   // conservation of energу when ball moves ( 1 - no loss)
 
     K: 100,     // modulus of elasticity of a ball 

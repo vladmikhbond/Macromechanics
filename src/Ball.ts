@@ -96,8 +96,8 @@ export class Ball
             // одиничный вектор напряму від точки дотику до центру кулі
             let u = G.unit(dot, ball, ballDotDistance);
             
-            // коєфіцієнт збереження енергії при дотику від лінку або від кулі
-            let w = dot.from instanceof Link? glo.Wl : glo.W; 
+            // коєфіцієнт збереження енергії при дотику від лінку або від (кулі | лінії)
+            let w = dot.from instanceof Link? glo.Wk : glo.W; 
 
             // втрата енергії при дотику 
             let scalarProduct = G.scalar(new Point(ball.vx, ball.vy), u);

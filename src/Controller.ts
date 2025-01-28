@@ -29,7 +29,27 @@ export class Controller
         this.addButtonClickListeners();
         this.addChangeListeners();
         this.addKeyboardListeners();
+        this.addSpanClickListeners();
+
         this.resetUI();  // last command of the constructor
+    }
+
+    resetUI() {
+        this.view.drawAll();
+        doc.graviRange.value = glo.g.toString();
+        doc.waistRange.value = glo.W.toString();
+        doc.waistLinkRange.value = glo.Wk.toString();
+        doc.waistFrictRange.value = glo.Wf.toString();
+        doc.rigidRange.value = Math.log2(glo.K).toString();
+
+        doc.graviRange.dispatchEvent(new Event("change"));
+        doc.waistRange.dispatchEvent(new Event("change"));
+        doc.waistLinkRange.dispatchEvent(new Event("change"));
+        doc.waistFrictRange.dispatchEvent(new Event("change"));
+        doc.rigidRange.dispatchEvent(new Event("change"));
+        
+        this.mode = Mode.Stop;
+        this.view.clearTrace();
     }
 
     step() { 
@@ -240,23 +260,24 @@ export class Controller
 
     }
 
-    resetUI() {
-        this.view.drawAll();
-        doc.graviRange.value = glo.g.toString();
-        doc.waistRange.value = glo.W.toString();
-        doc.waistLinkRange.value = glo.Wl.toString();
-        doc.waistFrictRange.value = glo.Wf.toString();
-        doc.rigidRange.value = Math.log2(glo.K).toString();
+    addSpanClickListeners() {
+        const handler = (e: Event) => {
+            let parentStyle = (e.target as HTMLSpanElement).parentElement!.style;
+            if (parentStyle.right == 'unset') {
+                parentStyle.right = '0';
+                parentStyle.left = 'unset';
+            } else {
+                parentStyle.right = 'unset';
+                parentStyle.left = '0';
+            }
+        };
 
-        doc.graviRange.dispatchEvent(new Event("change"));
-        doc.waistRange.dispatchEvent(new Event("change"));
-        doc.waistLinkRange.dispatchEvent(new Event("change"));
-        doc.waistFrictRange.dispatchEvent(new Event("change"));
-        doc.rigidRange.dispatchEvent(new Event("change"));
-        
-        this.mode = Mode.Stop;
-        this.view.clearTrace();
+        doc.ballBoard.children[0].addEventListener('click', handler);
+        doc.lineBoard.children[0].addEventListener('click', handler);
+        doc.problemBoard.children[0].addEventListener('click', handler);
     }
+
+
 
     addChangeListeners() {
         //------------------- input_change --------------------------------------
@@ -268,12 +289,12 @@ export class Controller
 
         doc.waistRange.addEventListener("change", () => {
             glo.W = +doc.waistRange.value;
-            doc.waistValue.innerHTML = "W<sub>B</sub>=" + doc.waistRange.value;
+            doc.waistValue.innerHTML = "W<sub>BL</sub>=" + doc.waistRange.value;
         });
 
         doc.waistLinkRange.addEventListener("change", () => {
-            glo.Wl = +doc.waistLinkRange.value;
-            doc.waistLinkValue.innerHTML = "W<sub>L</sub>=" + doc.waistLinkRange.value;
+            glo.Wk = +doc.waistLinkRange.value;
+            doc.waistLinkValue.innerHTML = "W<sub>K</sub>=" + doc.waistLinkRange.value;
         });
 
         doc.waistFrictRange.addEventListener("change", () => {
