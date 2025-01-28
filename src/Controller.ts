@@ -302,6 +302,7 @@ export class Controller
                     this.step();
                     this.view.showTimeAndEnergy();
                     this.mode = Mode.Stop;
+                    this.selected = this.selected;
                     break;
 
                 // copy selected ball
