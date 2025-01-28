@@ -29,7 +29,7 @@ export const doc =
     modeButton: <HTMLButtonElement>document.getElementById("modeButton"),
     prettyButton: <HTMLButtonElement>document.getElementById("prettyButton"),
     updateButton: <HTMLButtonElement>document.getElementById("updateButton"),
-    eraseButton: <HTMLButtonElement>document.getElementById("eraseButton"),
+    // eraseButton: <HTMLButtonElement>document.getElementById("eraseButton"),
     helpButton: <HTMLButtonElement>document.getElementById("helpButton"),
     graviRange: <HTMLInputElement>document.getElementById("graviRange"),  
     waistRange: <HTMLInputElement>document.getElementById("waistRange"),

@@ -15,10 +15,7 @@ export class Geometry {
     // Distance between two points
     //
     static distance (a: Point, b: Point) {
-        let dx = b.x - a.x;
-        let dy = b.y - a.y;
-        let res = Math.sqrt(dx * dx + dy * dy);
-        return res;
+        return Math.hypot(b.x - a.x, b.y - a.y);
     }
 
     // Скалярное произведение векторов

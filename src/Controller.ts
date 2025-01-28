@@ -30,12 +30,6 @@ export class Controller
         this.addChangeListeners();
         this.addKeyboardListeners();
         this.resetUI();  // last command of the constructor
-
-        // mouse handler
-        // doc.canvas.addEventListener('click',  (e) => {
-        //     this._mousePos0 = this.cursorPoint(e);
-        //     this.mousePos = this._mousePos0;
-        // });
     }
 
     step() { 
@@ -60,6 +54,7 @@ export class Controller
     }
 
     // Встановлює поле box.selected і показує панель параметрів для обраної кулі або лінії.
+    //
     set selected(obj: Ball | Line | Link | null) {
         // inner function - show a param
         function show(val: number | string, id: string) {
@@ -125,14 +120,20 @@ export class Controller
     }
 
 
-    set createMode(v: CreateMode) {
+    set createMode(v: CreateMode) 
+    {
+        // clear selection 
+        if (this._createMode != v) {
+            this.selected = null;
+        }
         this._createMode = v;
+        // change UI
         doc.createModeButton.innerHTML =
             v === CreateMode.Ball ? "<b>B</b>all"
                 : v === CreateMode.Line ? "<b>L</b>ine"
                     : v === CreateMode.Link ? "Lin<b>K</b>" : "";
 
-        // mouse handlers
+        // switch mouse handlers
         if (v === CreateMode.Ball) {
             this.setBallHandlers();
         } else if (v === CreateMode.Line) {
@@ -140,6 +141,7 @@ export class Controller
         } else if (v === CreateMode.Link) {
             this.setLinkHandlers();
         }
+        
     }
 
     set mousePos(point: Point) {
@@ -149,24 +151,6 @@ export class Controller
     }
     get mousePos(): Point {
         return this._mousePos
-    }
-
-    set g(v: string) {
-        glo.g = +v;
-        doc.graviValue.innerHTML = "G = " + glo.g.toFixed(3);
-        doc.graviRange.value = v;
-    }
-
-    set W(v: string) {
-        glo.W = +v;
-        doc.waistValue.innerHTML = "W = " + v;
-        doc.waistRange.value = v;
-    }
-    
-    set K(v: string) {
-        glo.K = 2**+v;
-        doc.rigidValue.innerHTML = "K = " + glo.K;
-        doc.rigidRange.value = v;
     }
 
     addButtonClickListeners() 
@@ -204,7 +188,7 @@ export class Controller
             this.mode = Mode.Stop;
         });
 
-        // ugly-pretty toggle
+        // druft-pretty toggle
         doc.prettyButton.addEventListener("click", () => {
             this.view.prettyMode = this.view.prettyMode === PrettyMode.Draft
                 ? PrettyMode.Beauty
@@ -213,9 +197,9 @@ export class Controller
         });
 
         // clear screen
-        doc.eraseButton.addEventListener("click", () => {
-            this.clearScene();
-        });
+        // doc.eraseButton.addEventListener("click", () => {
+        //     this.clearScene();
+        // });
 
         // help
         doc.helpButton.addEventListener("click", () => {
