@@ -209,6 +209,6 @@ export class View
     showTimeAndEnergy() {
         //let seconds = (glo.chronos/ 1000 * glo.INTERVAL).toFixed(0);
         let [ek, eg, ed] = this.box.energy;
-        doc.infoSpan.innerHTML = `T=${glo.chronos}  E=${(ek + eg + ed).toFixed()}`;
+        doc.infoSpan.innerHTML = `T=${glo.chronos} &nbsp;&nbsp; E=${(ek + eg + ed).toFixed()}`;
     }   
 }

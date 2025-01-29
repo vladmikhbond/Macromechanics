@@ -41,6 +41,7 @@ export const doc =
     waistLinkValue: <HTMLLabelElement>document.getElementById("waistLinkValue"),
     waistFrictValue: <HTMLLabelElement>document.getElementById("waistFrictValue"),
     rigidValue: <HTMLLabelElement>document.getElementById("rigidValue"),
+    rangesDiv: <HTMLDivElement>document.getElementById("rangesDiv"),
     scenesDiv: <HTMLDivElement>document.getElementById("scenesDiv"),
     sceneSelect: <HTMLSelectElement>document.getElementById("sceneSelect"),
     

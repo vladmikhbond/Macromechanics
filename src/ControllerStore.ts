@@ -67,6 +67,7 @@ export class ControllerStore
             if (idx == 0) {
                 this.controller.clearScene();
                 doc.problemBoard.style.display = 'none';
+                doc.rangesDiv.style.display = 'block';
                 return;
             }    
             let problem = this.problems[idx];
@@ -78,6 +79,7 @@ export class ControllerStore
             doc.problemBoard.style.display = 'block'; 
             doc.problemBoard.style.backgroundColor = 'rgba(241, 241, 10, 0.1)';
             doc.answerText.style.display = problem.isAnswerNumber ? 'inline' : 'none';
+            doc.rangesDiv.style.display = problem.answer == '' ? 'block' : 'none';
             doc.ballBoard.style.display = 'none';
             doc.lineBoard.style.display = 'none';
         }

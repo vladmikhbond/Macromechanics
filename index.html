@@ -18,7 +18,6 @@
   <div class="container">
     <h3 id="header" style="color:aliceblue ;">Macromechanics</h3>
      
-
     <!---------------------- top panel ---------------------->
     <div class="panel">
       <button id="createModeButton" btn-primary class="btn btn-light "></button>
@@ -57,17 +56,14 @@
       </svg>
       </button>
       
-      <select class="form-select-sm" id="sceneSelect" title="Select scene">
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <select class="form-select-sm" id="sceneSelect" title="Select problem">
       </select>
 
       <span id="infoSpan"></span>
 
       <span id="mousePosSpan"></span>
 
-      <div style="margin: 10px 0px 0px 0px ;">
+      <div id="rangesDiv" style="margin: 10px 0px 0px 0px ;">
         <input type="range" id="graviRange" class="form-range" step="0.001" min="0" max="0.01" 
           title="тяжіння" />
         <label id="graviValue" class="form-label" for="graviRange"></label>
