@@ -3,6 +3,8 @@ https://icons.getbootstrap.com/
 
 https://phet.colorado.edu
 
-формули для вирішення
+https://docs.mathjax.org/en/stable/start.html
 
-хелп
+сторінка з живими формулами для вирішення
+
+хелп зі скролінгом

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="./favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>  
+  
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <style>
+     .eq {        
+        width: 600px; 
+        font-size: 36px; 
+        font-style: italic;
+        background-color: aquamarine;
+        text-align: left;
+     }
+     .formula {
+        font-size: 36px; 
+        
+     }
+     .param {
+ 
+        width: 100px;
+        text-align: right;
+     }
+  </style>
+
+  <div class="container">
+    <h3 id="header" style="color:aliceblue ;">Macromechanics</h3>
+
+
+    <div class="eq">
+      <div class="formula">$$v^2 = 2gh$$ </div>
+      v = <input class="param" id="v" onchange="f()" value="?">
+      g = <input class="param" id="g" onchange="f()" value="?">
+      h = <input class="param" id="h" onchange="f()" value="?">  
+    </div>
+    
+    <script>
+        "".indexOf('?') != -1
+       function f () {
+          if (v.value.indexOf('?') != -1) {
+              let res = Math.sqrt(2 * g.value * h.value);
+              if (!isNaN(res)) 
+                v.value = +res;
+          }
+          if (g.value.indexOf('?') != -1) {
+              let res = v.value**2 / (2 * h.value);
+              if (!isNaN(res)) 
+                g.value = +res;
+          }
+          if (h.value.indexOf('?') != -1) {
+              let res = v.value**2 / (2 * g.value);
+              if (!isNaN(res)) 
+                h.value = +res;
+          }
+
+       }
+
+    </script>
+  </div>
+</body>
+
+
+</html>
