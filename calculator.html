@@ -21,19 +21,18 @@
   <style>
      .eq {        
         width: 600px; 
-        font-size: 36px; 
-        font-style: italic;
+        font-size: 24px; 
+        /* font-style: italic; */
         background-color: aquamarine;
         text-align: left;
+        padding: 8px;
      }
-     .formula {
-        font-size: 36px; 
-        
-     }
+
      .param {
  
         width: 100px;
         text-align: right;
+        margin-right: 20px;
      }
   </style>
 
@@ -41,34 +40,63 @@
     <h3 id="header" style="color:aliceblue ;">Macromechanics</h3>
 
 
-    <div class="eq">
-      <div class="formula">$$v^2 = 2gh$$ </div>
-      v = <input class="param" id="v" onchange="f()" value="?">
-      g = <input class="param" id="g" onchange="f()" value="?">
-      h = <input class="param" id="h" onchange="f()" value="?">  
+    <div id=eq1 class="eq">
+      Швидкість вільного падіння
+      $$v^2 = 2gh$$ 
+      \(v =\) <input class="param" id="v1" onchange="eq1_handler()" value="?">
+      \(g =\) <input class="param" id="g1" onchange="eq1_handler()" value="?">
+      \(h =\) <input class="param" id="h1" onchange="eq1_handler()" value="?">  
     </div>
-    
+    <hr>
+    <div id=eq2 class="eq">
+      Енергія стискання
+      $$E=kx^2/2$$
+      \(E =\) <input class="param" id="e2" onchange="eq2_handler()" value="?">
+      \(k =\) <input class="param" id="k2" onchange="eq2_handler()" value="?">
+      \(x =\) <input class="param" id="x2" onchange="eq2_handler()" value="?">      </div>
+
+
     <script>
-        "".indexOf('?') != -1
-       function f () {
-          if (v.value.indexOf('?') != -1) {
-              let res = Math.sqrt(2 * g.value * h.value);
+        function eq1_handler() {
+          let v = v1.value, g = g1.value, h = h1.value;
+          
+          if (v.indexOf('?') != -1) {
+              let res = Math.sqrt(2 * g * h);
               if (!isNaN(res)) 
-                v.value = +res;
+                v1.value = +res;
           }
-          if (g.value.indexOf('?') != -1) {
-              let res = v.value**2 / (2 * h.value);
+          if (g.indexOf('?') != -1) {
+              let res = v**2 / (2 * h);
               if (!isNaN(res)) 
-                g.value = +res;
+                g1.value = +res;
           }
-          if (h.value.indexOf('?') != -1) {
-              let res = v.value**2 / (2 * g.value);
+          if (h.indexOf('?') != -1) {
+              let res = v**2 / (2 * g);
               if (!isNaN(res)) 
-                h.value = +res;
+                h1.value = +res;
           }
+        }
 
+        function eq2_handler() {
+          let e = e2.value,  k = k2.value, x = x2.value;
+          
+          if (e.indexOf('?') != -1) {
+              let res = k * x**2 / 2 ;
+              if (!isNaN(res)) 
+                e2.value = +res;
+          }
+          if (k.indexOf('?') != -1) {
+              let res = 2 * e / x**2;
+              if (!isNaN(res)) 
+                k2.value = +res;
+          }
+          if (x.indexOf('?') != -1) {
+              let res = Math.sqrt(2 * e / k);
+              if (!isNaN(res)) 
+                x2.value = +res;
+          }
        }
-
+    
     </script>
   </div>
 </body>

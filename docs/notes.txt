@@ -4,6 +4,9 @@ https://icons.getbootstrap.com/
 https://phet.colorado.edu
 
 https://docs.mathjax.org/en/stable/start.html
+https://en.wikipedia.org/wiki/TeX
+https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes#Inline_math_mode
+
 
 сторінка з живими формулами для вирішення
 
