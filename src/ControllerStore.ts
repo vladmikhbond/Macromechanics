@@ -147,7 +147,7 @@ export class ControllerStore
         else 
         {
             
-            const testFunction = new Function('t, b', `
+            const testFunction = new Function('t, b, b1', `
                 let x = Math.round(b.x);
                 let y = Math.round(600 - b.y);
                 let vx = +b.vx.toFixed(2);
@@ -157,7 +157,7 @@ export class ControllerStore
             `);
             let sceneJson = ControllerStore.sceneToJson(this.controller.box);
             for (let t = 0; t <= 1000; t++) {
-                if (testFunction(t, this.controller.box.balls[0])) {
+                if (testFunction(t, this.controller.box.balls[0], this.controller.box.balls[1])) {
                     testOk = true;
                     break;
                 }
