@@ -132,7 +132,7 @@ export class Controller
         }
         // UI
         let icon = mode === Mode.Play ? "stop-fill.svg" : "play-fill.svg";
-        (doc.modeButton.children[0] as HTMLImageElement).src = "/assets/icons/" + icon;
+        (doc.modeButton.children[0] as HTMLImageElement).src = "assets/icons/" + icon;
         //this.view.drawAll();
     }
     get mode(): Mode {

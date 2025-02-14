@@ -26,7 +26,7 @@ export class ControllerStore
 
     async loadStore() {
         try {
-            const response = await fetch("./problems.dat");
+            const response = await fetch("problems.txt");
             if (!response.ok) {
                 throw new Error(`Помилка завантаження файлу: ${response.statusText}`);
             }
