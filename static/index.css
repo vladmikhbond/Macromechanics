@@ -13,7 +13,8 @@ body {
     padding: 5px;  
     width: var(--canvas-width);
     margin-bottom: 4px;
-    background-color:lightcyan
+    background-color:lightcyan;
+    position: relative
 }
 
 input[type=range]
