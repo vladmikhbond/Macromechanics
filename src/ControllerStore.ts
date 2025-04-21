@@ -49,6 +49,10 @@ export class ControllerStore
 
     addEventListeners() 
     {      
+        doc.adminButton.addEventListener("click", () => {
+            // window.open("static/help.html", );
+            window.location.href = 'static/help.html';
+        });
 
         doc.saveSceneButton.addEventListener("click", () => {
             doc.savedSceneArea.value = ControllerStore.sceneToJson(this.box);

@@ -29,7 +29,6 @@ export const doc =
     modeButton: <HTMLButtonElement>document.getElementById("modeButton"),
     prettyButton: <HTMLButtonElement>document.getElementById("prettyButton"),
     updateButton: <HTMLButtonElement>document.getElementById("updateButton"),
-    // eraseButton: <HTMLButtonElement>document.getElementById("eraseButton"),
     helpButton: <HTMLButtonElement>document.getElementById("helpButton"),
     graviRange: <HTMLInputElement>document.getElementById("graviRange"),  
     waistRange: <HTMLInputElement>document.getElementById("waistRange"),
@@ -62,7 +61,7 @@ export const doc =
     saveSceneButton: <HTMLButtonElement>document.getElementById("saveSceneButton"),
     loadSceneButton: <HTMLButtonElement>document.getElementById("loadSceneButton"),
     savedSceneArea: <HTMLTextAreaElement>document.getElementById("savedSceneText"),  
-
+    adminButton: <HTMLButtonElement>document.getElementById("adminButton"),
     
     header: <HTMLHeadingElement>document.getElementById("header"),   // 
 }

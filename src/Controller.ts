@@ -216,15 +216,10 @@ export class Controller
             this.view.drawAll();
         });
 
-        // clear screen
-        // doc.eraseButton.addEventListener("click", () => {
-        //     this.clearScene();
-        // });
-
+        
         // help
         doc.helpButton.addEventListener("click", () => {
-            window.open("static/help.html", );
-            
+            window.open("static/help.html", );            
         });
     
 
