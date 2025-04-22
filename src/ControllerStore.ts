@@ -48,10 +48,12 @@ export class ControllerStore
     }
 
     addEventListeners() 
-    {      
+    {     
+        // for WEBMACROMACH only 
         doc.adminButton.addEventListener("click", () => {
-            // window.open("static/help.html", );
-            window.location.href = 'static/help.html';
+            const scene = ControllerStore.sceneToJson(this.box);
+            const encodedParam = encodeURIComponent(scene);
+            window.open('/prob/'+ encodedParam );
         });
 
         doc.saveSceneButton.addEventListener("click", () => {
