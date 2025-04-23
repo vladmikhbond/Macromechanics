@@ -21,10 +21,10 @@ export class ControllerStore
 
         this.controller = controller;
         this.addEventListeners(); 
-        this.loadStore();
+        this.loadProblems();
     }
 
-    async loadStore() {
+    async loadProblems() {
         try {
             const response = await fetch("/probs");
             if (!response.ok) {
