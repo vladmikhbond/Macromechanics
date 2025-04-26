@@ -62,6 +62,10 @@ export const doc =
     loadSceneButton: <HTMLButtonElement>document.getElementById("loadSceneButton"),
     savedSceneArea: <HTMLTextAreaElement>document.getElementById("savedSceneText"),  
     adminButton: <HTMLButtonElement>document.getElementById("adminButton"),
+    adminSpan: <HTMLSpanElement>document.getElementById("adminSpan"),
+    addProblemButton: <HTMLButtonElement>document.getElementById("addProblemButton"),
+    editProblemButton: <HTMLButtonElement>document.getElementById("editProblemButton"),
+    delProblemButton: <HTMLButtonElement>document.getElementById("delProblemButton"),
     
     header: <HTMLHeadingElement>document.getElementById("header"),   // 
 }

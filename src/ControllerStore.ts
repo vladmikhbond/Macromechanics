@@ -21,12 +21,12 @@ export class ControllerStore
 
         this.controller = controller;
         this.addEventListeners(); 
-        this.loadProblems();
+        this.loadProblems('opened');
     }
 
-    async loadProblems() {
+    async loadProblems(prefix: string) {
         try {
-            const response = await fetch("/probs");
+            const response = await fetch(`/${prefix}_probs`);
             if (!response.ok) {
                 throw new Error(`Помилка завантаження файлу: ${response.statusText}`);
             }
@@ -48,11 +48,23 @@ export class ControllerStore
     }
 
     addEventListeners() 
-    {     
-        // for WEBMACROMACH only 
+    {   
+        // toggle admin panel
+        //
         doc.adminButton.addEventListener("click", () => {
+            doc.adminSpan.style.display = doc.adminSpan.style.display == "none" ? "inline" : "none";
+            if (doc.adminSpan.style.display != "none") {
+                this.loadProblems('my');
+            } else {
+                this.loadProblems('opened');
+            }
+        });
+
+        // add a problem
+        doc.addProblemButton.addEventListener("click", () => {
             const scene = ControllerStore.sceneToJson(this.box);
             const encodedParam = encodeURIComponent(scene);
+
             window.open('/prob/'+ encodedParam );
         });
 
