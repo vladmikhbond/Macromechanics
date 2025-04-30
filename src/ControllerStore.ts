@@ -49,25 +49,16 @@ export class ControllerStore
 
     addEventListeners() 
     {   
-        // toggle admin panel
+        // open admin panel
         //
-        doc.adminButton.addEventListener("click", () => {
-            doc.adminSpan.style.display = doc.adminSpan.style.display == "none" ? "inline" : "none";
-            if (doc.adminSpan.style.display != "none") {
-                this.loadProblems('my');
+        doc.adminButton.addEventListener("click", (e) => {  
+            if (e.ctrlKey) {
+                window.open('/admin');           // Open in the same window
             } else {
-                this.loadProblems('opened');
-            }
-        });
-
-        // add a problem
-        doc.addProblemButton.addEventListener("click", () => {
-            const scene = ControllerStore.sceneToJson(this.box);
-            const encodedParam = encodeURIComponent(scene);
-
-            window.open('/prob/'+ encodedParam );
-        });
-
+                window.location.href = '/admin'; // Open in a new window
+            }      
+        });    
+        
         doc.saveSceneButton.addEventListener("click", () => {
             doc.savedSceneArea.value = ControllerStore.sceneToJson(this.box);
         });
