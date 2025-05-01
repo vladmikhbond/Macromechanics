@@ -143,8 +143,10 @@ export class ControllerStore
     }
 
     checkAnswer() {
-        let id = +doc.sceneSelect.value;
-        let problem = this.problems[id];
+        const id = +doc.sceneSelect.value;
+        const problem = this.problems[id];
+        const balls = this.controller.box.balls;
+        const answer = problem.answer;
         let testOk = false;
         // 
         if (problem.isAnswerNumber) 
@@ -155,18 +157,25 @@ export class ControllerStore
         } 
         else 
         {
-            
-            const testFunction = new Function('t, b, b1', `
+            const testFunction = new Function('t, b, b1, canvas_height', `
                 let x = Math.round(b.x);
-                let y = Math.round(600 - b.y);
+                let y = Math.round(canvas_height - b.y);
                 let vx = +b.vx.toFixed(2);
-                let vy = -b.vy.toFixed(2); 
+                let vy = -b.vy.toFixed(2);
                 let m = b.m;
-                return ${problem.answer}
+                if (b1) {                
+                    let x1 = Math.round(b1.x);                
+                    let y1 = Math.round(canvas_height - b1.y);                
+                    let vx1 = b1.vx.toFixed(2);                
+                    let vy1 = -b1.vy.toFixed(2);                
+                    let m1 = b1.m;
+                }
+                return ${answer}
             `);
             let sceneJson = ControllerStore.sceneToJson(this.controller.box);
+            
             for (let t = 0; t <= 1000; t++) {
-                if (testFunction(t, this.controller.box.balls[0], this.controller.box.balls[1])) {
+                if (testFunction(t, balls[0], balls[1], doc.canvas.height)) {
                     testOk = true;
                     break;
                 }
