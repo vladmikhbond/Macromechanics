@@ -18,33 +18,26 @@
   <div class="container">
     <h3 id="header" style="color:aliceblue;">
       <button id="adminButton" class="btn btn-outline-dark"> 
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="aliceblue" class="bi bi-gear-fill" viewBox="0 0 16 16">
-          <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
-        </svg>      
+        <img src="static/assets/icons/gear-fill.svg" width="20" height="20">     
       </button>
       Macromechanics {{current_user.username}}
     </h3>
      
     <!---------------------- top panel ---------------------->
     <div class="panel">
-      <button id="createModeButton" btn-primary class="btn btn-light "></button>
-      <button id="traceModeButton" btn-primary class="btn btn-light ">N</button>
+      <button id="createModeButton" btn-primary class="btn btn-light"></button>
+      <button id="traceModeButton" btn-primary class="btn btn-light" title="Show / Hide tracks">N</button>
 
       <button id="modeButton" class="btn btn-sm btn-primary panel-button" title="Start / Stop">
         <img src="static/assets/icons/play-fill.svg" width="16" height="16">
       </button>
-      <button id="prettyButton" class="btn btn-sm btn btn-info panel-button" title="Debug / Exec">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brilliance" viewBox="0 0 16 16">
-          <path d="M8 16A8 8 0 1 1 8 0a8 8 0 0 1 0 16M1 8a7 7 0 0 0 7 7 3.5 3.5 0 1 0 0-7 3.5 3.5 0 1 1 0-7 7 7 0 0 0-7 7"/>
-        </svg>
+      <button id="prettyButton" class="btn btn-sm btn btn-info panel-button" title="Pretty / Draft">
+        <img src="static/assets/icons/circle.svg" width="16" height="16">
       </button>
       <button id="restartButton" class="btn btn-sm btn-info panel-button" title="Return to the last stop">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rewind-fill" viewBox="0 0 16 16">
-          <path d="M8.404 7.304a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696z"/>
-          <path d="M.404 7.304a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696z"/>
-        </svg>
+        <img src="static/assets/icons/skip-start.svg" width="20" height="20">
       </button>
-      <button id="helpButton" class="btn btn-sm btn btn-sm btn-info panel-button" title="Клавіші:
+      <button id="helpButton" class="btn btn-sm btn btn-sm btn-info panel-button" title="Keys:
       B - balls
       L - lines
       K - links
@@ -53,9 +46,7 @@
       S - step
       T - tracks show/hide
       Del - delete selected">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-lg" viewBox="0 0 16 16">
-        <path d="m9.708 6.075-3.024.379-.108.502.595.108c.387.093.464.232.38.619l-.975 4.577c-.255 1.183.14 1.74 1.067 1.74.72 0 1.554-.332 1.933-.789l.116-.549c-.263.232-.65.325-.905.325-.363 0-.494-.255-.402-.704zm.091-2.755a1.32 1.32 0 1 1-2.64 0 1.32 1.32 0 0 1 2.64 0"/>
-      </svg>
+      <img src="static/assets/icons/info.svg" width="20" height="20">
       </button>
       
       <select class="form-select-sm" id="sceneSelect" title="Select problem">
@@ -71,19 +62,19 @@
         <label id="graviValue" class="form-label" for="graviRange"></label>
 
         <input type="range" id="waistRange" class="form-range" step="0.01" min="0" max="1" 
-          title="втрати від стикання (1-нема втрат)" />
+          title="Втрати від стикання (1-нема втрат)" />
         <label id="waistValue" class="form-label" for="waistRange"></label>
 
         <input type="range" id="waistLinkRange" class="form-range" step="0.01" min="0" max="1"
-          title="втрати від деформаціїперемичок (1-нема втрат)" />
+          title="Втрати від деформації перемичок (1-нема втрат)" />
         <label id="waistLinkValue" class="form-label" for="waistLinkRange"></label>
 
         <input type="range" id="waistFrictRange" class="form-range" step="0.01" min="0" max="1" 
-        title="втрати від спротиву повітря(1-нема втрат)" />
+        title="Втрати від спротиву повітря (1-нема втрат)" />
         <label id="waistFrictValue" class="form-label" for="waistFrictRange"></label>
 
       <input type="range" id="rigidRange" class="form-range" step="1" min="0" max="10" value="7"
-          title="модуль пружності" />
+          title="Модуль пружності" />
         <label id="rigidValue" class="form-label" for="rigidRange"></label>
       </div>
     </div>

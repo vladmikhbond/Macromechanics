@@ -133,7 +133,6 @@ export class Controller
         // UI
         let icon = mode === Mode.Play ? "stop-fill.svg" : "play-fill.svg";
         (doc.modeButton.children[0] as HTMLImageElement).src = "static/assets/icons/" + icon;
-        //this.view.drawAll();
     }
     get mode(): Mode {
         return this.intervalId ? Mode.Play : Mode.Stop;
@@ -213,6 +212,10 @@ export class Controller
             this.view.prettyMode = this.view.prettyMode === PrettyMode.Draft
                 ? PrettyMode.Beauty
                 : PrettyMode.Draft;
+            // UI
+            let icon = this.view.prettyMode === PrettyMode.Beauty ? "circle.svg" : "circle-fill.svg";
+            (doc.prettyButton.children[0] as HTMLImageElement).src = "static/assets/icons/" + icon;
+
             this.view.drawAll();
         });
 
@@ -284,17 +287,17 @@ export class Controller
 
         doc.waistRange.addEventListener("change", () => {
             glo.W = +doc.waistRange.value;
-            doc.waistValue.innerHTML = "W<sub>BL</sub>=" + doc.waistRange.value;
+            doc.waistValue.innerHTML = "W=" + doc.waistRange.value;
         });
 
         doc.waistLinkRange.addEventListener("change", () => {
             glo.Wk = +doc.waistLinkRange.value;
-            doc.waistLinkValue.innerHTML = "W<sub>K</sub>=" + doc.waistLinkRange.value;
+            doc.waistLinkValue.innerHTML = "W<sub>k</sub>=" + doc.waistLinkRange.value;
         });
 
         doc.waistFrictRange.addEventListener("change", () => {
             glo.Wf = +doc.waistFrictRange.value;
-            doc.waistFrictValue.innerHTML = "W<sub>F</sub>=" + doc.waistFrictRange.value;
+            doc.waistFrictValue.innerHTML = "W<sub>f</sub>=" + doc.waistFrictRange.value;
         });
 
         doc.rigidRange.addEventListener("change", () => {
