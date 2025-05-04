@@ -93,7 +93,7 @@ export class Ball
             let ballDotDistance = G.distance(ball, dot);
             // деформація кулі
             let deform = ball.radius - ballDotDistance;
-            // одиничный вектор напряму від точки дотику до центру кулі
+            // одиничний вектор напряму від точки дотику до центру кулі
             let u = G.unit(dot, ball, ballDotDistance);
             
             // коєфіцієнт збереження енергії при дотику від лінку або від (кулі | лінії)
@@ -110,13 +110,16 @@ export class Ball
             ay += a * u.y;
         }
 
+        // втрата прискорення від спротиву повітря
+        if (glo.Wf < 1) {
+            let d = (1 - glo.Wf) * ball.radius / ball.m ;
+            ax -= ball.vx * d;
+            ay -= ball.vy * d;
+        }
+
         // зміна швидкості
         ball.vx += ax;
         ball.vy += ay;
-  
-        // втрата енергії від тертя
-        ball.vx *= glo.Wf;
-        ball.vy *= glo.Wf;
         
         // зміна координат
         ball.x += ball.vx;
