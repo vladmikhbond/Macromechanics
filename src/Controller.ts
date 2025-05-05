@@ -417,6 +417,7 @@ export class Controller
                 return;
             }
             ball = this.box.ballUnderPoint(p0);
+            
             if (ball) {
                 // в p0 смещение курсора от центра шара
                 p0 = { x: ball.x - p0.x, y: ball.y - p0.y };

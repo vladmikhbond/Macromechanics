@@ -7,6 +7,8 @@ import { Link } from "./Link.js";
 export enum Mode {Stop, Play};
 export enum CreateMode {Ball, Line, Link};
 
+type Element = Ball | Line | Link | null;
+
 export class Box {
     x: number;
     y: number;
@@ -17,7 +19,8 @@ export class Box {
     border: Line[];
     links: Link[] = [];
 
-    selected: Ball | Line | Link | null = null;
+    
+    selected: Element = null;
 
     constructor(x: number, y: number, w: number, h: number) {
         this.x = x;
@@ -41,6 +44,10 @@ export class Box {
             eDef += b.defEnergy;
         }
         return [eKin, ePot, eDef];
+    }
+
+    objUnderPoint(p: Point): Element {
+        return this.ballUnderPoint(p) || this.lineUnderPoint(p) || this.linkUnderPoint(p);
     }
 
 //#region  Ball Suit
@@ -304,4 +311,5 @@ export class Box {
 
 //#endregion
 }
+
 
