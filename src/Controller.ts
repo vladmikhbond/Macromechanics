@@ -416,18 +416,25 @@ export class Controller
             if (ballVelo) {
                 return;
             }
-            ball = this.box.ballUnderPoint(p0);
-            
+
+            ///// Перемикання //////
+            let obj = this.box.objectUnderPoint(p0);
+            this.selected = obj;
+
+            if (obj instanceof Ball) {
+                ball = obj;
+            } else if (obj instanceof Line) {
+                this.createMode = CreateMode.Line;
+            } else if (obj instanceof Link) {
+                this.createMode = CreateMode.Link;
+            }
+            ////////////////////////
+
             if (ball) {
                 // в p0 смещение курсора от центра шара
                 p0 = { x: ball.x - p0.x, y: ball.y - p0.y };
-                this.selected = ball;
-            } else {
-                if (this.selected instanceof Ball) {
-                    this.selected = null;
-                }
             }
-            // this.view.drawAll();
+            
         };
 
         doc.canvas.onmousemove = (e) => {
@@ -478,15 +485,20 @@ export class Controller
 
         doc.canvas.onmousedown = (e) => {
             p0 = this.cursorPoint(e);
-            let line = this.box.lineUnderPoint(p0);
-            if (line) {
-                this.selected = line;
-            } else {
-                if (this.selected instanceof Line) {
-                    this.selected = null;
-                }
+            let line: Line | null = null;
+            
+            ///// Перемикання //////
+            let obj = this.box.objectUnderPoint(p0);
+            this.selected = obj;
+
+            if (obj instanceof Ball) {
+                this.createMode = CreateMode.Ball;
+            } else if (obj instanceof Line) {
+                line = obj;
+            } else if (obj instanceof Link) {
+                this.createMode = CreateMode.Link;
             }
-            // this.view.drawAll();
+            ////////////////////////   
         };
 
         doc.canvas.onmousemove = (e) => {
@@ -525,14 +537,22 @@ export class Controller
             let ball = this.box.ballUnderPoint(p);
 
             if (ball === null || ball === lastClickedBall) {
-                let link = this.box.linkUnderPoint(p);
-                if (link) {
-                    this.selected = link;
-                } else {
-                    if (this.selected instanceof Link) {
-                        this.selected = null;
-                    }
+
+                let link: Link|null = null;
+
+                ///// Перемикання //////
+                let obj = this.box.objectUnderPoint(p);
+                this.selected = obj;
+
+                if (obj instanceof Ball) {
+                    this.createMode = CreateMode.Ball;
+                } else if (obj instanceof Line) {
+                    this.createMode = CreateMode.Line;
+                } else if (obj instanceof Link) {
+                    link = obj;
                 }
+                ////////////////////////
+
                 return;
             }
             if (lastClickedBall === null) {

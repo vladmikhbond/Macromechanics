@@ -46,7 +46,7 @@ export class Box {
         return [eKin, ePot, eDef];
     }
 
-    objUnderPoint(p: Point): Element {
+    objectUnderPoint(p: Point): Element {
         return this.ballUnderPoint(p) || this.lineUnderPoint(p) || this.linkUnderPoint(p);
     }
 
