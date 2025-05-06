@@ -46,13 +46,14 @@ export class Ball
         return b.m * glo.g * h;    
     }
     get defEnergy() {
-        return 0;
-        // do not undestand why 
         const b = this;
         let e = 0;
-        b.dotShadows.forEach(dot => {
-            let def = b.radius - G.distance(dot, b);
-            e += glo.K * def**2 / 2;
+        b.dots.forEach(dot => {
+            let c = new Point(b.x - b.vx/2, b.y - b.vy/2);  
+            let ballDotDistance = G.distance(c, dot);
+            // деформація кулі
+            let deform = b.radius - ballDotDistance;            
+            e += glo.K * (deform)**2 / 2;
         });
         return e;   
     }
@@ -64,8 +65,6 @@ export class Ball
                 glo.strikeCounter += 0.5;
             if (from instanceof Line)
                 glo.strikeCounter += 1;
-              
-            // console.log("STRIKE"); 
         }
             
         //
@@ -82,12 +81,11 @@ export class Ball
     // Переміщення кулі. 
     // Викликається, коли зібрані усі точки дотику
     move() {
-        // сумарне прискорення
-        let ax = 0, ay = glo.g;
+        // сумарна сила
+        let fx = 0, fy = 0;
         let ball = this;
         if (ball.color === "blue")
             return;
-
         // складаємо прискорення від кожної точки дотику
         for (let dot of ball.dots) {
             let ballDotDistance = G.distance(ball, dot);
@@ -95,32 +93,31 @@ export class Ball
             let deform = ball.radius - ballDotDistance;
             // одиничний вектор напряму від точки дотику до центру кулі
             let u = G.unit(dot, ball, ballDotDistance);
-            
             // коєфіцієнт збереження енергії при дотику від лінку або від (кулі | лінії)
-            let w = dot.from instanceof Link? glo.Wk : glo.W; 
-
+            let w = dot.from instanceof Link ? glo.Wk : glo.W;
             // втрата енергії при дотику 
             let scalarProduct = G.scalar(new Point(ball.vx, ball.vy), u);
-            let k = scalarProduct > 0 ? w : 1;   // у фазі зменшення деформації
+            let k = scalarProduct > 0 ? w : 1; // у фазі зменшення деформації
             // let k = scalarProduct < 0 ? 1/w : 1;   // у фазі збільшення деформації         
-
             // прискорення від точки дотику
-            let a = glo.K * w * k * deform / ball.m; 
-            ax += a * u.x;
-            ay += a * u.y;
+            let f = glo.K * w * k * deform;
+            fx += f * u.x;
+            fy += f * u.y;
         }
-
-        // втрата прискорення від спротиву повітря
-        if (glo.Wf < 1) {
-            let d = (1 - glo.Wf) * ball.radius / ball.m ;
-            ax -= ball.vx * d;
-            ay -= ball.vy * d;
+        // сила спротиву повітря
+        if (glo.Wf > 0) {
+            let k = ball.radius * glo.Wf;
+            fx -= ball.vx * k;
+            fy -= ball.vy * k;
         }
-
+        // миттєве прискорення
+        let ax = fx / ball.m;
+        let ay = fy / ball.m + glo.g;
+         
         // зміна швидкості
         ball.vx += ax;
         ball.vy += ay;
-        
+
         // зміна координат
         ball.x += ball.vx;
         ball.y += ball.vy;
