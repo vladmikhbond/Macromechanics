@@ -1,6 +1,6 @@
 import { glo } from "./globals.js"; 
 import { Geometry as G, Point} from "./Geometry.js"; 
-import {Box} from "./Box.js";  
+import { Box } from "./Box.js";  
 import { Link } from "./Link.js";
 import { Line } from "./Line.js";
 
@@ -105,8 +105,8 @@ export class Ball
             fy += f * u.y;
         }
         // сила спротиву повітря
-        if (glo.Wf > 0) {
-            let k = ball.radius * glo.Wf;
+        if (glo.Vis > 0) {
+            let k = ball.radius * glo.Vis;
             fx -= ball.vx * k;
             fy -= ball.vy * k;
         }
